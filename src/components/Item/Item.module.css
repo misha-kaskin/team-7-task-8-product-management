@@ -1,0 +1,45 @@
+.itemPlace {
+  width: 220px;
+  /* height: 380px; */
+  background-color: #fff;
+  /* border: 1px solid black; */
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-bottom: 15px;
+}
+
+.item {
+  height: 220px;
+  width: 220px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: .5s;
+}
+
+.item:hover {
+  transition: .5s;
+  transform: scale(1.2);
+}
+
+.itemName {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #000;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.itemName:hover {
+  color: #2FB3FF;
+  cursor: pointer;
+}
+
+.itemPrice {
+  margin: 0;
+  color: #2FB3FF;
+  font-size: 16px;
+  font-weight: bold;
+}

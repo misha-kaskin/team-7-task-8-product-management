@@ -1,0 +1,173 @@
+.content {
+  height: calc(100vh - 240px);
+  margin: 0px 13vw;
+  overflow: auto;
+  display: flex;
+  scroll-behavior: smooth;
+  justify-content: space-between;
+}
+
+.itemName {
+  margin: 0px 0px 0px 0px;
+}
+
+.itemPrice {
+  font-weight: bold;
+  font-size: 36px;
+  color: #2fb3ff;
+  margin: 0px 0px 0px 0px;
+}
+
+.itemImage {
+  height: 100%;
+  width: 50%;
+  background-color: #d9d9d9;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.info {
+  padding: 0px 50px 0px 0px;
+  margin-left: 50px;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.sizes {
+  height: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+}
+
+.sizeBtn {
+  background-color: #d9d9d9;
+  border: none;
+  font-size: 36px;
+  font-weight: bold;
+  font-family: "Nunito", Roboto;
+  margin-right: 50px;
+  height: 100px;
+  width: 100px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .4s;
+}
+
+.sizeBtnActive {
+  background-color: #2fb3ff;
+  border: none;
+  font-size: 36px;
+  font-weight: bold;
+  font-family: "Nunito", Roboto;
+  margin-right: 50px;
+  height: 100px;
+  width: 100px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .4s;
+}
+
+.sizeBtn:hover {
+  background-color: #2fb3ff;
+  cursor: pointer;
+  transition: .4s;
+}
+
+.ammountBlock {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  margin: 50px 0px;
+}
+
+.ammountText {
+  margin: 0px 50px 0px 0px;
+  transition: .4s;
+}
+
+.ammountStatus {
+  margin: 0px 50px 0px 0px;
+  color: #2fb3ff;
+  transition: .4s;
+}
+
+.counter {
+  border: 2px solid #2fb3ff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 150px;
+  height: 50px;
+  border-radius: 10px;
+  color: black;
+}
+
+.counterBtn {
+  height: 50px;
+  background-color: #fff;
+  width: 50px;
+  border-radius: 9px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .4s;
+}
+
+.counterBtn:disabled:hover {
+  background-color: #fff;
+  cursor: default;
+  transition: .4s;
+}
+
+.minus {
+  width: 20px;
+  height: 20px;
+  background-image: url("/minus.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.plus {
+  width: 30px;
+  height: 30px;
+  background-image: url("/plus.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.counterBtn:hover {
+  background-color: #cfedff;
+  cursor: pointer;
+  transition: .4s;
+}
+
+.addToCart {
+  margin-right: 100px;
+  height: 70px;
+  background-color: #2fb3ff;
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  transition: .4s;
+}
+
+.addToCart:hover {
+  background-color: #1f668f;
+  cursor: pointer;
+  transition: .4s;
+}

@@ -1,0 +1,85 @@
+.headerbar {
+  scroll-behavior: smooth;
+  width: 100vw;
+  background-color: #fff;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0 ,0, .2);
+  margin-bottom: 50px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 13vw;
+}
+
+.info {
+  display: flex;
+}
+
+h1 {
+  font-size: 42px;
+  margin: 0 0 0 20px;
+  font-family: 'Nunito', Roboto;
+}
+
+
+.icon {
+  height: 50px;
+  width: 130px;
+  background-image: url('/icon.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.cartIcon {
+  height: 50px;
+  width: 50px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  background-image: url('/cart.svg');
+  cursor: pointer;
+}
+
+.btn {
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 130px;
+  margin-right: 50px;
+  font-size: 28px;
+  background-color: #2FB3FF;
+  color: #fff;
+  border: 0;
+  border-radius: 50px;
+  transition: .4s;
+}
+
+.btn:hover {
+  background-color: #1f668f;
+  cursor: pointer;
+  transition: .4s;
+}
+
+
+p {
+  font-size: 16px;
+  font-family: 'Nunito', Roboto;
+}
+
+.homeLink {
+  text-decoration: none;
+  color: #000;
+  font-size: 40px;
+  margin-left: 20px;
+  font-weight: bold;
+  font-family: 'Nunito', Roboto;
+}
+
+.homeLink:hover {
+  color: #2FB3FF;
+}
