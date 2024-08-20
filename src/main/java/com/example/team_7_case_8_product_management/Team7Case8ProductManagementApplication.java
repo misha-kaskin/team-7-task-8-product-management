@@ -3,7 +3,6 @@ package com.example.team_7_case_8_product_management;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
@@ -15,8 +14,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
-import java.time.Period;
-import java.time.chrono.ChronoPeriod;
 import java.util.Date;
 
 import static kong.unirest.Unirest.get;
@@ -26,7 +23,7 @@ public class Team7Case8ProductManagementApplication {
 
 	public static void main(String[] args) throws IOException {
 //		upload();
-		download();
+//		download();
 //
 		ConfigurableApplicationContext run = SpringApplication.run(Team7Case8ProductManagementApplication.class, args);
 //		Object myService = run.getBean("myService");
