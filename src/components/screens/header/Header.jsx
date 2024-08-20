@@ -1,11 +1,19 @@
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
-import Auth from "../auth/auth";
-import { useState } from "react";
+import LoginForm from "../../../Auth/components/LoginForm";
+import { useContext, useEffect, useState } from "react";
+import { Context } from "../../../main";
 
 function Header() {
   const [authActive, setAuthActive] = useState(false);
   const [logged, setLogged] = useState(false);
+  const { store } = useContext(Context);
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      store.CheckAuth()
+    }
+  }, []);
 
   return (
     <>
@@ -18,7 +26,7 @@ function Header() {
             </Link>
           </div>
           <div className={styles.info}>
-            {logged ? (
+            {store.isAuth ? (
               "Вы вошли"
             ) : (
               <button
@@ -35,7 +43,7 @@ function Header() {
           </div>
         </div>
       </div>
-      <Auth
+      <LoginForm
         activeBlock={authActive}
         setActive={setAuthActive}
         logged={logged}
