@@ -14,5 +14,5 @@ public class Item {
     private String description;
     private Float price;
     private Integer quantity;
-    private MultipartFile image;
+    private String image;
 }
