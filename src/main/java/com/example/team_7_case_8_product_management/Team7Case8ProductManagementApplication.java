@@ -26,6 +26,7 @@ public class Team7Case8ProductManagementApplication {
 
 	public static void main(String[] args) throws IOException {
 //		upload();
+		download();
 //
 		ConfigurableApplicationContext run = SpringApplication.run(Team7Case8ProductManagementApplication.class, args);
 //		Object myService = run.getBean("myService");
@@ -44,6 +45,8 @@ public class Team7Case8ProductManagementApplication {
 		byte[] body = get(href)
 				.asBytes()
 				.getBody();
+
+		System.out.println(body.length);
 	}
 
 	static void upload() throws IOException {

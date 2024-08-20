@@ -60,7 +60,7 @@ public class MyController {
                 .withClaim("password", user.getPassword())
                 .withIssuedAt(Date.from(now))
                 .withExpiresAt(Date.from(exp))
-                .sign(algorithm));
+                .sign(algorithm), exp.getEpochSecond());
     }
 
     public boolean checkToken(String token) {
