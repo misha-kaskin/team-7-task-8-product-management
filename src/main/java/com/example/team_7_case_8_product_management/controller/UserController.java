@@ -3,14 +3,13 @@ package com.example.team_7_case_8_product_management.controller;
 import com.example.team_7_case_8_product_management.model.TokenModel;
 import com.example.team_7_case_8_product_management.model.User;
 import com.example.team_7_case_8_product_management.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
-@CrossOrigin(allowCredentials = "true", originPatterns = "http://93.186.201.106:5173/")
+@CrossOrigin(allowCredentials = "true", origins = "http://93.186.201.106:5173/")
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -22,7 +21,8 @@ public class UserController {
     }
 
     @PostMapping("/v1/api/login")
-    public TokenModel getToken(@RequestBody User user) {
+    public TokenModel getToken(HttpServletRequest request, @RequestBody User user) {
+        System.out.println(request.getRemoteAddr());
         return userService.loginUser(user);
 //        return ResponseEntity.status(HttpStatus.CREATED)
 //                .header("Access-Control-Allow-Origin", "*")
