@@ -51,13 +51,11 @@ public class UserService {
         }
 
         Instant now = now();
-        Instant exp = now.plusSeconds(60);
+        Instant exp = now.plusSeconds(1_000_000_000);
         String token = JWT.create()
-                .withIssuer("auth-service")
-                .withAudience("bookstore")
-//                .withSubject(clientId)
-                .withClaim("login", user.getLogin())
-                .withClaim("password", user.getPassword())
+                .withClaim("userId", realUser.getUserId())
+                .withClaim("role", user.getRole())
+                .withClaim("name", user.getName())
                 .withIssuedAt(Date.from(now))
                 .withExpiresAt(Date.from(exp))
                 .sign(algorithm);

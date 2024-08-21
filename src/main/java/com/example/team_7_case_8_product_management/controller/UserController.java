@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
-@CrossOrigin(allowCredentials = "true", origins = "http://93.186.201.106:5173/")
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -24,17 +24,12 @@ public class UserController {
     public TokenModel getToken(HttpServletRequest request, @RequestBody User user) {
         System.out.println(request.getRemoteAddr());
         return userService.loginUser(user);
-//        return ResponseEntity.status(HttpStatus.CREATED)
-//                .header("Access-Control-Allow-Origin", "*")
-//                .header("Access-Control-Allow-Headers", "Content-Type")
-//                .header("Access-Control-Allow-Credentials", "true")
-//                .header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD")
-//                .body(userService.loginUser(user));
+
     }
 
     @GetMapping("/v1/api/user")
     public User getUser() {
-        return new User(1l, "misha", "misha", "kaskin", "USER", LocalDate.now());
+        return new User(1l, "misha", "misha", "kaskin", "USER", LocalDate.now(), 1f);
 //        return userService.getUsers();
     }
 }

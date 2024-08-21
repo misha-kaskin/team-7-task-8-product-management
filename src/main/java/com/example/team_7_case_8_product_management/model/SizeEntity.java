@@ -1,8 +1,10 @@
 package com.example.team_7_case_8_product_management.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,16 +12,12 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
 @Entity
-@Table(name = "items")
-@Builder
+@Table(name = "sizes")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Item {
+public class SizeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long itemId;
-    private String productName;
-    private String type;
-    private String description;
-    private Float price;
+    private Integer sizeId;
+    private String title;
 }
