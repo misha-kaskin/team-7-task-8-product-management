@@ -4,13 +4,11 @@ import com.example.team_7_case_8_product_management.model.Item;
 import com.example.team_7_case_8_product_management.model.ItemDto;
 import com.example.team_7_case_8_product_management.service.ItemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 public class ItemController {

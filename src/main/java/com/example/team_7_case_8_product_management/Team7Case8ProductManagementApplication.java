@@ -4,6 +4,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.team_7_case_8_product_management.model.WarehouseEntity;
+import com.example.team_7_case_8_product_management.repository.ItemDao;
+import com.example.team_7_case_8_product_management.repository.WarehouseDao;
 import kong.unirest.HttpResponse;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,6 +29,10 @@ public class Team7Case8ProductManagementApplication {
 //		download();
 //
         ConfigurableApplicationContext run = SpringApplication.run(Team7Case8ProductManagementApplication.class, args);
+//        ItemDao itemDao = (ItemDao) run.getBean("itemDao");
+//        WarehouseDao warehouseDao = (WarehouseDao) run.getBean("warehouseDao");
+//        warehouseDao.deleteAll();
+//        itemDao.deleteAll();
 //		Object myService = run.getBean("myService");
 //		System.out.println(myService.getClass());
 //		test();

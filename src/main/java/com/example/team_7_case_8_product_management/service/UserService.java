@@ -10,13 +10,11 @@ import com.example.team_7_case_8_product_management.model.User;
 import com.example.team_7_case_8_product_management.repository.UserDao;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import static java.time.Instant.now;
@@ -54,8 +52,8 @@ public class UserService {
         Instant exp = now.plusSeconds(1_000_000_000);
         String token = JWT.create()
                 .withClaim("userId", realUser.getUserId())
-                .withClaim("role", user.getRole())
-                .withClaim("name", user.getName())
+                .withClaim("role", realUser.getRole())
+                .withClaim("name", realUser.getName())
                 .withIssuedAt(Date.from(now))
                 .withExpiresAt(Date.from(exp))
                 .sign(algorithm);
