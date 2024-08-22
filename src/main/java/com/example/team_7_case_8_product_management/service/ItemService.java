@@ -4,10 +4,7 @@ import com.example.team_7_case_8_product_management.exception.CantCreateFileExce
 import com.example.team_7_case_8_product_management.exception.CantFindFileException;
 import com.example.team_7_case_8_product_management.exception.CantRemoveFileException;
 import com.example.team_7_case_8_product_management.exception.ItemNotFoundException;
-import com.example.team_7_case_8_product_management.model.Item;
-import com.example.team_7_case_8_product_management.model.ItemDto;
-import com.example.team_7_case_8_product_management.model.SizeEntity;
-import com.example.team_7_case_8_product_management.model.WarehouseEntity;
+import com.example.team_7_case_8_product_management.model.*;
 import com.example.team_7_case_8_product_management.repository.ItemDao;
 import com.example.team_7_case_8_product_management.repository.SizeDao;
 import com.example.team_7_case_8_product_management.repository.WarehouseDao;
@@ -20,7 +17,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +35,7 @@ public class ItemService {
 
 
     @Transactional
-    public void addItem(ItemDto itemDto) {
+    public void addItem(FullItemDto itemDto) {
         Item item = mapToItem(itemDto);
         item = itemDao.save(item);
         List<WarehouseEntity> warehouseEntities = mapToListWarehouseEntity(item, itemDto);
@@ -49,7 +50,7 @@ public class ItemService {
     }
 
     @Transactional
-    public void deleteItem(ItemDto itemDto) {
+    public void deleteItem(FullItemDto itemDto) {
         Long id = itemDto.getItemId();
         Item item = Item.builder()
                 .itemId(id)
@@ -69,49 +70,63 @@ public class ItemService {
         }
     }
 
-    public Collection<ItemDto> getSaleItems() {
-        List<WarehouseEntity> warehouseEntities = warehouseDao.findAllByStatus("SALE");
-        Map<Long, ItemDto> itemDtoMap = new HashMap<>();
-
-        for (WarehouseEntity warehouseEntity : warehouseEntities) {
-            Item item = warehouseEntity.getItem();
-            Long itemId = item.getItemId();
-            if (!itemDtoMap.containsKey(itemId)) {
-                ItemDto itemDto = mapItemToItemDto(item);
-                itemDtoMap.put(itemId, itemDto);
-            }
-            ItemDto itemDto = itemDtoMap.get(itemId);
-            int sizeId = warehouseEntity.getSize().getSizeId();
-            long count = warehouseEntity.getCount();
-            itemDto.getSizes()[sizeId - 1] = count;
-        }
-
-        for (ItemDto itemDto : itemDtoMap.values()) {
-            String fileName = itemDto.getType() + itemDto.getProductName() + itemDto.getItemId();
-            try (FileInputStream fis = new FileInputStream(path + fileName)) {
-                byte[] bytes = fis.readAllBytes();
-                String image = new String(bytes);
-                itemDto.setImage(image);
-            } catch (IOException e) {
-                throw new CantFindFileException();
-            }
-        }
-
-        return itemDtoMap.values();
+    public Collection<ShortItemDto> getSaleItems() {
+        return warehouseDao.findAllByStatus("SALE")
+                .stream().map(item -> {
+                    ShortItemDto itemDto = ShortItemDto.builder()
+                            .itemId(item.getItemId())
+                            .productName(item.getProductName())
+                            .type(item.getType())
+                            .price(item.getPrice())
+                            .build();
+                    String fileName = item.getType() + item.getProductName() + item.getItemId();
+                    try (FileInputStream fis = new FileInputStream(path + fileName)) {
+                        byte[] bytes = fis.readAllBytes();
+                        String image = new String(bytes);
+                        itemDto.setImage(image);
+                    } catch (IOException e) {
+                        throw new CantFindFileException();
+                    }
+                    return itemDto;
+                })
+                .collect(Collectors.toList());
     }
 
-    private ItemDto mapItemToItemDto(Item item) {
-        return ItemDto.builder()
+    public FullItemDto getFullItemDtoById(Long id) {
+        List<WarehouseEntity> itemList = warehouseDao.findByItem(id, "SALE");
+        if (itemList.isEmpty()) {
+            throw new ItemNotFoundException();
+        }
+        Item item = itemList.get(0).getItem();
+        long[] sizes = new long[7];
+        for (WarehouseEntity warehouseEntity : itemList) {
+            Integer sizeId = warehouseEntity.getSize().getSizeId();
+            sizes[sizeId-1] = warehouseEntity.getCount();
+        }
+        FullItemDto itemDto = mapItemToItemDto(item);
+        itemDto.setSizes(sizes);
+        String fileName = itemDto.getType() + itemDto.getProductName() + itemDto.getItemId();
+        try (FileInputStream fis = new FileInputStream(path + fileName)) {
+            byte[] bytes = fis.readAllBytes();
+            String image = new String(bytes);
+            itemDto.setImage(image);
+        } catch (IOException e) {
+            throw new CantFindFileException();
+        }
+        return itemDto;
+    }
+
+    private FullItemDto mapItemToItemDto(Item item) {
+        return FullItemDto.builder()
                 .itemId(item.getItemId())
                 .description(item.getDescription())
                 .price(item.getPrice())
                 .productName(item.getProductName())
-                .type(item.getType())
                 .sizes(new long[7])
                 .build();
     }
 
-    private List<WarehouseEntity> mapToListWarehouseEntity(Item item, ItemDto itemDto) {
+    private List<WarehouseEntity> mapToListWarehouseEntity(Item item, FullItemDto itemDto) {
         Iterable<SizeEntity> allSizes = sizeDao.findAll();
         long[] arr = itemDto.getSizes();
         List<WarehouseEntity> warehouseEntities = new ArrayList<>();
@@ -130,8 +145,9 @@ public class ItemService {
         return warehouseEntities;
     }
 
-    private Item mapToItem(ItemDto itemDto) {
+    private Item mapToItem(FullItemDto itemDto) {
         return Item.builder()
+                .itemId(itemDto.getItemId())
                 .description(itemDto.getDescription())
                 .price(itemDto.getPrice())
                 .type(itemDto.getType())
@@ -142,4 +158,19 @@ public class ItemService {
     public Iterable<Item> getAllItems() {
         return itemDao.findAll();
     }
+
+    @Transactional
+    public void updateItem(FullItemDto itemDto) {
+        Item item = mapToItem(itemDto);
+        itemDao.save(item);
+        List<WarehouseEntity> list = mapToListWarehouseEntity(item, itemDto);
+        warehouseDao.saveAll(list);
+        String fileName = item.getType() + item.getProductName() + item.getItemId();
+        try (FileOutputStream fos = new FileOutputStream(path + fileName)) {
+            fos.write(itemDto.getImage().getBytes());
+        } catch (IOException e) {
+            throw new CantCreateFileException();
+        }
+    }
+
 }

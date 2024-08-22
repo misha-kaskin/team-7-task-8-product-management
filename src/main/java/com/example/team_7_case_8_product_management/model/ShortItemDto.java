@@ -5,12 +5,10 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ItemDto {
+public class ShortItemDto {
     private Long itemId;
     private String productName;
     private String type;
-    private String description;
     private Float price;
     private String image;
-    private long[] sizes;
 }

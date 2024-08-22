@@ -1,7 +1,8 @@
 package com.example.team_7_case_8_product_management.controller;
 
 import com.example.team_7_case_8_product_management.model.Item;
-import com.example.team_7_case_8_product_management.model.ItemDto;
+import com.example.team_7_case_8_product_management.model.FullItemDto;
+import com.example.team_7_case_8_product_management.model.ShortItemDto;
 import com.example.team_7_case_8_product_management.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,23 +16,33 @@ public class ItemController {
     private final ItemService itemService;
 
     @PostMapping("/v1/api/admin/item")
-    public void addItem(@RequestBody ItemDto item) {
+    public void addItem(@RequestBody FullItemDto item) {
         itemService.addItem(item);
     }
 
     @GetMapping("/v1/api/admin/item")
-    public Collection<ItemDto> getItems() {
+    public Collection<ShortItemDto> getItems() {
         return itemService.getSaleItems();
     }
 
     @DeleteMapping("/v1/api/admin/item")
-    public void deleteItem(@RequestBody ItemDto item) {
+    public void deleteItem(@RequestBody FullItemDto item) {
         itemService.deleteItem(item);
     }
 
     @PutMapping("/v1/api/admin/item")
     public Iterable<Item> getAllItems() {
         return itemService.getAllItems();
+    }
+
+    @GetMapping("/v1/api/admin/item/{id}")
+    public FullItemDto getItemById(@PathVariable Long id) {
+        return itemService.getFullItemDtoById(id);
+    }
+
+    @PatchMapping("/v1/api/admin/item")
+    public void updateItem(@RequestBody FullItemDto itemDto) {
+        itemService.updateItem(itemDto);
     }
 
 }
