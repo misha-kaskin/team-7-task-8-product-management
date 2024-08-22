@@ -105,7 +105,7 @@ public class ItemService {
         }
         FullItemDto itemDto = mapItemToItemDto(item);
         itemDto.setSizes(sizes);
-        String fileName = itemDto.getType() + itemDto.getProductName() + itemDto.getItemId();
+        String fileName = item.getType() + item.getProductName() + item.getItemId();
         try (FileInputStream fis = new FileInputStream(path + fileName)) {
             byte[] bytes = fis.readAllBytes();
             String image = new String(bytes);
@@ -118,6 +118,7 @@ public class ItemService {
 
     private FullItemDto mapItemToItemDto(Item item) {
         return FullItemDto.builder()
+                .type(item.getType())
                 .itemId(item.getItemId())
                 .description(item.getDescription())
                 .price(item.getPrice())
@@ -130,7 +131,6 @@ public class ItemService {
         Iterable<SizeEntity> allSizes = sizeDao.findAll();
         long[] arr = itemDto.getSizes();
         List<WarehouseEntity> warehouseEntities = new ArrayList<>();
-        long cnt = 1;
         for (SizeEntity size : allSizes) {
             int id = size.getSizeId();
             WarehouseEntity whEntity = WarehouseEntity.builder()
@@ -138,7 +138,6 @@ public class ItemService {
                     .item(item)
                     .size(size)
                     .status("SALE")
-                    .id(cnt++)
                     .build();
             warehouseEntities.add(whEntity);
         }
@@ -161,6 +160,7 @@ public class ItemService {
 
     @Transactional
     public void updateItem(FullItemDto itemDto) {
+        System.out.println(itemDto);
         Item item = mapToItem(itemDto);
         itemDao.save(item);
         List<WarehouseEntity> list = mapToListWarehouseEntity(item, itemDto);
