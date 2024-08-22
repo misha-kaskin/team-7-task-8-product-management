@@ -21,10 +21,8 @@ public class UserController {
     }
 
     @PostMapping("/v1/api/login")
-    public TokenModel getToken(HttpServletRequest request, @RequestBody User user) {
-        System.out.println(request.getRemoteAddr());
+    public TokenModel getToken(@RequestBody User user) {
         return userService.loginUser(user);
-
     }
 
     @GetMapping("/v1/api/user")

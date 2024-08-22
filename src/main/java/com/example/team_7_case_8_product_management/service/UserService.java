@@ -34,7 +34,7 @@ public class UserService {
         }
         String hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         user.setPassword(hash);
-        User save = userDao.save(user);
+        userDao.save(user);
     }
 
     @Transactional

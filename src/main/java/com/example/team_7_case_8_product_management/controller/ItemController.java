@@ -23,4 +23,15 @@ public class ItemController {
     public Collection<ItemDto> getItems() {
         return itemService.getSaleItems();
     }
+
+    @DeleteMapping("/v1/api/admin/item")
+    public void deleteItem(@RequestBody ItemDto item) {
+        itemService.deleteItem(item);
+    }
+
+    @PutMapping("/v1/api/admin/item")
+    public Iterable<Item> getAllItems() {
+        return itemService.getAllItems();
+    }
+
 }
