@@ -54,7 +54,7 @@ public class AuthService {
             List<String> roles = List.of(admin, user, manager);
             String userRole = null;
             for (String s : roles) {
-                if (path.contains(s)) {
+                if (path.contains("V1/API/" + s)) {
                     userRole = s;
                 }
             }

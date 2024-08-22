@@ -5,14 +5,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//@Data
-//@Entity
-//@Table(name = "cart")
-//@NoArgsConstructor
-//@AllArgsConstructor
+@Data
+@Entity
+@Table(name = "cart")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Cart {
-//    @Id
-//    @OneToOne
-//    @JoinColumn(name = "user_id")
-//    User user;
+
+    @Id
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    User user;
+
+    @ManyToOne
+    @JoinColumn(name = "item_id")
+    Item item;
+
+    @ManyToOne
+    @JoinColumn(name = "size_id")
+    SizeEntity size;
+
+    Integer count;
+
 }

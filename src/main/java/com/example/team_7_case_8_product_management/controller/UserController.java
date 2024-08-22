@@ -3,11 +3,8 @@ package com.example.team_7_case_8_product_management.controller;
 import com.example.team_7_case_8_product_management.model.TokenModel;
 import com.example.team_7_case_8_product_management.model.User;
 import com.example.team_7_case_8_product_management.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 
 @CrossOrigin
 @RestController
@@ -25,9 +22,8 @@ public class UserController {
         return userService.loginUser(user);
     }
 
-    @GetMapping("/v1/api/user")
-    public User getUser() {
-        return new User(1l, "misha", "misha", "kaskin", "USER", LocalDate.now(), 1f);
-//        return userService.getUsers();
+    @GetMapping("/v1/api/admin/users")
+    public Iterable<User> getUser() {
+        return userService.getUsers();
     }
 }
