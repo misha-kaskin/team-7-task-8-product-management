@@ -2,31 +2,24 @@ package com.example.team_7_case_8_product_management.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Entity
-@Table(name = "warehouses")
-@Builder
+@Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
-public class WarehouseEntity {
-
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private Long orderId;
     @ManyToOne
-    @JoinColumn(name = "item_id")
-    private Item item;
-
-    @ManyToOne
-    @JoinColumn(name = "size_id")
-    private SizeEntity size;
-
+    @JoinColumn(name = "user_id")
+    private User user;
+    private LocalDate orderDate;
     private String status;
-    private Long count;
 
 }

@@ -39,6 +39,8 @@ public class AuthService {
             throw new UserNotAuthException();
         }
 
+        System.out.println(token);
+
         JWTVerifier verifier = JWT.require(algorithm).build();
 
         try {
