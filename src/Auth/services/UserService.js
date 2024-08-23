@@ -1,7 +1,7 @@
 import api from "../http";
 
-export default class UserSetvice {
-  static async fetchUsers() {
-    return api.get("/users");
+export default class UserService {
+  static async getUsers() {
+    return api.get("/admin/users");
   }
 }

@@ -3,17 +3,26 @@ import styles from "./Header.module.css";
 import LoginForm from "../../../Auth/components/LoginForm";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../../../main";
+import { observer } from "mobx-react-lite";
+import UserService from "../../../Auth/services/UserService";
 
 function Header() {
   const [authActive, setAuthActive] = useState(false);
-  const [logged, setLogged] = useState(false);
+
   const { store } = useContext(Context);
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      store.CheckAuth()
+    if (localStorage.getItem("token")) {
+      store.CheckAuth();
     }
   }, []);
+
+  const handleUploadUsers = (e) => {
+    const fetchData = async () => {
+      const data = await UserService.getUsers();
+    };
+    fetchData();
+  }
 
   return (
     <>
@@ -25,9 +34,21 @@ function Header() {
               Товары
             </Link>
           </div>
+          <Link onClick={e => handleUploadUsers(e)}>Пользователи</Link>
           <div className={styles.info}>
             {store.isAuth ? (
-              "Вы вошли"
+              <>
+                {`Привет, ${JSON.parse(localStorage.getItem("user")).name}`}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    store.logout();
+                    setAuthActive(false);
+                  }}
+                >
+                  Выйти
+                </button>
+              </>
             ) : (
               <button
                 className={styles.btn}
@@ -37,20 +58,17 @@ function Header() {
               </button>
             )}
 
-            <div className={styles.cartIcon}>
-              <a />
-            </div>
+            <Link to='/cart' className={styles.cartIcon}>
+            </Link>
           </div>
         </div>
       </div>
       <LoginForm
         activeBlock={authActive}
         setActive={setAuthActive}
-        logged={logged}
-        setLogged={setLogged}
       />
     </>
   );
 }
 
-export default Header;
+export default observer(Header);

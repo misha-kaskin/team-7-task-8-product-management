@@ -7,13 +7,13 @@ function Item({item}) {
   return (
     <>
       <div className={styles.itemPlace}>
-          <Link to={`/item/${item.id}`} style={{
+          <Link to={`/item/${item.itemId}`} style={{
             backgroundColor: "#d9d9d9"
           }}>
-            <div style={{backgroundImage: `url(${item.img})`}}
+            <div style={{backgroundImage: `url(${item.image})`}}
             className={styles.item}/>
           </Link>
-          <Link to={`/item/${item.id}`} className={styles.itemName}>{item.name}</Link>
+          <Link to={`/item/${item.id}`} className={styles.itemName}>{item.productName}</Link>
           <p className={styles.itemPrice}>{item.price}</p>
       </div>
     </>

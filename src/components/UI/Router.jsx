@@ -5,6 +5,10 @@ import Header from "../screens/header/Header";
 import ItemPage from "../screens/itemPage/itemPage";
 import Footer from "../screens/footer/Footer";
 import { observer } from "mobx-react-lite";
+import AddItemPage from "../screens/itemPage/addItemPage";
+import EditItemPage from "../screens/itemPage/editItemPage";
+import ErrorPage from "../screens/Error/errorPage";
+import Cart from "../Cart/cart";
 
 const Router = () => {
   return (
@@ -12,8 +16,12 @@ const Router = () => {
       <Header />
       <Routes>
         <Route element={<Content />} path="/" />
+        <Route element={<ErrorPage />} path="*" />
         <Route element={<LoginForm />} path="/login" />
-        <Route element={<ItemPage />} path="/item/:id" />
+        <Route element={<ItemPage />} path="/item/:itemId" />
+        <Route element={<AddItemPage />} path="/add" />
+        <Route element={<EditItemPage />} path="/edit/:itemId" />
+        <Route element={<Cart />} path="/cart" />
       </Routes>
       <Footer />
     </BrowserRouter>

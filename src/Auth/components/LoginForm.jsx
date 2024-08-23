@@ -4,17 +4,16 @@ import { useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../main";
 
-const LoginForm = ({ activeBlock, setActive, logged, setLogged }) => {
+const LoginForm = ({ activeBlock, setActive }) => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const { store } = useContext(Context);
 
-  console.log(login);
-  console.log(password);
-
   return (
     <div
-      className={activeBlock ? styles.authBlockActive : styles.authBlock}
+      className={
+        !store.isAuth && activeBlock ? styles.authBlockActive : styles.authBlock
+      }
       onClick={() => setActive(false)}
     >
       <form

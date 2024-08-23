@@ -1,97 +1,62 @@
 import { useParams } from "react-router-dom";
 import styles from "./itemPage.module.css";
-import { useEffect, useState } from "react";
-import { ItemService } from "../../../services/getItem.service";
+import { useContext, useEffect, useState } from "react";
+import { GetItemService } from "../../../services/getItem.service";
+import { Context } from "../../../main";
+import UserItemPage from "./userPage";
+import AdminItemPage from "./adminItemPage";
+import ItemService from "../../../services/item.Service";
 
 const ItemPage = () => {
-  const { id } = useParams();
+  const { store } = useContext(Context);
+  const { itemId } = useParams();
   const [item, setItem] = useState({});
   const [count, setCount] = useState(1);
   const [size, setSize] = useState("");
 
   useEffect(() => {
-    if (!id) return;
+    if (!itemId) return;
 
     const fetchData = async () => {
-      const data = await ItemService.getById(id);
+      const data = await ItemService.getById(itemId);
       setItem(data);
     };
     fetchData();
-  }, [id]);
-
-  return (
-    <div className={styles.content}>
-      <div
-        style={{ backgroundImage: `url(${item.img})` }}
-        className={styles.itemImage}
+  }, [itemId]);
+  
+  if (store.isAuth) {
+    if (JSON.parse(localStorage.getItem("user"))["role"] == "ADMIN") {
+      return (
+        <AdminItemPage
+          item={item}
+          count={count}
+          setCount={setCount}
+          size={size}
+          setSize={setSize}
+        />
+      );
+    } else {
+      return (
+        <UserItemPage
+          item={item}
+          count={count}
+          setCount={setCount}
+          size={size}
+          setSize={setSize}
+        />
+      );
+    }
+  } else {
+    return (
+      <UserItemPage
+        item={item}
+        count={count}
+        setCount={setCount}
+        size={size}
+        setSize={setSize}
       />
-      <div className={styles.info}>
-        <h1 className={styles.itemName}>{item.name}</h1>
-        <p className={styles.itemPrice}>{item.price}</p>
-        <div>
-          <p>Выберите размер</p>
-          <div className={styles.sizes}>
-            {item.sizes ? (
-              item.sizes.map((currentSize, index) => (
-                <button
-                  key={index}
-                  className={
-                    item.sizes.indexOf(size) == index
-                      ? styles.sizeBtnActive
-                      : styles.sizeBtn
-                  }
-                  onClick={() => {
-                    setSize(currentSize);
-                  }}
-                >
-                  {currentSize}
-                </button>
-              ))
-            ) : (
-              <p>Loading</p>
-            )}
-          </div>
-        </div>
-        <div className={styles.ammountBlock}>
-          <div>
-            <p className={styles.ammountText}>Выберите количество</p>
-            <p className={styles.ammountStatus}>
-              {item.available
-                ? item.available[size] != undefined
-                  ? `Осталось ${item.available[size]} штук`
-                  : `Выберите размер`
-                : "Загрузка"}
-            </p>
-          </div>
-          <div className={styles.counter}>
-            <button
-              className={styles.counterBtn}
-              onClick={() => setCount(count - 1)}
-              disabled={count > 1 ? false : true}
-            >
-              <div className={styles.minus}></div>
-            </button>
-            <p style={{ fontSize: "20px" }}>{count}</p>
-            <button
-              className={styles.counterBtn}
-              onClick={() => setCount(count + 1)}
-              disabled={
-                item.available
-                  ? count < item.available[size]
-                    ? false
-                    : true
-                  : true
-              }
-            >
-              <div className={styles.plus}></div>
-            </button>
-          </div>
-        </div>
-        <p>90% Хлопок, 10% полиэстер</p>
-        <button className={styles.addToCart}>Добавить в корзину</button>
-      </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default ItemPage;

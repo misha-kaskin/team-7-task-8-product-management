@@ -1,11 +1,15 @@
-import { useState } from "react"
+import { useState } from "react";
 
-const Filter = () => {
-  const [activeIndex, setActiveIndex] = useState(0)
+const Filter = ({ items }) => {
+  const [activeType, setActiveType] = useState('Все');
 
   return (
-    1
-  )
-}
+    <div>
+      <button>Все</button>
+      <button>Мерч</button>
+      <button>Ит-артефакт</button>
+    </div>
+  );
+};
 
-export default Filter
+export default Filter;
