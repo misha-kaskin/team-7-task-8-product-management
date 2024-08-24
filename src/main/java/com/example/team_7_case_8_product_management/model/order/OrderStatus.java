@@ -1,8 +1,6 @@
 package com.example.team_7_case_8_product_management.model.order;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,15 +8,16 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "orders")
+@Table(name = "order_statuses")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class OrderStatus {
 
-    @EmbeddedId
-    private OrderId orderId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long orderId;
 
-    private Long count;
+    private String title;
 
 }

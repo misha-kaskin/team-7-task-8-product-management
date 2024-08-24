@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
-    final UserService userService;
+
+    private final UserService userService;
 
     @PostMapping("/v1/api/auth")
     public void registerUser(@RequestBody User user) {
