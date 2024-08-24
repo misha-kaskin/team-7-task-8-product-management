@@ -1,4 +1,4 @@
-package com.example.team_7_case_8_product_management.model;
+package com.example.team_7_case_8_product_management.model.item;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,9 +15,12 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Item {
+
     @Id
+    @Column(name = "item_id")
     @GeneratedValue(strategy = IDENTITY)
     private Long itemId;
+
     private String productName;
     private String type;
     private String description;

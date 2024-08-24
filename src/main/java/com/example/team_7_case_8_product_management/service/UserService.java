@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.example.team_7_case_8_product_management.exception.IncorrectLoginException;
 import com.example.team_7_case_8_product_management.exception.UserAlreadyExistsException;
 import com.example.team_7_case_8_product_management.exception.UserNotExistsException;
+import com.example.team_7_case_8_product_management.exception.UserNotFoundByIdException;
 import com.example.team_7_case_8_product_management.model.TokenModel;
 import com.example.team_7_case_8_product_management.model.User;
 import com.example.team_7_case_8_product_management.repository.UserDao;
@@ -65,4 +66,17 @@ public class UserService {
         return userDao.findAll();
     }
 
+    public void editUser(User user) {
+        Optional<User> optionalUser = userDao.findById(user.getUserId());
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundByIdException();
+        }
+
+        User realUser = optionalUser.get();
+        realUser.setName(user.getName());
+        realUser.setRole(user.getRole());
+        realUser.setBalance(user.getBalance());
+
+        userDao.save(realUser);
+    }
 }

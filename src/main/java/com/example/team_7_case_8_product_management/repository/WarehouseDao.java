@@ -1,12 +1,11 @@
 package com.example.team_7_case_8_product_management.repository;
 
-import com.example.team_7_case_8_product_management.model.Item;
-import com.example.team_7_case_8_product_management.model.WarehouseEntity;
+import com.example.team_7_case_8_product_management.model.item.Item;
+import com.example.team_7_case_8_product_management.model.warehouse.WarehouseEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface WarehouseDao extends CrudRepository<WarehouseEntity, Long> {
     @Query("select wh.item from WarehouseEntity wh where wh.status = ?1")

@@ -1,5 +1,7 @@
-package com.example.team_7_case_8_product_management.model;
+package com.example.team_7_case_8_product_management.model.warehouse;
 
+import com.example.team_7_case_8_product_management.model.SizeEntity;
+import com.example.team_7_case_8_product_management.model.item.Item;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

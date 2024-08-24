@@ -2,6 +2,7 @@ package com.example.team_7_case_8_product_management.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import static jakarta.persistence.GenerationType.*;
 @Data
 @Entity
 @Table(name = "users")
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {

@@ -1,4 +1,4 @@
-package com.example.team_7_case_8_product_management.model;
+package com.example.team_7_case_8_product_management.model.item;
 
 import lombok.Builder;
 import lombok.Data;

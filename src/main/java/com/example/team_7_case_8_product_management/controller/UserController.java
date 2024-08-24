@@ -26,4 +26,14 @@ public class UserController {
     public Iterable<User> getUser() {
         return userService.getUsers();
     }
+
+    @PostMapping("/v1/api/admin/registration")
+    public void regUser(@RequestBody User user) {
+        userService.registerUser(user);
+    }
+
+    @PatchMapping("/v1/api/admin/user-edit")
+    public void editUser(@RequestBody User user) {
+        userService.editUser(user);
+    }
 }

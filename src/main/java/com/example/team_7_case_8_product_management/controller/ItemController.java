@@ -1,8 +1,8 @@
 package com.example.team_7_case_8_product_management.controller;
 
-import com.example.team_7_case_8_product_management.model.Item;
-import com.example.team_7_case_8_product_management.model.FullItemDto;
-import com.example.team_7_case_8_product_management.model.ShortItemDto;
+import com.example.team_7_case_8_product_management.model.item.Item;
+import com.example.team_7_case_8_product_management.model.item.FullItemDto;
+import com.example.team_7_case_8_product_management.model.item.ShortItemDto;
 import com.example.team_7_case_8_product_management.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -97,4 +97,24 @@ public class ControllerAdvice {
                 .body(new ErrorMessage("Не удается найти файл, пожалуйста, попробуйте еще раз"));
     }
 
+    @ExceptionHandler(CartUserIdMismatchException.class)
+    public ResponseEntity<ErrorMessage> cartUserIdMismatchException() {
+        return ResponseEntity
+                .status(UNPROCESSABLE_ENTITY)
+                .body(new ErrorMessage("Не соотвествия идентификаторов"));
+    }
+
+    @ExceptionHandler(TooManyItemsException.class)
+    public ResponseEntity<ErrorMessage> tooManyItemsException() {
+        return ResponseEntity
+                .status(UNPROCESSABLE_ENTITY)
+                .body(new ErrorMessage("Товар отсуствует на складе в таком количестве"));
+    }
+
+    @ExceptionHandler(UserNotFoundByIdException.class)
+    public ResponseEntity<ErrorMessage> userNotFoundByIdException() {
+        return ResponseEntity
+                .status(NOT_FOUND)
+                .body(new ErrorMessage("Пользователя с таким id не существует"));
+    }
 }
