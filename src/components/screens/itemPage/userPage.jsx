@@ -2,7 +2,7 @@ import styles from "./itemPage.module.css";
 
 const sizeList = ["XS", "S", "M", "L", "XL", "XXL", "One"];
 
-const UserItemPage = ({ item, count, setCount, size, setSize }) => {
+const UserItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
   return (
     <div className={styles.content}>
       <div
@@ -21,12 +21,15 @@ const UserItemPage = ({ item, count, setCount, size, setSize }) => {
                   <button
                     key={index}
                     className={
-                      sizeList.indexOf(size) == index
+                      cartItem.size - 1 == index
                         ? styles.sizeBtnActive
                         : styles.sizeBtn
                     }
                     onClick={() => {
-                      setSize(sizeList[index]);
+                      setCartItem((prev) => ({
+                        ...prev,
+                        size: index + 1,
+                      }));
                     }}
                   >
                     {sizeList[index]}
@@ -45,8 +48,8 @@ const UserItemPage = ({ item, count, setCount, size, setSize }) => {
             <p className={styles.ammountText}>Выберите количество</p>
             <p className={styles.ammountStatus}>
               {item.sizes
-                ? item.sizes[sizeList.indexOf(size)] != undefined
-                  ? `Осталось ${item.sizes[sizeList.indexOf(size)]} штук`
+                ? item.sizes[cartItem.size - 1] != undefined
+                  ? `Осталось ${item.sizes[cartItem.size - 1]} штук`
                   : `Выберите размер`
                 : "Загрузка"}
             </p>
@@ -54,18 +57,28 @@ const UserItemPage = ({ item, count, setCount, size, setSize }) => {
           <div className={styles.counter}>
             <button
               className={styles.counterBtn}
-              onClick={() => setCount(count - 1)}
-              disabled={count > 1 ? false : true}
+              onClick={() =>
+                setCartItem((prev) => ({
+                  ...prev,
+                  count: cartItem.count - 1,
+                }))
+              }
+              disabled={cartItem.count > 1 ? false : true}
             >
               <div className={styles.minus}></div>
             </button>
-            <p style={{ fontSize: "20px" }}>{count}</p>
+            <p style={{ fontSize: "20px" }}>{cartItem.count}</p>
             <button
               className={styles.counterBtn}
-              onClick={() => setCount(count + 1)}
+              onClick={() =>
+                setCartItem((prev) => ({
+                  ...prev,
+                  count: cartItem.count + 1,
+                }))
+              }
               disabled={
                 item.sizes
-                  ? count < item.sizes[sizeList.indexOf(size)]
+                  ? cartItem.count < item.sizes[cartItem.size - 1]
                     ? false
                     : true
                   : true
@@ -76,7 +89,9 @@ const UserItemPage = ({ item, count, setCount, size, setSize }) => {
           </div>
         </div>
         <p>{item.description}</p>
-        <button className={styles.addToCart}>Добавить в корзину</button>
+        <button className={styles.addToCart} onClick={(e) => handleAdd(e)}>
+          Добавить в корзину
+        </button>
       </div>
     </div>
   );

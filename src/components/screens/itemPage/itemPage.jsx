@@ -7,42 +7,86 @@ import UserItemPage from "./userPage";
 import AdminItemPage from "./adminItemPage";
 import ItemService from "../../../services/item.Service";
 
+const noData = {
+  userId: 0,
+  items: {
+    itemId: 0,
+    sizes: {
+      sizeId: 0,
+      count: 0,
+    },
+  },
+};
+
+const cartItemDefault = {
+  size: "",
+  count: 1,
+};
+
 const ItemPage = () => {
   const { store } = useContext(Context);
   const { itemId } = useParams();
   const [item, setItem] = useState({});
-  const [count, setCount] = useState(1);
-  const [size, setSize] = useState("");
+  const [cartItem, setCartItem] = useState(cartItemDefault);
+  const [data, setData] = useState(noData);
 
   useEffect(() => {
     if (!itemId) return;
 
     const fetchData = async () => {
-      const data = await ItemService.getById(itemId);
-      setItem(data);
+      const response = await ItemService.getById(itemId);
+      setItem(response);
+    };
+    console.log(data);
+
+    fetchData();
+  }, []);
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    const fetchData = async () => {
+      const res = await ItemService.addToCart(data);
     };
     fetchData();
-  }, [itemId]);
-  
+    console.log(data);
+  };
+
+  useEffect(() => {
+    setData((prev) => ({
+      items: { ...prev.items, itemId: +itemId },
+    }));
+    console.log(data);
+    
+  }, [item]);
+
+  useEffect(() => {
+    setData((prev) => ({
+      ...prev,
+      userId: JSON.parse(localStorage.getItem("user"))["userId"],
+      items: {
+        ...prev.items,
+        sizes: { sizeId: +cartItem.size, count: +cartItem.count },
+      },
+    }));
+  }, [cartItem]);
+
   if (store.isAuth) {
     if (JSON.parse(localStorage.getItem("user"))["role"] == "ADMIN") {
       return (
         <AdminItemPage
           item={item}
-          count={count}
-          setCount={setCount}
-          size={size}
-          setSize={setSize}
+          cartItem={cartItem}
+          setCartItem={setCartItem}
+          handleAdd={handleAdd}
         />
       );
     } else {
       return (
         <UserItemPage
           item={item}
-          count={count}
-          setCount={setCount}
-          size={size}
-          setSize={setSize}
+          cartItem={cartItem}
+          setCartItem={setCartItem}
+          handleAdd={handleAdd}
         />
       );
     }
@@ -50,10 +94,9 @@ const ItemPage = () => {
     return (
       <UserItemPage
         item={item}
-        count={count}
-        setCount={setCount}
-        size={size}
-        setSize={setSize}
+        cartItem={cartItem}
+        setCartItem={setCartItem}
+        handleAdd={handleAdd}
       />
     );
   }

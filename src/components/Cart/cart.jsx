@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./cart.module.css";
+import ItemService from "../../services/item.Service";
+import CartItem from './cartItem.jsx'
 
 const noUserData = {
   name: "",
@@ -9,8 +11,19 @@ const noUserData = {
 };
 
 const Cart = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState('');
   const [userData, setUserData] = useState(noUserData);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const userId = JSON.parse(localStorage.getItem("user"))["userId"]
+      const responseData = await ItemService.getCart(userId);
+      setData(responseData)
+      console.log(data);
+      
+    };
+    fetchData();
+  },[])
 
   return (
     <div className={styles.content}>
@@ -72,7 +85,6 @@ const Cart = () => {
             type="text"
           />
         </div>
-        <p className={styles.payment}>Оплата при получении</p>
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -87,22 +99,23 @@ const Cart = () => {
         <p className={styles.header}>Корзина</p>
         <div className={styles.items}>
           {data ? (
-            data.map((item) => (
-              // Сменить на CartItem
-              <Item key={item.itemId} item={item} />
+            data.items.map((item) => (
+              <CartItem key={item.itemId} item={item} />
             ))
           ) : (
             <p>Загрузка</p>
           )}
         </div>
-        <div className={styles.lineWrapper}>
-          <div className={styles.line}></div>
+        <div className={styles.bottomPrice}>
+          <div className={styles.lineWrapper}>
+            <div className={styles.line}></div>
+          </div>
+          <div className={styles.bottom}>
+            <p className={styles.header}>К оплате</p>
+            <p className={styles.price}>2000</p>
+          </div>
         </div>
-        <div className={styles.bottom}>
-          <p className={styles.header}>К оплате</p>
-          <p className={styles.price}>2000</p>
         </div>
-      </div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import ItemService from "../../../services/item.Service";
 
 const sizeList = ["XS", "S", "M", "L", "XL", "XXL", "One"];
 
-const AdminItemPage = ({ item, count, setCount, size, setSize }) => {
+const AdminItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
   const handleDeleteItem = (e) => {
     const body = {
       itemId: item.itemId,
@@ -13,7 +13,6 @@ const AdminItemPage = ({ item, count, setCount, size, setSize }) => {
       const data = await ItemService.deleteItem(body);
     };
     fetchData();
-    console.log(body);
   };
 
   return (
@@ -34,12 +33,15 @@ const AdminItemPage = ({ item, count, setCount, size, setSize }) => {
                   <button
                     key={index}
                     className={
-                      sizeList.indexOf(size) == index
+                      cartItem.size - 1 == index
                         ? styles.sizeBtnActive
                         : styles.sizeBtn
                     }
                     onClick={() => {
-                      setSize(sizeList[index]);
+                      setCartItem((prev) => ({
+                        ...prev,
+                        size: index + 1,
+                      }));
                     }}
                   >
                     {sizeList[index]}
@@ -58,8 +60,8 @@ const AdminItemPage = ({ item, count, setCount, size, setSize }) => {
             <p className={styles.ammountText}>Выберите количество</p>
             <p className={styles.ammountStatus}>
               {item.sizes
-                ? item.sizes[sizeList.indexOf(size)] != undefined
-                  ? `Осталось ${item.sizes[sizeList.indexOf(size)]} штук`
+                ? item.sizes[cartItem.size - 1] != undefined
+                  ? `Осталось ${item.sizes[cartItem.size - 1]} штук`
                   : `Выберите размер`
                 : "Загрузка"}
             </p>
@@ -67,18 +69,28 @@ const AdminItemPage = ({ item, count, setCount, size, setSize }) => {
           <div className={styles.counter}>
             <button
               className={styles.counterBtn}
-              onClick={() => setCount(count - 1)}
-              disabled={count > 1 ? false : true}
+              onClick={() =>
+                setCartItem((prev) => ({
+                  ...prev,
+                  count: cartItem.count - 1,
+                }))
+              }
+              disabled={cartItem.count > 1 ? false : true}
             >
               <div className={styles.minus}></div>
             </button>
-            <p style={{ fontSize: "20px" }}>{count}</p>
+            <p style={{ fontSize: "20px" }}>{cartItem.count}</p>
             <button
               className={styles.counterBtn}
-              onClick={() => setCount(count + 1)}
+              onClick={() =>
+                setCartItem((prev) => ({
+                  ...prev,
+                  count: cartItem.count + 1,
+                }))
+              }
               disabled={
                 item.sizes
-                  ? count < item.sizes[sizeList.indexOf(size)]
+                  ? cartItem.count < item.sizes[cartItem.size - 1]
                     ? false
                     : true
                   : true
@@ -90,7 +102,9 @@ const AdminItemPage = ({ item, count, setCount, size, setSize }) => {
         </div>
         <p>{item.description}</p>
         <div className={styles.btnsBlock}>
-          <button className={styles.adminBtns}>Добавить в корзину</button>
+          <button className={styles.adminBtns} onClick={(e) => handleAdd(e)}>
+            Добавить в корзину
+          </button>
           <Link to={`/edit/${item.itemId}`}>
             <button className={styles.adminBtns}>Редактировать</button>
           </Link>

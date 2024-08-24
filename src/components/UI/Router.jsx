@@ -9,6 +9,7 @@ import AddItemPage from "../screens/itemPage/addItemPage";
 import EditItemPage from "../screens/itemPage/editItemPage";
 import ErrorPage from "../screens/Error/errorPage";
 import Cart from "../Cart/cart";
+import AdminUsers from "../admin/users/adminUsers";
 
 const Router = () => {
   return (
@@ -22,6 +23,7 @@ const Router = () => {
         <Route element={<AddItemPage />} path="/add" />
         <Route element={<EditItemPage />} path="/edit/:itemId" />
         <Route element={<Cart />} path="/cart" />
+        <Route element={<AdminUsers />} path="/admin/users"/>
       </Routes>
       <Footer />
     </BrowserRouter>

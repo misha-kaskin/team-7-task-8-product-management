@@ -5,10 +5,10 @@ import { useContext, useEffect, useState } from "react";
 import { Context } from "../../../main";
 import { observer } from "mobx-react-lite";
 import UserService from "../../../Auth/services/UserService";
+import HeaderProfile from "../../user/headerProfile/headerProfile";
 
 function Header() {
   const [authActive, setAuthActive] = useState(false);
-
   const { store } = useContext(Context);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function Header() {
       const data = await UserService.getUsers();
     };
     fetchData();
-  }
+  };
 
   return (
     <>
@@ -34,21 +34,10 @@ function Header() {
               Товары
             </Link>
           </div>
-          <Link onClick={e => handleUploadUsers(e)}>Пользователи</Link>
+          <Link to='/admin/users' onClick={(e) => handleUploadUsers(e)}>Пользователи</Link>
           <div className={styles.info}>
             {store.isAuth ? (
-              <>
-                {`Привет, ${JSON.parse(localStorage.getItem("user")).name}`}
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    store.logout();
-                    setAuthActive(false);
-                  }}
-                >
-                  Выйти
-                </button>
-              </>
+              <HeaderProfile setAuthActive={setAuthActive} />
             ) : (
               <button
                 className={styles.btn}
@@ -57,16 +46,11 @@ function Header() {
                 Вход
               </button>
             )}
-
-            <Link to='/cart' className={styles.cartIcon}>
-            </Link>
+            <Link to="/cart" className={styles.cartIcon}></Link>
           </div>
         </div>
       </div>
-      <LoginForm
-        activeBlock={authActive}
-        setActive={setAuthActive}
-      />
+      <LoginForm activeBlock={authActive} setActive={setAuthActive} />
     </>
   );
 }

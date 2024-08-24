@@ -12,9 +12,6 @@ html, body {
   height: 100vh;
 }
 
-::-webkit-scrollbar {
-  width: 0;
-}
 
 #root {
   height: 100vh;
@@ -22,4 +19,25 @@ html, body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2fb3ff;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #1F668F;
+
 }

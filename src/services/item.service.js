@@ -13,17 +13,25 @@ export default class ItemService {
   static async getById(itemId) {
     const response = await api.get(`/admin/item/${itemId}`);
     // Переписать потом это на /item?itemId=${itemId}
-    console.log(response.data);
-    
     return response.data;
   }
   static async deleteItem(data) {
     const response = await api.delete("/admin/item", data={data});
-    return response.data;
+    return response;
   }
 
   static async editItem(data) {
     const response = await api.patch("/admin/item", data={data});
     return response.data;
   }
+  
+  static async addToCart(data) {
+    const response = await api.post("/admin/cart/3", data={data});
+    return response.data;
+  }
+  static async getCart(userId) {
+    const response = await api.get("/admin/cart/3", {userId});
+    return response.data;
+  }
+  
 }
