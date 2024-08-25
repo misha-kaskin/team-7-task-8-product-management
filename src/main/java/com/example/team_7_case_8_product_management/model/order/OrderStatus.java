@@ -16,7 +16,7 @@ public class OrderStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private Long statusId;
 
     private String title;
 

@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class Order {
 
     @EmbeddedId
-    private OrderId orderId;
+    private EmbeddedOrderId orderId;
 
     private Long count;
 

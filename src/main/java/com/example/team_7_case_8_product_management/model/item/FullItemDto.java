@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class FullItemDto {
+
     private Long itemId;
     private String type;
     private String productName;
@@ -13,4 +14,5 @@ public class FullItemDto {
     private Float price;
     private String image;
     private long[] sizes;
+
 }

@@ -8,6 +8,7 @@ import com.example.team_7_case_8_product_management.exception.UserNotExistsExcep
 import com.example.team_7_case_8_product_management.exception.UserNotFoundByIdException;
 import com.example.team_7_case_8_product_management.model.TokenModel;
 import com.example.team_7_case_8_product_management.model.User;
+import com.example.team_7_case_8_product_management.model.UserDto;
 import com.example.team_7_case_8_product_management.repository.UserDao;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
@@ -28,13 +30,21 @@ public class UserService {
     private final Algorithm algorithm;
 
     @Transactional
-    public void registerUser(User user) {
-        Optional<User> optionalUser = userDao.findByLogin(user.getLogin());
+    public void registerUser(UserDto userDto) {
+        Optional<User> optionalUser = userDao.findByLogin(userDto.getLogin());
         if (optionalUser.isPresent()) {
             throw new UserAlreadyExistsException();
         }
-        String hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-        user.setPassword(hash);
+        String hash = BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt());
+        userDto.setPassword(hash);
+        User user = User.builder()
+                .balance(userDto.getBalance())
+                .login(userDto.getLogin())
+                .name(userDto.getName())
+                .password(userDto.getPassword())
+                .role(userDto.getRole())
+                .registerDate(LocalDate.now())
+                .build();
         userDao.save(user);
     }
 

@@ -117,4 +117,18 @@ public class ControllerAdvice {
                 .status(NOT_FOUND)
                 .body(new ErrorMessage("Пользователя с таким id не существует"));
     }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<ErrorMessage> orderNotFoundException() {
+        return ResponseEntity
+                .status(NOT_FOUND)
+                .body(new ErrorMessage("Заказа с таким id не существует"));
+    }
+
+    @ExceptionHandler(NotEnoughMoneyException.class)
+    public ResponseEntity<ErrorMessage> notEnoughMoneyException() {
+        return ResponseEntity
+                .status(UNPROCESSABLE_ENTITY)
+                .body(new ErrorMessage("У пользователя на балансе недостаточно средств для покупки"));
+    }
 }

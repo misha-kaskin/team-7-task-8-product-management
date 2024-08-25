@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderId implements Serializable {
+public class EmbeddedOrderId implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "order_id")

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Data
@@ -16,6 +17,7 @@ public class ShortOrderDto {
     private Long orderId;
     private Long userId;
     private OrderStatus status;
+    private LocalDate orderDate;
     private Set<OrderItemDto> items;
 
 }

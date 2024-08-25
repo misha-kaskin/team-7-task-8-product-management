@@ -1,9 +1,6 @@
 package com.example.team_7_case_8_product_management.model.order;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
@@ -11,6 +8,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"productName", "price", "image", "sizes"})
 public class OrderItemDto {
 
     private Long itemId;

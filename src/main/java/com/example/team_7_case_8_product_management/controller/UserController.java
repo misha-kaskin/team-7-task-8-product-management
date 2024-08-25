@@ -2,6 +2,7 @@ package com.example.team_7_case_8_product_management.controller;
 
 import com.example.team_7_case_8_product_management.model.TokenModel;
 import com.example.team_7_case_8_product_management.model.User;
+import com.example.team_7_case_8_product_management.model.UserDto;
 import com.example.team_7_case_8_product_management.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/v1/api/auth")
-    public void registerUser(@RequestBody User user) {
+    public void registerUser(@RequestBody UserDto user) {
         userService.registerUser(user);
     }
 
@@ -29,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/v1/api/admin/registration")
-    public void regUser(@RequestBody User user) {
+    public void regUser(@RequestBody UserDto user) {
         userService.registerUser(user);
     }
 
