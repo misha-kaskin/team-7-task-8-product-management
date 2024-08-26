@@ -1,13 +1,12 @@
 package com.example.team_7_case_8_product_management.service;
 
-import com.example.team_7_case_8_product_management.exception.CantFindFileException;
 import com.example.team_7_case_8_product_management.exception.CartUserIdMismatchException;
 import com.example.team_7_case_8_product_management.exception.ItemNotFoundException;
 import com.example.team_7_case_8_product_management.exception.TooManyItemsException;
 import com.example.team_7_case_8_product_management.model.SizeEntity;
-import com.example.team_7_case_8_product_management.model.user.User;
 import com.example.team_7_case_8_product_management.model.cart.*;
 import com.example.team_7_case_8_product_management.model.item.Item;
+import com.example.team_7_case_8_product_management.model.user.User;
 import com.example.team_7_case_8_product_management.repository.CartDao;
 import com.example.team_7_case_8_product_management.repository.FileStorage;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -86,16 +83,7 @@ public class CartService {
             Long itemId = item.getItemId();
             String productName = item.getProductName();
             Float price = item.getPrice();
-
             String image = fileStorage.loadFile(item);
-//            String fileName = item.getType() + item.getProductName() + item.getItemId();
-//            String image = null;
-//            try (FileInputStream fis = new FileInputStream(path + fileName)) {
-//                byte[] bytes = fis.readAllBytes();
-//                image = new String(bytes);
-//            } catch (IOException e) {
-////                throw new CantFindFileException();
-//            }
 
             CartItemDto itemDto = CartItemDto.builder()
                     .itemId(itemId)

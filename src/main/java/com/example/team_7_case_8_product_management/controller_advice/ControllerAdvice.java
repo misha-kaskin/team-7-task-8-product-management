@@ -158,6 +158,24 @@ public class ControllerAdvice {
                 .body(new ValidationErrorResponse(violations));
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ValidationErrorResponse> onConstraintValidationException(
+            ConstraintViolationException e
+    ) {
+        final List<Violation> violations = e.getConstraintViolations().stream()
+                .map(
+                        violation -> new Violation(
+                                violation.getPropertyPath().toString(),
+                                violation.getMessage()
+                        )
+                )
+                .collect(Collectors.toList());
+
+        return ResponseEntity
+                .status(BAD_REQUEST)
+                .body(new ValidationErrorResponse(violations));
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorMessage> dataIntegrityViolationException() {
         return ResponseEntity

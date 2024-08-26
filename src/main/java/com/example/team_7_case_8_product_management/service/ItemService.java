@@ -33,16 +33,10 @@ public class ItemService {
         Item item = mapToItem(itemDto);
         item.setState(ItemState.builder().stateId(1l).build());
         item = itemDao.save(item);
+        itemDto.setItemId(item.getItemId());
         List<WarehouseEntity> warehouseEntities = mapToListWarehouseEntity(item, itemDto, 1l);
         warehouseDao.saveAll(warehouseEntities);
         fileStorage.saveFile(itemDto);
-//        String file = itemDto.getImage();
-//        String fileName = item.getType().getTitle() + item.getProductName() + item.getItemId();
-//        try (FileOutputStream fos = new FileOutputStream(path + fileName)) {
-//            fos.write(file.getBytes());
-//        } catch (IOException e) {
-////            throw new CantCreateFileException();
-//        }
     }
 
     public void deleteItem(FullItemDto itemDto) {
@@ -66,14 +60,6 @@ public class ItemService {
                             .price(item.getPrice())
                             .build();
                     String image = fileStorage.loadFile(item);
-//                    String fileName = item.getType().getTitle() + item.getProductName() + item.getItemId();
-//                    try (FileInputStream fis = new FileInputStream(path + fileName)) {
-//                        byte[] bytes = fis.readAllBytes();
-//                        String image = new String(bytes);
-//
-//                    } catch (IOException e) {
-////                        throw new CantFindFileException();
-//                    }
                     itemDto.setImage(image);
                     return itemDto;
                 })
@@ -88,7 +74,7 @@ public class ItemService {
 
         List<WarehouseEntity> itemList = warehouseDao.findAllSaleByItemId(id, statusId, 1l);
         Item item = optionalItem.get();
-        Set<ItemSizeDto> sizes = new HashSet<>();
+        Set<ItemSizeDto> sizes = new TreeSet<>((o1, o2) -> (int) (o1.getSizeId() - o2.getSizeId()));
         for (WarehouseEntity warehouseEntity : itemList) {
             SizeEntity size1 = warehouseEntity.getWarehouseId().getSize();
             Long count = warehouseEntity.getCount();
@@ -102,15 +88,6 @@ public class ItemService {
         FullItemDto itemDto = mapItemToItemDto(item);
         itemDto.setSizes(sizes);
         String image = fileStorage.loadFile(item);
-//        String fileName = item.getType().getTitle() + item.getProductName() + item.getItemId();
-//
-//        try (FileInputStream fis = new FileInputStream(path + fileName)) {
-//            byte[] bytes = fis.readAllBytes();
-//            String image = new String(bytes);
-//
-//        } catch (IOException e) {
-////            throw new CantFindFileException();
-//        }
         itemDto.setImage(image);
         return itemDto;
     }
@@ -166,17 +143,11 @@ public class ItemService {
     public void updateItem(FullItemDto itemDto, Long statusId) {
         System.out.println(itemDto);
         Item item = mapToItem(itemDto);
+        item.setState(ItemState.builder().stateId(1l).build());
         itemDao.save(item);
         List<WarehouseEntity> list = mapToListWarehouseEntity(item, itemDto, statusId);
         warehouseDao.saveAll(list);
         fileStorage.saveFile(itemDto);
-
-//        String fileName = item.getType().getTitle() + item.getProductName() + item.getItemId();
-//        try (FileOutputStream fos = new FileOutputStream(path + fileName)) {
-//            fos.write(itemDto.getImage().getBytes());
-//        } catch (IOException e) {
-////            throw new CantCreateFileException();
-//        }
     }
 
 }
