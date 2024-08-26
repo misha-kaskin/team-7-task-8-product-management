@@ -4,9 +4,12 @@ import com.example.team_7_case_8_product_management.model.user.User;
 import com.example.team_7_case_8_product_management.model.cart.Cart;
 import com.example.team_7_case_8_product_management.model.cart.CartDto;
 import com.example.team_7_case_8_product_management.service.CartService;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Validated
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
@@ -32,6 +35,15 @@ public class CartController {
     @DeleteMapping("/v1/api/admin/cart")
     public void deleteAll(@RequestBody User user) {
         cartService.deleteAllById(user.getUserId());
+    }
+
+    @DeleteMapping("/v1/api/admin/cart/{userId}/{itemId}/{sizeId}")
+    public void deleteAllById(
+            @NotNull @PathVariable Long userId,
+            @NotNull @PathVariable Long itemId,
+            @NotNull @PathVariable Long sizeId
+    ) {
+        cartService.deleteById(userId, itemId, sizeId);
     }
 
 }

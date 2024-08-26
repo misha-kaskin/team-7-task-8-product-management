@@ -8,10 +8,7 @@ import com.example.team_7_case_8_product_management.model.cart.CartItemDto;
 import com.example.team_7_case_8_product_management.model.cart.SizeDto;
 import com.example.team_7_case_8_product_management.model.item.Item;
 import com.example.team_7_case_8_product_management.model.order.*;
-import com.example.team_7_case_8_product_management.repository.ItemDao;
-import com.example.team_7_case_8_product_management.repository.OrderDao;
-import com.example.team_7_case_8_product_management.repository.OrderInfoDao;
-import com.example.team_7_case_8_product_management.repository.UserDao;
+import com.example.team_7_case_8_product_management.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -29,6 +26,7 @@ public class OrderService {
     private final UserDao userDao;
     private final ItemDao itemDao;
     private final CartService cartService;
+    private final FileStorage fileStorage;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void addOrder(OrderDto orderDto) {
@@ -158,12 +156,13 @@ public class OrderService {
         Map<Long, OrderItemDto> itemMap = new HashMap<>();
         for (Item item : items) {
             Long itemId = item.getItemId();
+            String image = fileStorage.loadFile(item);
+
             OrderItemDto itemDto = OrderItemDto.builder()
                     .itemId(itemId)
                     .productName(item.getProductName())
                     .price(item.getPrice())
-                    // TODO
-                    .image(null)
+                    .image(image)
                     .build();
             itemMap.put(itemId, itemDto);
         }

@@ -6,17 +6,14 @@ import com.example.team_7_case_8_product_management.model.item.*;
 import com.example.team_7_case_8_product_management.model.warehouse.EmbeddedWarehouseId;
 import com.example.team_7_case_8_product_management.model.warehouse.WarehouseEntity;
 import com.example.team_7_case_8_product_management.model.warehouse.WarehouseStatus;
+import com.example.team_7_case_8_product_management.repository.FileStorage;
 import com.example.team_7_case_8_product_management.repository.ItemDao;
-import com.example.team_7_case_8_product_management.repository.SizeDao;
 import com.example.team_7_case_8_product_management.repository.WarehouseDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,6 +25,7 @@ public class ItemService {
     private String path;
     private final WarehouseDao warehouseDao;
     private final ItemDao itemDao;
+    private final FileStorage fileStorage;
 
 
     @Transactional
@@ -37,13 +35,14 @@ public class ItemService {
         item = itemDao.save(item);
         List<WarehouseEntity> warehouseEntities = mapToListWarehouseEntity(item, itemDto, 1l);
         warehouseDao.saveAll(warehouseEntities);
-        String file = itemDto.getImage();
-        String fileName = item.getType() + item.getProductName() + item.getItemId();
-        try (FileOutputStream fos = new FileOutputStream(path + fileName)) {
-            fos.write(file.getBytes());
-        } catch (IOException e) {
-//            throw new CantCreateFileException();
-        }
+        fileStorage.saveFile(itemDto);
+//        String file = itemDto.getImage();
+//        String fileName = item.getType().getTitle() + item.getProductName() + item.getItemId();
+//        try (FileOutputStream fos = new FileOutputStream(path + fileName)) {
+//            fos.write(file.getBytes());
+//        } catch (IOException e) {
+////            throw new CantCreateFileException();
+//        }
     }
 
     public void deleteItem(FullItemDto itemDto) {
@@ -66,14 +65,16 @@ public class ItemService {
                             .typeId(item.getType().getTypeId())
                             .price(item.getPrice())
                             .build();
-                    String fileName = item.getType() + item.getProductName() + item.getItemId();
-                    try (FileInputStream fis = new FileInputStream(path + fileName)) {
-                        byte[] bytes = fis.readAllBytes();
-                        String image = new String(bytes);
-                        itemDto.setImage(image);
-                    } catch (IOException e) {
-//                        throw new CantFindFileException();
-                    }
+                    String image = fileStorage.loadFile(item);
+//                    String fileName = item.getType().getTitle() + item.getProductName() + item.getItemId();
+//                    try (FileInputStream fis = new FileInputStream(path + fileName)) {
+//                        byte[] bytes = fis.readAllBytes();
+//                        String image = new String(bytes);
+//
+//                    } catch (IOException e) {
+////                        throw new CantFindFileException();
+//                    }
+                    itemDto.setImage(image);
                     return itemDto;
                 })
                 .collect(Collectors.toList());
@@ -100,14 +101,17 @@ public class ItemService {
         }
         FullItemDto itemDto = mapItemToItemDto(item);
         itemDto.setSizes(sizes);
-        String fileName = item.getType() + item.getProductName() + item.getItemId();
-        try (FileInputStream fis = new FileInputStream(path + fileName)) {
-            byte[] bytes = fis.readAllBytes();
-            String image = new String(bytes);
-            itemDto.setImage(image);
-        } catch (IOException e) {
-//            throw new CantFindFileException();
-        }
+        String image = fileStorage.loadFile(item);
+//        String fileName = item.getType().getTitle() + item.getProductName() + item.getItemId();
+//
+//        try (FileInputStream fis = new FileInputStream(path + fileName)) {
+//            byte[] bytes = fis.readAllBytes();
+//            String image = new String(bytes);
+//
+//        } catch (IOException e) {
+////            throw new CantFindFileException();
+//        }
+        itemDto.setImage(image);
         return itemDto;
     }
 
@@ -165,12 +169,14 @@ public class ItemService {
         itemDao.save(item);
         List<WarehouseEntity> list = mapToListWarehouseEntity(item, itemDto, statusId);
         warehouseDao.saveAll(list);
-        String fileName = item.getType() + item.getProductName() + item.getItemId();
-        try (FileOutputStream fos = new FileOutputStream(path + fileName)) {
-            fos.write(itemDto.getImage().getBytes());
-        } catch (IOException e) {
-//            throw new CantCreateFileException();
-        }
+        fileStorage.saveFile(itemDto);
+
+//        String fileName = item.getType().getTitle() + item.getProductName() + item.getItemId();
+//        try (FileOutputStream fos = new FileOutputStream(path + fileName)) {
+//            fos.write(itemDto.getImage().getBytes());
+//        } catch (IOException e) {
+////            throw new CantCreateFileException();
+//        }
     }
 
 }

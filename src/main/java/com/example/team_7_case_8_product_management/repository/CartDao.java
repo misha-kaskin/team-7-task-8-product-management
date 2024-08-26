@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CartDao extends CrudRepository<Cart, Long> {
 
@@ -54,5 +55,12 @@ public interface CartDao extends CrudRepository<Cart, Long> {
     @Modifying
     @Query("delete from Cart c where c.cartId.user.userId = ?1")
     void deleteAllByUserId(Long userId);
+
+    @Modifying
+    @Query("delete from Cart c where c.cartId.user.userId = ?1 and c.cartId.item.itemId = ?2 and c.cartId.size.sizeId = ?3")
+    void deleteAllById(Long userId, Long itemId, Long sizeId);
+
+    @Query("select c from Cart c where c.cartId.user.userId = ?1 and c.cartId.item.itemId = ?2 and c.cartId.size.sizeId = ?3")
+    Optional<Cart> findAllById(Long userId, Long itemId, Long sizeId);
 
 }
