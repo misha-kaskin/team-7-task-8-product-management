@@ -30,22 +30,15 @@ public class UserService {
     private final Algorithm algorithm;
 
     @Transactional
-    public void registerUser(UserDto userDto) {
+    public void registerUser(User userDto) {
         Optional<User> optionalUser = userDao.findByLogin(userDto.getLogin());
         if (optionalUser.isPresent()) {
             throw new UserAlreadyExistsException();
         }
         String hash = BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt());
         userDto.setPassword(hash);
-        User user = User.builder()
-                .balance(userDto.getBalance())
-                .login(userDto.getLogin())
-                .name(userDto.getName())
-                .password(userDto.getPassword())
-                .role(userDto.getRole())
-                .registerDate(LocalDate.now())
-                .build();
-        userDao.save(user);
+        userDto.setRegisterDate(LocalDate.now());
+        userDao.save(userDto);
     }
 
     @Transactional
@@ -88,5 +81,14 @@ public class UserService {
         realUser.setBalance(user.getBalance());
 
         userDao.save(realUser);
+    }
+
+    public void deleteUser(User user) {
+        Long userId = user.getUserId();
+        Optional<User> optionalUser = userDao.findById(userId);
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundByIdException();
+        }
+        userDao.deleteById(userId);
     }
 }

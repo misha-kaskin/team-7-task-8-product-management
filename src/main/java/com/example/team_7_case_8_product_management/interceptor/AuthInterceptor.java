@@ -19,10 +19,6 @@ public class AuthInterceptor implements HandlerInterceptor {
     @SneakyThrows
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader("token");
-        BufferedReader reader = request.getReader();
-        while (reader.ready()) {
-            System.out.println(reader.readLine());
-        }
         if (token == null) {
             String header = request.getHeader("access-control-request-headers");
             if (header == null) {

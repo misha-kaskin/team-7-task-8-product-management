@@ -15,7 +15,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/v1/api/auth")
-    public void registerUser(@RequestBody UserDto user) {
+    public void registerUser(@RequestBody User user) {
         userService.registerUser(user);
     }
 
@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/v1/api/admin/registration")
-    public void regUser(@RequestBody UserDto user) {
+    public void regUser(@RequestBody User user) {
         userService.registerUser(user);
     }
 
@@ -38,4 +38,10 @@ public class UserController {
     public void editUser(@RequestBody User user) {
         userService.editUser(user);
     }
+
+    @DeleteMapping("/v1/api/admin/user-remove")
+    public void deleteUser(@RequestBody User user) {
+        userService.deleteUser(user);
+    }
+
 }
