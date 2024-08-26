@@ -2,7 +2,7 @@ package com.example.team_7_case_8_product_management.model.cart;
 
 import com.example.team_7_case_8_product_management.model.item.Item;
 import com.example.team_7_case_8_product_management.model.SizeEntity;
-import com.example.team_7_case_8_product_management.model.User;
+import com.example.team_7_case_8_product_management.model.user.User;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

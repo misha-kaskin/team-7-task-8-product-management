@@ -4,7 +4,7 @@ import com.example.team_7_case_8_product_management.exception.CantFindFileExcept
 import com.example.team_7_case_8_product_management.exception.CartUserIdMismatchException;
 import com.example.team_7_case_8_product_management.exception.TooManyItemsException;
 import com.example.team_7_case_8_product_management.model.SizeEntity;
-import com.example.team_7_case_8_product_management.model.User;
+import com.example.team_7_case_8_product_management.model.user.User;
 import com.example.team_7_case_8_product_management.model.cart.*;
 import com.example.team_7_case_8_product_management.model.item.Item;
 import com.example.team_7_case_8_product_management.repository.CartDao;

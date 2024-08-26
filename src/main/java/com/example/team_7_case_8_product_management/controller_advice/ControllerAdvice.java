@@ -1,12 +1,19 @@
 package com.example.team_7_case_8_product_management.controller_advice;
 
 import com.example.team_7_case_8_product_management.exception.*;
+import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 import static org.springframework.http.HttpStatus.*;
 
 @CrossOrigin
@@ -130,5 +137,31 @@ public class ControllerAdvice {
         return ResponseEntity
                 .status(UNPROCESSABLE_ENTITY)
                 .body(new ErrorMessage("У пользователя на балансе недостаточно средств для покупки"));
+    }
+
+    @ExceptionHandler(EmptyCartException.class)
+    public ResponseEntity<ErrorMessage> emptyCartException() {
+        return ResponseEntity
+                .status(UNPROCESSABLE_ENTITY)
+                .body(new ErrorMessage("Пустая корзина"));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ValidationErrorResponse> onMethodArgumentNotValidException(
+            MethodArgumentNotValidException  e
+    ) {
+        List<Violation> violations = e.getBindingResult().getFieldErrors().stream()
+                .map(error -> new Violation(error.getField(), error.getDefaultMessage()))
+                .collect(Collectors.toList());
+        return ResponseEntity
+                .status(BAD_REQUEST)
+                .body(new ValidationErrorResponse(violations));
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorMessage> dataIntegrityViolationException() {
+        return ResponseEntity
+                .status(BAD_REQUEST)
+                .body(new ErrorMessage("Несуществующий объект"));
     }
 }

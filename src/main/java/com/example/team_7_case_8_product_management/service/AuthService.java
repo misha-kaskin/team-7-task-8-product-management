@@ -9,7 +9,7 @@ import com.example.team_7_case_8_product_management.exception.InvalidUserRoleExc
 import com.example.team_7_case_8_product_management.exception.MismatchRoleException;
 import com.example.team_7_case_8_product_management.exception.TokenNotValidException;
 import com.example.team_7_case_8_product_management.exception.UserNotAuthException;
-import com.example.team_7_case_8_product_management.model.User;
+import com.example.team_7_case_8_product_management.model.user.User;
 import com.example.team_7_case_8_product_management.repository.UserDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

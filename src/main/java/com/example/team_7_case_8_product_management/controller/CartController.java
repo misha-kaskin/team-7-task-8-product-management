@@ -1,6 +1,6 @@
 package com.example.team_7_case_8_product_management.controller;
 
-import com.example.team_7_case_8_product_management.model.User;
+import com.example.team_7_case_8_product_management.model.user.User;
 import com.example.team_7_case_8_product_management.model.cart.Cart;
 import com.example.team_7_case_8_product_management.model.cart.CartDto;
 import com.example.team_7_case_8_product_management.service.CartService;

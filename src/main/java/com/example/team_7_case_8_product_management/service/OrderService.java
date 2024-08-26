@@ -1,11 +1,8 @@
 package com.example.team_7_case_8_product_management.service;
 
-import com.example.team_7_case_8_product_management.exception.NotEnoughMoneyException;
-import com.example.team_7_case_8_product_management.exception.OrderNotFoundException;
-import com.example.team_7_case_8_product_management.exception.TooManyItemsException;
-import com.example.team_7_case_8_product_management.exception.UserNotFoundByIdException;
+import com.example.team_7_case_8_product_management.exception.*;
 import com.example.team_7_case_8_product_management.model.SizeEntity;
-import com.example.team_7_case_8_product_management.model.User;
+import com.example.team_7_case_8_product_management.model.user.User;
 import com.example.team_7_case_8_product_management.model.cart.CartDto;
 import com.example.team_7_case_8_product_management.model.cart.CartItemDto;
 import com.example.team_7_case_8_product_management.model.cart.SizeDto;
@@ -42,6 +39,9 @@ public class OrderService {
         }
         User user = optionalUser.get();
         CartDto userItems = cartService.getItemsByUserId(userId);
+        if (userItems.getItems().isEmpty()) {
+            throw new EmptyCartException();
+        }
         Float amount = getTotalOrderAmount(userItems);
         if (user.getBalance() < amount) {
             throw new NotEnoughMoneyException();

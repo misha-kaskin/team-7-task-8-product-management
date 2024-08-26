@@ -1,6 +1,6 @@
 package com.example.team_7_case_8_product_management.model.order;
 
-import com.example.team_7_case_8_product_management.model.User;
+import com.example.team_7_case_8_product_management.model.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
