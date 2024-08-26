@@ -74,7 +74,7 @@ public class ItemService {
 
         List<WarehouseEntity> itemList = warehouseDao.findAllSaleByItemId(id, statusId, 1l);
         Item item = optionalItem.get();
-        Set<ItemSizeDto> sizes = new TreeSet<>((o1, o2) -> (int) (o1.getSizeId() - o2.getSizeId()));
+        Set<ItemSizeDto> sizes = new HashSet<>();
         for (WarehouseEntity warehouseEntity : itemList) {
             SizeEntity size1 = warehouseEntity.getWarehouseId().getSize();
             Long count = warehouseEntity.getCount();

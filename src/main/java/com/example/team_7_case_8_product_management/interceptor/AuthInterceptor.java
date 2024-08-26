@@ -1,5 +1,6 @@
 package com.example.team_7_case_8_product_management.interceptor;
 
+import com.example.team_7_case_8_product_management.exception.UserNotAuthException;
 import com.example.team_7_case_8_product_management.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,9 +23,10 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (token == null) {
             String header = request.getHeader("access-control-request-headers");
             if (header == null) {
-                return false;
+                throw new UserNotAuthException();
+            } else {
+                return header.contains("token");
             }
-            return header.contains("token");
         }
         String path = request.getRequestURI().toUpperCase();
         authService.validateToken(token, path);
