@@ -133,6 +133,7 @@ public class UserService {
         }
         User user = optionalUser.get();
         return GetUserDto.builder()
+                .userId(user.getUserId())
                 .login(user.getLogin())
                 .balance(user.getBalance())
                 .registerDate(user.getRegisterDate())
