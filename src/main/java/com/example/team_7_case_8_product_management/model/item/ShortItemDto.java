@@ -6,9 +6,11 @@ import lombok.Data;
 @Data
 @Builder
 public class ShortItemDto {
+
     private Long itemId;
     private String productName;
-    private String type;
+    private Long typeId;
     private Float price;
     private String image;
+
 }

@@ -50,9 +50,11 @@ public interface OrderDao extends CrudRepository<Order, EmbeddedOrderId> {
                     "and not exists (" +
                             "select wh " +
                             "from WarehouseEntity wh " +
-                            "where o.orderId.item.itemId = wh.item.itemId " +
-                                    "and o.orderId.size.sizeId = wh.size.sizeId " +
-                                    "and o.count <= wh.count" +
+                            "where o.orderId.item.itemId = wh.warehouseId.itemId.itemId " +
+                                    "and o.orderId.size.sizeId = wh.warehouseId.size.sizeId " +
+                                    "and o.count <= wh.count " +
+                                    "and wh.warehouseId.status.statusId = 1 " +
+                                    "and wh.warehouseId.itemId.state.stateId = 1" +
                     ")"
     )
     Collection<Order> checkWarehouseAvailable(Long id);
@@ -60,24 +62,16 @@ public interface OrderDao extends CrudRepository<Order, EmbeddedOrderId> {
     @Modifying
     @Query(
             nativeQuery = true,
-//            value = "update warehouses as wh set count = wh.count - o.count " +
-//                    "from orders as o " +
-//                    "where wh.item_id = o.item_id " +
-//                            "and wh.size_id = o.size_id " +
-//                            "and wh.count <= o.count " +
-//                            "and o.order_id = ?1"
             value = "update warehouses as wh " +
                     "set count = t.count " +
-                    "from (" +
-                            "select wh.id, wh.count - o.count as count " +
+                    "from (select wh.item_id, wh.size_id, wh.count - o.count as count " +
                             "from warehouses wh " +
-                            "inner join orders o " +
+                            "join orders o " +
                             "on wh.item_id = o.item_id " +
                                     "and wh.size_id = o.size_id " +
-                                    "and wh.count <= o.count " +
-                                    "and o.order_id = ?1" +
-                    ") as t " +
-                    "where wh.id = t.id"
+                                    "and wh.status_id = 1 " +
+                                    "and o.order_id = ?1) as t " +
+                    "where wh.item_id = t.item_id and wh.size_id = t.size_id and wh.status_id = 1"
     )
     void updateWarehouse(Long id);
 

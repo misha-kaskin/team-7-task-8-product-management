@@ -84,12 +84,12 @@ public class CartService {
             String productName = item.getProductName();
             Float price = item.getPrice();
             String fileName = item.getType() + item.getProductName() + item.getItemId();
-            String image;
+            String image = null;
             try (FileInputStream fis = new FileInputStream(path + fileName)) {
                 byte[] bytes = fis.readAllBytes();
                 image = new String(bytes);
             } catch (IOException e) {
-                throw new CantFindFileException();
+//                throw new CantFindFileException();
             }
 
             CartItemDto itemDto = CartItemDto.builder()

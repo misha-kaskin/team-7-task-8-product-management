@@ -43,11 +43,11 @@ public interface CartDao extends CrudRepository<Cart, Long> {
             "select c.cartId.item " +
             "from Cart c " +
             "where c.cartId.user.userId = ?1 and not exists (" +
-                    "select wh.id " +
+                    "select wh " +
                     "from WarehouseEntity wh " +
-                    "where wh.item.itemId = c.cartId.item.itemId " +
-                            "and wh.size.sizeId = c.cartId.size.sizeId " +
-                            "and c.count <= wh.count)"
+                    "where wh.warehouseId.itemId.itemId = c.cartId.item.itemId " +
+                            "and wh.warehouseId.size.sizeId = c.cartId.size.sizeId " +
+                            "and c.count <= wh.count and wh.warehouseId.itemId.state.stateId = 1 and wh.warehouseId.status.statusId = 1)"
     )
     List<Object> getItems(Long id);
 

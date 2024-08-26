@@ -22,7 +22,16 @@ public class Item {
     private Long itemId;
 
     private String productName;
-    private String type;
+
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private ItemType type;
+
     private String description;
     private Float price;
+
+    @ManyToOne
+    @JoinColumn(name = "state_id")
+    private ItemState state;
+
 }

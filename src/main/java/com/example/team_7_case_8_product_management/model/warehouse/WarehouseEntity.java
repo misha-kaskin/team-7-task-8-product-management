@@ -1,8 +1,8 @@
 package com.example.team_7_case_8_product_management.model.warehouse;
 
-import com.example.team_7_case_8_product_management.model.SizeEntity;
-import com.example.team_7_case_8_product_management.model.item.Item;
-import jakarta.persistence.*;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,19 +16,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class WarehouseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private EmbeddedWarehouseId warehouseId;
 
-    @ManyToOne
-    @JoinColumn(name = "item_id")
-    private Item item;
-
-    @ManyToOne
-    @JoinColumn(name = "size_id")
-    private SizeEntity size;
-
-    private String status;
     private Long count;
 
 }

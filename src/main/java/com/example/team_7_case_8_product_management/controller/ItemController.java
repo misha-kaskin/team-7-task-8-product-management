@@ -37,12 +37,12 @@ public class ItemController {
 
     @GetMapping("/v1/api/admin/item/{id}")
     public FullItemDto getItemById(@PathVariable Long id) {
-        return itemService.getFullItemDtoById(id);
+        return itemService.getFullItemDtoById(id, 1l);
     }
 
     @PatchMapping("/v1/api/admin/item")
     public void updateItem(@RequestBody FullItemDto itemDto) {
-        itemService.updateItem(itemDto);
+        itemService.updateItem(itemDto, 1l);
     }
 
 }
