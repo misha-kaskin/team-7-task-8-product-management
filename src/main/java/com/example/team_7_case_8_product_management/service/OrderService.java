@@ -96,6 +96,11 @@ public class OrderService {
         cartService.deleteAllById(userId);
     }
 
+    public Iterable<ShortOrderDto> getAllOrders() {
+        Iterable<OrderInfo> orders = orderInfoDao.findAll();
+        return mapOrderCollection(orders);
+    }
+
     public Collection<ShortOrderDto> getOrdersByUserId(Long userId) {
         Iterable<OrderInfo> orders = orderInfoDao.findAllByUserId(userId);
         return mapOrderCollection(orders);

@@ -21,6 +21,11 @@ public class OrderController {
         orderService.addOrder(orderDto);
     }
 
+    @GetMapping("/v1/api/admin/order")
+    public Iterable<ShortOrderDto> getAllOrders() {
+        return orderService.getAllOrders();
+    }
+
     @GetMapping("/v1/api/admin/order/{id}")
     public Collection<ShortOrderDto> getUserOrder(@PathVariable Long id) {
         return orderService.getOrdersByUserId(id);
