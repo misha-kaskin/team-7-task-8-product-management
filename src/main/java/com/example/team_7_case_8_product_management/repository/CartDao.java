@@ -3,6 +3,7 @@ package com.example.team_7_case_8_product_management.repository;
 import com.example.team_7_case_8_product_management.model.SizeEntity;
 import com.example.team_7_case_8_product_management.model.cart.Cart;
 import com.example.team_7_case_8_product_management.model.item.Item;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -49,5 +50,9 @@ public interface CartDao extends CrudRepository<Cart, Long> {
                             "and c.count <= wh.count)"
     )
     List<Object> getItems(Long id);
+
+    @Modifying
+    @Query("delete from Cart c where c.cartId.user.userId = ?1")
+    void deleteAllByUserId(Long userId);
 
 }

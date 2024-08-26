@@ -41,7 +41,8 @@ public class OrderService {
             throw new UserNotFoundByIdException();
         }
         User user = optionalUser.get();
-        Float amount = getTotalOrderAmount(orderDto);
+        CartDto userItems = cartService.getItemsByUserId(userId);
+        Float amount = getTotalOrderAmount(userItems);
         if (user.getBalance() < amount) {
             throw new NotEnoughMoneyException();
         }
@@ -65,9 +66,8 @@ public class OrderService {
 
         OrderInfo saveOrder = orderInfoDao.save(orderInfo);
         Long orderId = saveOrder.getOrderId();
-        
+
         List<Order> orders = new LinkedList<>();
-        CartDto userItems = cartService.getItemsByUserId(userId);
         for (CartItemDto item : userItems.getItems()) {
             Long itemId = item.getItemId();
             for (SizeDto size : item.getSizes()) {
@@ -95,6 +95,7 @@ public class OrderService {
             throw new TooManyItemsException();
         }
         orderDao.updateWarehouse(orderId);
+        cartService.deleteAllById(userId);
     }
 
     public Collection<ShortOrderDto> getOrdersByUserId(Long userId) {
@@ -116,9 +117,9 @@ public class OrderService {
         }
     }
 
-    private Float getTotalOrderAmount(OrderDto orderDto) {
+    private Float getTotalOrderAmount(CartDto orderDto) {
         Set<Long> itemIds = new HashSet<>();
-        for (ShortOrderItemDto item : orderDto.getItems()) {
+        for (CartItemDto item : orderDto.getItems()) {
             itemIds.add(item.getItemId());
         }
         Collection<Item> items = itemDao.findAllByIds(itemIds);
@@ -128,9 +129,9 @@ public class OrderService {
         }
 
         float amount = 0f;
-        for (ShortOrderItemDto item : orderDto.getItems()) {
+        for (CartItemDto item : orderDto.getItems()) {
             Float price = itemMap.get(item.getItemId()).getPrice();
-            for (ShortOrderSizeDto size : item.getSizes()) {
+            for (SizeDto size : item.getSizes()) {
                 Long count = size.getCount();
                 amount += count * price;
             }

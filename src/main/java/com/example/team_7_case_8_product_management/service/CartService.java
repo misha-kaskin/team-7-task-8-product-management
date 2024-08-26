@@ -130,7 +130,7 @@ public class CartService {
                 .build();
     }
 
-    public void deleteAll() {
+    public void deleteAllById(Long userId) {
         cartDao.deleteAll();
     }
 }
