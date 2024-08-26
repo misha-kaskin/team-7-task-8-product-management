@@ -6,6 +6,9 @@ import com.example.team_7_case_8_product_management.exception.TooManyItemsExcept
 import com.example.team_7_case_8_product_management.exception.UserNotFoundByIdException;
 import com.example.team_7_case_8_product_management.model.SizeEntity;
 import com.example.team_7_case_8_product_management.model.User;
+import com.example.team_7_case_8_product_management.model.cart.CartDto;
+import com.example.team_7_case_8_product_management.model.cart.CartItemDto;
+import com.example.team_7_case_8_product_management.model.cart.SizeDto;
 import com.example.team_7_case_8_product_management.model.item.Item;
 import com.example.team_7_case_8_product_management.model.order.*;
 import com.example.team_7_case_8_product_management.repository.ItemDao;
@@ -28,6 +31,7 @@ public class OrderService {
     private final OrderDao orderDao;
     private final UserDao userDao;
     private final ItemDao itemDao;
+    private final CartService cartService;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void addOrder(OrderDto orderDto) {
@@ -61,18 +65,17 @@ public class OrderService {
 
         OrderInfo saveOrder = orderInfoDao.save(orderInfo);
         Long orderId = saveOrder.getOrderId();
+        
         List<Order> orders = new LinkedList<>();
-
-        for (ShortOrderItemDto item : orderDto.getItems()) {
+        CartDto userItems = cartService.getItemsByUserId(userId);
+        for (CartItemDto item : userItems.getItems()) {
             Long itemId = item.getItemId();
-            for (ShortOrderSizeDto size : item.getSizes()) {
+            for (SizeDto size : item.getSizes()) {
                 Long sizeId = size.getSizeId();
                 Long count = size.getCount();
                 Order order = Order.builder()
                         .orderId(EmbeddedOrderId.builder()
-                                .order(OrderInfo.builder()
-                                        .orderId(orderId)
-                                        .build())
+                                .order(saveOrder)
                                 .item(Item.builder()
                                         .itemId(itemId)
                                         .build())

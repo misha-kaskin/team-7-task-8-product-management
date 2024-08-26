@@ -41,7 +41,7 @@ public interface CartDao extends CrudRepository<Cart, Long> {
     @Query(
             "select c.cartId.item " +
             "from Cart c " +
-            "where not exists (" +
+            "where c.cartId.user.userId = ?1 and not exists (" +
                     "select wh.id " +
                     "from WarehouseEntity wh " +
                     "where wh.item.itemId = c.cartId.item.itemId " +
