@@ -5,49 +5,49 @@ import UserCard from "./userCard";
 import AuthService from "../../../Auth/services/AuthService";
 import RegistrationForm from "./registrationForm";
 
-
 const AdminUsers = () => {
   const [usersData, setUsersData] = useState([]);
   const [authActive, setAuthActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [options, setOptions] = useState(0);
-  const [filteredUsers, setFilteredUsers] = useState([])
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await UserService.getUsers();
-      setUsersData(data.data);
-      setFilteredUsers(data.data);
+      const response = await UserService.getUsers();
+      response.data.sort((a ,b) => {
+        return a.userId - b.userId
+      })
+      setUsersData(response.data);
+      setFilteredUsers(response.data);
     };
     fetchData();
   }, []);
 
   useEffect(() => {
     if (options == 0) {
-    setFilteredUsers(usersData)
-    
+      setFilteredUsers(usersData);
     }
     if (options == 1) {
-      const filter = []
-      usersData.map(user => 
-        user.role == 'ADMIN' ? filter.push(user) : '')
-    setFilteredUsers(filter)
+      const filter = [];
+      usersData.map((user) => (user.role == "ADMIN" ? filter.push(user) : ""));
+      setFilteredUsers(filter);
     }
     if (options == 2) {
-      const filter = []
-      usersData.map(user => 
-        user.role == 'MANAGER' ? filter.push(user) : '')
-    setFilteredUsers(filter)
+      const filter = [];
+      usersData.map((user) =>
+        user.role == "MANAGER" ? filter.push(user) : ""
+      );
+      setFilteredUsers(filter);
     }
     if (options == 3) {
-      const filter = []
-      usersData.map(user => 
-        user.role == 'USER' ? filter.push(user) : '')
-    setFilteredUsers(filter)
+      const filter = [];
+      usersData.map((user) => (user.role == "USER" ? filter.push(user) : ""));
+      setFilteredUsers(filter);
     }
     console.log(filteredUsers);
-    
-  }, [options])
+  }, [options]);
 
   return (
     <div className={styles.content}>
@@ -99,7 +99,13 @@ const AdminUsers = () => {
       </div>
       <div className={styles.users}>
         {usersData
-          ? filteredUsers.map((user) => <UserCard key={user.userId} user={user} />)
+          ? filteredUsers
+              .filter((user) => {
+                return (searchTerm.toLowerCase === "" || !user.login || !user.name)
+                  ? user
+                  : user.login.toLowerCase().includes(searchTerm) || user.name.toLowerCase().includes(searchTerm)
+              })
+              .map((user) => <UserCard key={user.userId} user={user} />)
           : "Пользователи не найдены"}
       </div>
       <RegistrationForm activeBlock={authActive} setActive={setAuthActive} />

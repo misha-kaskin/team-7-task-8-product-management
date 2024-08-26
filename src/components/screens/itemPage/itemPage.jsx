@@ -35,12 +35,15 @@ const ItemPage = () => {
 
     const fetchData = async () => {
       const response = await ItemService.getById(itemId);
+      response.sizes.sort((a ,b) => {
+        return a.sizeId - b.sizeId
+      })
       setItem(response);
+      
     };
-
     fetchData();
   }, []);
-
+  
   const handleAdd = (e) => {
     e.preventDefault();
     const sizesArray = [data.items.sizes]

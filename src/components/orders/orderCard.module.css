@@ -1,0 +1,151 @@
+.itemCard {
+  height: 150px;
+  border-top: 1px solid black;
+  display: flex;
+  padding: 10px;
+}
+
+.image {
+  height: 150px;
+  width: 150px;
+  margin-left: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: 0.4s;
+}
+
+.image:hover {
+  transition: 0.4s;
+  transform: scale(1.1);
+}
+
+.info {
+  display: flex;
+  margin-left: 20px;
+  height: 100%;
+  flex-wrap: wrap;
+  overflow: auto;
+  flex-direction: column;
+  /* justify-content: space-between; */
+}
+
+.text{
+  font-weight: bold;
+  font-size: 24px;
+  margin: 0;
+}
+
+.textAmount {
+  margin: 0px;
+  padding: 0px;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+.textSize {
+  display: flex;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 10px;
+  /* margin-top: 5px; */
+}
+
+.amount {
+  height: 30px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.counter {
+  border: 2px solid #2fb3ff;
+  background-color: #fff;
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80px;
+  height: 20px;
+  border-radius: 10px;
+  color: black;
+}
+
+.counterBtn {
+  height: 20px;
+  background-color: #fff;
+  width: 20px;
+  border-radius: 9px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s;
+}
+
+.counterBtn:disabled:hover {
+  background-color: #fff;
+  cursor: default;
+  transition: 0.4s;
+}
+
+.minus {
+  width: 20px;
+  height: 20px;
+  background-image: url("/minus.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.plus {
+  width: 40px;
+  height: 40px;
+  background-image: url("/plus.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.counterBtn:hover {
+  background-color: #cfedff;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  height: 32px;
+  width: 220px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.price {
+  margin: 0px;
+  color: #2fb3ff;
+  font-size: 20px;
+  padding: 0px;
+  text-align: center;
+}
+
+.delete {
+  height: 25px;
+  width: 25px;
+  margin: 2px;
+  background-image: url('/Delete-item.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: 0.4s;
+}
+
+.delete:hover {
+  cursor: pointer;
+  transition: 0.4s;
+  transform: scale(1.1);
+}

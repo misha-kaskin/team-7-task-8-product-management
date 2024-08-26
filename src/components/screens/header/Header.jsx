@@ -15,11 +15,15 @@ function Header() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       store.CheckAuth();
-    }
-    if (localStorage.getItem("user")) {
-      setUserData(JSON.parse(localStorage.getItem("user"))["role"]);
-    }
-  }, [userData]);
+    } else {store.logout()}
+    const getUserData = async () => {
+      const userId = JSON.parse(localStorage.getItem("user"))["userId"];
+      const data = await UserService.getById(userId); 
+      setUserData(data.data.role);
+      
+    };
+    getUserData();
+  }, []);
 
   const handleUploadUsers = (e) => {
     const fetchData = async () => {
@@ -61,7 +65,7 @@ function Header() {
           </Link> : ''}
           <div className={styles.info}>
             {store.isAuth ? (
-              <HeaderProfile setAuthActive={setAuthActive} />
+              <HeaderProfile setAuthActive={setAuthActive} setRole={setUserData}/>
             ) : (
               <button
                 className={styles.btn}
@@ -74,7 +78,7 @@ function Header() {
           </div>
         </div>
       </div>
-      <LoginForm activeBlock={authActive} setActive={setAuthActive} />
+      <LoginForm activeBlock={authActive} setActive={setAuthActive} setRole={setUserData}/>
     </>
   );
 }

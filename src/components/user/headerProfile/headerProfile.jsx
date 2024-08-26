@@ -5,7 +5,7 @@ import { Context } from "../../../main";
 import UserService from "../../../Auth/services/UserService";
 import { Link } from "react-router-dom";
 
-const HeaderProfile = ({ setAuthActive }) => {
+const HeaderProfile = ({ setAuthActive, setRole }) => {
   const [userData, setUserData] = useState({});
   const { store } = useContext(Context);
 
@@ -22,6 +22,7 @@ const HeaderProfile = ({ setAuthActive }) => {
     const handleLogout = () => {
       store.logout();
       setAuthActive(false);
+      setRole('')
     };
 
     return (

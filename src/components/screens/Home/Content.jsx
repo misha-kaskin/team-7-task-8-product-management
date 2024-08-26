@@ -20,7 +20,6 @@ function Content() {
       const data = await ItemService.getAll();
       setItems(data);
       setFilteredItems(data);
-      console.log(data);
     };
     fetchData();
     if (localStorage.getItem("user")) {
@@ -86,7 +85,13 @@ function Content() {
         </div>
         <div className={styles.products}>
           {filteredItems ? (
-            filteredItems.map((item) => <Item key={item.itemId} item={item} />)
+            filteredItems
+              .filter((item) => {
+                return searchTerm.toLowerCase === "" || !item.productName
+                  ? item
+                  : item.productName.toLowerCase().includes(searchTerm);
+              })
+              .map((item) => <Item key={item.itemId} item={item} />)
           ) : (
             <p>Загрузка</p>
           )}

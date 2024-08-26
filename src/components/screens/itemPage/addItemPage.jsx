@@ -5,11 +5,40 @@ import Select from "react-select";
 import ItemService from "../../../services/item.Service";
 
 const noData = {
-  type: "",
+  type: { typeId: 1 },
   productName: "",
   description: "",
   price: "",
-  sizes: [0, 0, 0, 0, 0, 0, 0],
+  sizes: [
+    {
+      sizeId: 1,
+      count: 0,
+    },
+    {
+      sizeId: 2,
+      count: 0,
+    },
+    {
+      sizeId: 3,
+      count: 0,
+    },
+    {
+      sizeId: 4,
+      count: 0,
+    },
+    {
+      sizeId: 5,
+      count: 0,
+    },
+    {
+      sizeId: 6,
+      count: 0,
+    },
+    {
+      sizeId: 7,
+      count: 0,
+    },
+  ],
   image: "",
 };
 
@@ -32,11 +61,11 @@ const sizeMap = {
 
 const optionsType = [
   {
-    value: "Мерч",
+    value: "1",
     label: "Мерч",
   },
   {
-    value: "Ит-артефакт",
+    value: "2",
     label: "Ит-артефакт",
   },
 ];
@@ -63,10 +92,18 @@ const AddItemPage = () => {
   };
 
   const handleChangeSize = () => {
+    const sizeData = [];
     const sizesList = Object.values(size);
+    sizesList.map((count, index) => {
+      console.log(count, index);
+      sizeData.push({
+        sizeId: index + 1,
+        count: count,
+      });
+    });
     setItemData((prev) => ({
       ...prev,
-      sizes: sizesList,
+      sizes: sizeData,
     }));
   };
 
@@ -94,6 +131,7 @@ const AddItemPage = () => {
     const fetchData = async () => {
       const response = await ItemService.addItem(data);
     };
+    
     fetchData();
   };
 
@@ -146,11 +184,8 @@ const AddItemPage = () => {
 
   const handleAddUniversalSize = (e) => {
     const pickedSizes = [0, 0, 0, 0, 0, 0, +e.target.value];
-
-    setItemData((prev) => ({
-      ...prev,
-      sizes: pickedSizes,
-    }));
+    setSize(pickedSizes);
+    handleChangeSize()
   };
 
   // -----------------------------------------------------------------------------------------------------
@@ -200,7 +235,7 @@ const AddItemPage = () => {
                 onBlur={(e) =>
                   setItemData((prev) => ({
                     ...prev,
-                    type: values.currentValueType,
+                    type: { typeId: values.currentValueType },
                   }))
                 }
                 placeholder="Выберите тип"
@@ -216,6 +251,7 @@ const AddItemPage = () => {
                     productName: e.target.value,
                   }))
                 }
+                required
                 value={data.name}
                 className={styles.inputData}
                 type="text"
@@ -246,6 +282,7 @@ const AddItemPage = () => {
                       price: e.target.value,
                     }))
                   }
+                  required
                   value={data.price}
                   className={styles.price}
                   type="text"
@@ -255,6 +292,7 @@ const AddItemPage = () => {
                 <p className={styles.text}>Размер</p>
                 <Select
                   options={optionsSize}
+                  required
                   value={getValueSize()}
                   onChange={onChangeSize}
                   placeholder="Выберите размер"

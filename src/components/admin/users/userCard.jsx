@@ -96,7 +96,12 @@ const UserCard = ({ user }) => {
     setEdit(bool);
     console.log(userData);
     const fetchData = async () => {
-      const response = await UserService.edit(userData.userId, userData.name, userData.balance, userData.role);
+      const response = await UserService.edit(
+        userData.userId,
+        userData.name,
+        userData.balance,
+        userData.role
+      );
       console.log(response);
     };
 
@@ -104,9 +109,9 @@ const UserCard = ({ user }) => {
   };
 
   const handleDelete = async () => {
-    const deleteUser = await UserService.delete(userData.userId)
-    deleteUser()
-  }
+    const deleteUser = await UserService.delete(userData.userId);
+    deleteUser();
+  };
 
   const getValue = () => {
     return rolePicked ? optionsRole.find((c) => c.value === rolePicked) : "";
@@ -117,7 +122,16 @@ const UserCard = ({ user }) => {
   };
 
   return (
-    <div className={styles.userCard}>
+    <div
+      className={styles.userCard}
+      style={
+      JSON.parse(localStorage.getItem("user"))["userId"] == userData.userId
+          ? {
+              border: "2px solid #1f668f",
+            }
+          : {}
+      }
+    >
       <div className={styles.userInfoWrapper}>
         <div className={styles.userAvatar}></div>
         <div className={styles.userInfo}>

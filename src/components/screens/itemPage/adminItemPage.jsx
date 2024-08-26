@@ -1,10 +1,20 @@
 import { Link } from "react-router-dom";
 import styles from "./itemPage.module.css";
 import ItemService from "../../../services/item.Service";
+import { useEffect, useState } from "react";
 
 const sizeList = ["XS", "S", "M", "L", "XL", "XXL", "One"];
 
 const AdminItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
+  const [amount, setAmount] = useState("");
+
+  useEffect(() => {
+    if (!cartItem.size) {
+      return;
+    }
+    setAmount(item.sizes.find((size) => size.sizeId == cartItem.size).count);
+  }, []);
+
   const handleDeleteItem = (e) => {
     const body = {
       itemId: item.itemId,
@@ -28,24 +38,45 @@ const AdminItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
           <p>Выберите размер</p>
           <div className={styles.sizes}>
             {item.sizes ? (
-              item.sizes.map((currentSize, index) =>
-                currentSize > 0 ? (
-                  <button
-                    key={index}
-                    className={
-                      cartItem.size - 1 == index
-                        ? styles.sizeBtnActive
-                        : styles.sizeBtn
-                    }
-                    onClick={() => {
-                      setCartItem((prev) => ({
-                        ...prev,
-                        size: index + 1,
-                      }));
-                    }}
-                  >
-                    {sizeList[index]}
-                  </button>
+              item.sizes.map((currentSize) =>
+                currentSize.count > 0 ? (
+                  currentSize.sizeId != 7 ? (
+                    <button
+                      key={currentSize.sizeId}
+                      className={
+                        cartItem.size == currentSize.sizeId
+                          ? styles.sizeBtnActive
+                          : styles.sizeBtn
+                      }
+                      onClick={() => {
+                        setCartItem((prev) => ({
+                          ...prev,
+                          size: currentSize.sizeId,
+                        }));
+                        console.log(cartItem);
+                      }}
+                    >
+                      {currentSize.title}
+                    </button>
+                  ) : (
+                    <button
+                      key={currentSize.sizeId}
+                      className={
+                        cartItem.size == currentSize.sizeId
+                          ? styles.sizeBtnActive
+                          : styles.sizeBtn
+                      }
+                      onClick={() => {
+                        setCartItem((prev) => ({
+                          ...prev,
+                          size: currentSize.sizeId,
+                        }));
+                        console.log(cartItem);
+                      }}
+                    >
+                      one
+                    </button>
+                  )
                 ) : (
                   ""
                 )
@@ -60,8 +91,8 @@ const AdminItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
             <p className={styles.ammountText}>Выберите количество</p>
             <p className={styles.ammountStatus}>
               {item.sizes
-                ? item.sizes[cartItem.size - 1] != undefined
-                  ? `Осталось ${item.sizes[cartItem.size - 1]} штук`
+                ? amount
+                  ? `Осталось ${amount} штук`
                   : `Выберите размер`
                 : "Загрузка"}
             </p>
@@ -89,11 +120,7 @@ const AdminItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
                 }))
               }
               disabled={
-                item.sizes
-                  ? cartItem.count < item.sizes[cartItem.size - 1]
-                    ? false
-                    : true
-                  : true
+                item.sizes ? (cartItem.count < amount ? false : true) : true
               }
             >
               <div className={styles.plus}></div>

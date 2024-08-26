@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../main";
 
-const LoginForm = ({ activeBlock, setActive }) => {
+const LoginForm = ({ activeBlock, setActive, setRole }) => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const { store } = useContext(Context);

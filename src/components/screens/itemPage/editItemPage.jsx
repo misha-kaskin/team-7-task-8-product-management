@@ -1,7 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import styles from "./addItemPage.module.css";
 import { useEffect, useRef, useState } from "react";
-import SizeBar from "./sizeBar";
 import Select from "react-select";
 import ItemService from "../../../services/item.Service";
 
@@ -11,7 +10,36 @@ const noData = {
   productName: "",
   description: "",
   price: "",
-  sizes: [0, 0, 0, 0, 0, 0, 0],
+  sizes: [
+    {
+      sizeId: 1,
+      count: 0,
+    },
+    {
+      sizeId: 2,
+      count: 0,
+    },
+    {
+      sizeId: 3,
+      count: 0,
+    },
+    {
+      sizeId: 4,
+      count: 0,
+    },
+    {
+      sizeId: 5,
+      count: 0,
+    },
+    {
+      sizeId: 6,
+      count: 0,
+    },
+    {
+      sizeId: 7,
+      count: 0,
+    },
+  ],
   image: "",
 };
 
@@ -62,14 +90,15 @@ const EditItemPage = () => {
 
   const { itemId } = useParams();
 
-  console.log(size);
-
   useEffect(() => {
     if (!itemId) return;
 
     const fetchData = async () => {
-      const data = await ItemService.getById(itemId);
-      setItemData(data);
+      const response = await ItemService.getById(itemId);
+      response.sizes.sort((a ,b) => {
+        return a.sizeId - b.sizeId
+      })
+      setItemData(response);
       setValues((prev) => ({
         ...prev,
         currentValueType: data.type,

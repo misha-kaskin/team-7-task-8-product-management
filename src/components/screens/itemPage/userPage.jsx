@@ -1,8 +1,17 @@
+import { useEffect, useState } from "react";
 import styles from "./itemPage.module.css";
 
 const sizeList = ["XS", "S", "M", "L", "XL", "XXL", "One"];
 
 const UserItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
+  const [amount, setAmount] = useState("");
+
+  useEffect(() => {
+    if (!cartItem.size) {
+      return;
+    }
+    setAmount(item.sizes.find((size) => size.sizeId == cartItem.size).count);
+  }, [cartItem]);
   return (
     <div className={styles.content}>
       <div
@@ -15,24 +24,25 @@ const UserItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
         <div>
           <p>Выберите размер</p>
           <div className={styles.sizes}>
-            {item.sizes ? (
-              item.sizes.map((currentSize, index) =>
-                currentSize > 0 ? (
+          {item.sizes ? (
+              item.sizes.map((currentSize) =>
+                currentSize.count > 0 ? (
                   <button
-                    key={index}
+                    key={currentSize.sizeId}
                     className={
-                      cartItem.size - 1 == index
+                      cartItem.size == currentSize.sizeId
                         ? styles.sizeBtnActive
                         : styles.sizeBtn
                     }
                     onClick={() => {
                       setCartItem((prev) => ({
                         ...prev,
-                        size: index + 1,
+                        size: currentSize.sizeId,
                       }));
+                      console.log(cartItem);
                     }}
                   >
-                    {sizeList[index]}
+                    {currentSize.title}
                   </button>
                 ) : (
                   ""
@@ -48,8 +58,8 @@ const UserItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
             <p className={styles.ammountText}>Выберите количество</p>
             <p className={styles.ammountStatus}>
               {item.sizes
-                ? item.sizes[cartItem.size - 1] != undefined
-                  ? `Осталось ${item.sizes[cartItem.size - 1]} штук`
+                ? amount
+                  ? `Осталось ${amount} штук`
                   : `Выберите размер`
                 : "Загрузка"}
             </p>
@@ -78,7 +88,7 @@ const UserItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
               }
               disabled={
                 item.sizes
-                  ? cartItem.count < item.sizes[cartItem.size - 1]
+                  ? cartItem.count < amount
                     ? false
                     : true
                   : true

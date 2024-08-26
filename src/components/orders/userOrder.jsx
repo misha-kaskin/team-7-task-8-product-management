@@ -1,12 +1,40 @@
 import { useEffect, useState } from "react";
 import UserService from "../../Auth/services/UserService";
 import styles from "./userOrder.module.css";
+import OrderCard from "./orderCard";
+
+const dataOrder = [
+  {
+    orderId: 1,
+    userId: 3,
+    status: {
+      statusId: 1,
+      title: "В работе",
+    },
+    orderDate: "2024-08-25",
+    items: [
+      {
+        itemId: 70,
+        productName: "Футболка",
+        price: 1999,
+        image: "",
+        sizes: [
+          {
+            sizeId: 7,
+            title: "nullSize",
+            count: 1,
+          },
+        ],
+      },
+    ],
+  },
+];
 
 const UserOrder = () => {
   const [ordersData, setOrdersData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [options, setOptions] = useState(0);
-  const [filteredOrders, setFilteredOrders] = useState([])
+  const [filteredOrders, setFilteredOrders] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,35 +43,50 @@ const UserOrder = () => {
       setOrdersData(data.data);
       setFilteredOrders(data.data);
     };
-    // fetchData();
+    fetchData();
+    setOrdersData(dataOrder);
   }, []);
+
+  
+
+  console.log(filteredOrders);
+
+
 
   useEffect(() => {
     if (options == 0) {
-    setFilteredOrders(ordersData)
-    
+      setFilteredOrders(ordersData);
     }
     if (options == 1) {
-      const filter = []
-      ordersData.map(user => 
-        user.role == 'ADMIN' ? filter.push(user) : '')
-    setFilteredOrders(filter)
+      const filter = [];
+      ordersData.map((order) =>
+        order.status.title == "В работе" ? filter.push(order) : ""
+      );
+      setFilteredOrders(filter);
     }
     if (options == 2) {
-      const filter = []
-      ordersData.map(user => 
-        user.role == 'MANAGER' ? filter.push(user) : '')
-    setFilteredOrders(filter)
+      const filter = [];
+      ordersData.map((order) =>
+        order.status.title == "Собран" ? filter.push(order) : ""
+      );
+      setFilteredOrders(filter);
     }
     if (options == 3) {
-      const filter = []
-      ordersData.map(user => 
-        user.role == 'USER' ? filter.push(user) : '')
-    setFilteredOrders(filter)
+      const filter = [];
+      ordersData.map((order) =>
+        order.status.title == "Выдан" ? filter.push(order) : ""
+      );
+      setFilteredOrders(filter);
+    }
+    if (options == 4) {
+      const filter = [];
+      ordersData.map((order) =>
+        order.status.title == "Отменен" ? filter.push(order) : ""
+      );
+      setFilteredOrders(filter);
     }
     console.log(filteredOrders);
-    
-  }, [options])
+  }, [options]);
 
   return (
     <div className={styles.content}>
@@ -100,12 +143,14 @@ const UserOrder = () => {
         </button>
       </div>
       <div className={styles.orders}>
-        {/* {ordersData
-          ? filteredOrders.map((user) => <UserCard key={user.userId} user={user} />)
-          : "Пользователи не найдены"} */}
+        {ordersData
+          ? filteredOrders.map((order) => (
+              <OrderCard key={order.orderId} order={order} />
+            ))
+          : "Нет заказов"}
       </div>
     </div>
   );
-}
+};
 
-export default UserOrder
+export default UserOrder;
