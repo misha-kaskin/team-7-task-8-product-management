@@ -37,36 +37,41 @@ const ItemPage = () => {
       const response = await ItemService.getById(itemId);
       setItem(response);
     };
-    console.log(data);
 
     fetchData();
   }, []);
 
   const handleAdd = (e) => {
     e.preventDefault();
+    const sizesArray = [data.items.sizes]
+    setData((prev) => ({
+      ...prev,
+      items: {...prev.items, sizes: sizesArray}
+    }))
+    const itemsArray = [data.items]
     const fetchData = async () => {
-      const res = await ItemService.addToCart(data);
+      const res = await ItemService.addToCart(data.userId, itemsArray);
     };
     fetchData();
-    console.log(data);
+    
   };
 
   useEffect(() => {
     setData((prev) => ({
       items: { ...prev.items, itemId: +itemId },
     }));
-    console.log(data);
-    
+    // console.log(data);
   }, [item]);
 
   useEffect(() => {
     setData((prev) => ({
       ...prev,
       userId: JSON.parse(localStorage.getItem("user"))["userId"],
-      items: {
-        ...prev.items,
-        sizes: { sizeId: +cartItem.size, count: +cartItem.count },
-      },
+      items: 
+        {
+          ...prev.items,
+          sizes: [{ sizeId: +cartItem.size, count: +cartItem.count }],
+        },
     }));
   }, [cartItem]);
 

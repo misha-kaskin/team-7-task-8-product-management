@@ -9,13 +9,17 @@ import HeaderProfile from "../../user/headerProfile/headerProfile";
 
 function Header() {
   const [authActive, setAuthActive] = useState(false);
+  const [userData, setUserData] = useState("");
   const { store } = useContext(Context);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
       store.CheckAuth();
     }
-  }, []);
+    if (localStorage.getItem("user")) {
+      setUserData(JSON.parse(localStorage.getItem("user"))["role"]);
+    }
+  }, [userData]);
 
   const handleUploadUsers = (e) => {
     const fetchData = async () => {
@@ -34,7 +38,13 @@ function Header() {
               Товары
             </Link>
           </div>
-          <Link to='/admin/users' onClick={(e) => handleUploadUsers(e)}>Пользователи</Link>
+          {userData == "ADMIN" ? <Link
+            to="/admin/users"
+            className={styles.users}
+            onClick={(e) => handleUploadUsers(e)}
+          >
+            Пользователи
+          </Link> : ''}
           <div className={styles.info}>
             {store.isAuth ? (
               <HeaderProfile setAuthActive={setAuthActive} />

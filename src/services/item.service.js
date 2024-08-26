@@ -25,12 +25,12 @@ export default class ItemService {
     return response.data;
   }
   
-  static async addToCart(data) {
-    const response = await api.post("/admin/cart/3", data={data});
+  static async addToCart(userId, items) {
+    const response = await api.post(`/admin/cart/${userId}`, {userId, items});
     return response.data;
   }
   static async getCart(userId) {
-    const response = await api.get("/admin/cart/3", {userId});
+    const response = await api.get(`/admin/cart/${userId}`, {userId});
     return response.data;
   }
   

@@ -78,8 +78,27 @@ p {
   margin-left: 20px;
   font-weight: bold;
   font-family: 'Nunito', Roboto;
+  transition: .4s;
 }
 
 .homeLink:hover {
   color: #2FB3FF;
+  transition: .4s;
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.users {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  font-size: 24px;
+  transition: .4s;
+}
+
+.users:hover {
+  color: #2FB3FF;
+  transition: .4s;
+  cursor: pointer;
+  transform: scale(1.1);
 }

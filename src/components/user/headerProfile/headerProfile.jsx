@@ -12,7 +12,7 @@ const HeaderProfile = ({ setAuthActive }) => {
       store.logout();
       setAuthActive(false);
     };
-
+    
     return (
       <div className={styles.profileCard}>
         <div className={styles.profilePic}></div>

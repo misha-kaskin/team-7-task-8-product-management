@@ -18,14 +18,49 @@
 
 .filters {
   width: 20%;
-  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
   margin-right: 5vw;
 }
 
 .search {
-  width: calc(100% - 20px);
+  width: calc(100% - 52px);
   height: 40px;
-  font-size: 16px;
-  border-radius: 10px;
-  padding-left: 20px;
+  font-size: 20px;
+  margin: 0;
+  background-image: url("/search.svg");
+  background-position-x: 5px;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  background-size: 30px 30px;
+  padding-left: 40px;
+}
+
+.filterBtn {
+  background-color: #fff;
+  margin-top: 40px;
+  border-radius: 20px;
+  height: 50px;
+  padding: 0px 15px;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  transition: 0.4s;
+}
+
+.filterBtnActive {
+  background-color: #2fb3ff;
+  margin-top: 40px;
+  color: #fff;
+  border-radius: 20px;
+  height: 50px;
+  padding: 0px 15px;
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  transition: 0.4s;
+}
+
+.filterBtn:hover {
+  cursor: pointer;
 }

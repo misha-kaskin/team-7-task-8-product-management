@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./adminUsers.module.css";
 import Select from "react-select";
+import UserService from "../../../Auth/services/UserService";
 
 const optionsRole = [
   {
@@ -23,11 +24,8 @@ const customStyles = {
     background: "#fff",
     borderColor: "#9e9e9e",
     minHeight: "20px",
-    height: "20px",
     fontSize: "10px",
-    padding: '0px',
-    display : 'flex',
-    textAlign: 'center',
+    textAlign: "center",
   }),
 
   valueContainer: (provided, state) => ({
@@ -40,9 +38,10 @@ const customStyles = {
   input: (provided, state) => ({
     ...provided,
     margin: "0px",
-    padding: '0px',
+    minHeight: "20px",
+    padding: "0px",
+    textAlign: "center",
     fontSize: "10px",
-    height: '10px !important'
   }),
   indicatorSeparator: (state) => ({
     display: "none",
@@ -53,39 +52,68 @@ const customStyles = {
     height: "20px",
     fontSize: "10px",
   }),
-  container : (provided, state) => ({
+  container: (provided, state) => ({
     ...provided,
     height: "10px",
     fontSize: "10px",
   }),
-  indicatorsContainer : (provided, state) => ({
+  indicatorsContainer: (provided, state) => ({
     ...provided,
     height: "20px",
   }),
 };
 
 const noUserData = {
-  name: '',
-  role: '',
-  balance: '',
-}
+  userId: "",
+  name: "",
+  role: "",
+  balance: "",
+};
 
 const UserCard = ({ user }) => {
   const [edit, setEdit] = useState(false);
-  const [userData, setUserData] = useState(noUserData)
-  const [role, setRole] = useState(user.role);
+  const [userData, setUserData] = useState(noUserData);
+  const [rolePicked, setRolePicked] = useState(user.role);
+
+  useEffect(() => {
+    setUserData(() => ({
+      userId: user.userId,
+      name: user.name,
+      role: user.role,
+      balance: +user.balance,
+    }));
+  }, []);
 
   const handleEdit = (e) => {
     e.preventDefault();
-    setEdit(true);
+    const bool = !edit;
+    setEdit(bool);
   };
 
+  const handleAccept = async (e) => {
+    e.preventDefault();
+    const bool = !edit;
+    setEdit(bool);
+    console.log(userData);
+    const fetchData = async () => {
+      const response = await UserService.edit(userData);
+      console.log(response);
+    };
+
+    fetchData();
+  };
+
+  const handleDelete = async () => {
+    const deleteUser = await UserService.delete(userData)
+    deleteUser()
+  }
+
   const getValue = () => {
-    return role ? optionsRole.find((c) => c.value === role) : "";
+    return rolePicked ? optionsRole.find((c) => c.value === rolePicked) : "";
   };
 
   const onChange = (newValue) => {
-    setRole(newValue);
+    setRolePicked(newValue.value);
   };
 
   return (
@@ -99,7 +127,22 @@ const UserCard = ({ user }) => {
           </div>
           <div className={styles.nameWrapper}>
             <p className={styles.text}>{`Имя: ${edit ? "" : user.name}`}</p>
-            {edit ? <input type="text" className={styles.inputUserData}/> : ''}
+            {edit ? (
+              <input
+                type="text"
+                className={styles.inputUserData}
+                placeholder={user.name}
+                value={userData.name}
+                onChange={(e) =>
+                  setUserData((prev) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }))
+                }
+              />
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>
@@ -112,9 +155,9 @@ const UserCard = ({ user }) => {
             onChange={onChange}
             required
             onBlur={(e) =>
-              setItemData((prev) => ({
+              setUserData((prev) => ({
                 ...prev,
-                type: values.currentValueType,
+                role: rolePicked,
               }))
             }
             placeholder="Роль"
@@ -123,11 +166,34 @@ const UserCard = ({ user }) => {
         ) : (
           ""
         )}
-        <p className={styles.text}>{`Баланс: ${user.balance}`}</p>
+        <div className={styles.balanceWrapper}>
+          <p className={styles.text}>{`Баланс: ${edit ? "" : user.balance}`}</p>
+          {edit ? (
+            <input
+              type="number"
+              className={styles.inputUserBalance}
+              placeholder={user.balance}
+              value={userData.balance}
+              onChange={(e) =>
+                setUserData((prev) => ({
+                  ...prev,
+                  balance: +e.target.value,
+                }))
+              }
+            />
+          ) : (
+            ""
+          )}
+        </div>
         <div
-          className={edit ? styles.accept : styles.edit}
+          className={edit ? "" : styles.edit}
           onClick={(e) => handleEdit(e)}
         ></div>
+        <div
+          className={edit ? styles.accept : ""}
+          onClick={(e) => handleAccept(e)}
+        ></div>
+        <div className={styles.delete} onClick={(e) => handleDelete(e)}></div>
       </div>
     </div>
   );

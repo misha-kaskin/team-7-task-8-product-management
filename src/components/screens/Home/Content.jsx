@@ -12,12 +12,16 @@ function Content() {
   const [userData, setUserData] = useState("");
   const { store } = useContext(Context);
   const [items, setItems] = useState("");
-  let types = [];
+  const [searchTerm, setSearchTerm] = useState("");
+  const [options, setOptions] = useState(0);
+  const [filteredItems, setFilteredItems] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await ItemService.getAll();
       setItems(data);
+      setFilteredItems(data)
+      console.log(data);
       
     };
     fetchData();
@@ -26,23 +30,56 @@ function Content() {
     }
   }, [userData]);
 
-  for (let item in items) {
-    if (!types.includes(item.type)) {
-      types.push(item.type);
+  useEffect(() => {
+    if (options == 0) {
+    setFilteredItems(items)
+    
     }
-  }
-
+    if (options == 1) {
+      const filter = []
+      items.map(item => 
+        item.type == 'Мерч' ? filter.push(item) : '')
+    setFilteredItems(filter)
+    }
+    if (options == 2) {
+      const filter = []
+      items.map(item => 
+        item.type == 'Ит-артефакт' ? filter.push(item) : '')
+    setFilteredItems(filter)
+    }
+    
+  }, [options])
 
   return (
     <>
       <div className={styles.homePage}>
         <div className={styles.filters}>
-          <input type="text" id="search" className={styles.search} />
-          <Filter items={items} />
+        <input
+          type="text"
+          className={styles.search}
+          value={searchTerm}
+          placeholder="Поиск"
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button
+          className={(options == 0 ? styles.filterBtnActive : styles.filterBtn)} onClick={(e) => {setOptions(0)}}
+        >
+          Все
+        </button>
+        <button
+          className={(options == 1 ? styles.filterBtnActive : styles.filterBtn)} onClick={(e) => {setOptions(1)}}
+        >
+          Мерч
+        </button>
+        <button
+          className={(options == 2 ? styles.filterBtnActive : styles.filterBtn)} onClick={(e) => {setOptions(2)}}
+        >
+          Ит-артефакты
+        </button>
         </div>
         <div className={styles.products}>
           {items ? (
-            items.map((item) => <Item key={item.itemId} item={item} />)
+            filteredItems.map((item) => <Item key={item.itemId} item={item} />)
           ) : (
             <p>Загрузка</p>
           )}

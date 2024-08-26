@@ -33,7 +33,6 @@ const LoginForm = ({ activeBlock, setActive }) => {
         <div>
           <p className={styles.hint}>Пароль</p>
           <input
-            // {...register("password", { required: true })}
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             type="password"
@@ -56,8 +55,3 @@ const LoginForm = ({ activeBlock, setActive }) => {
 };
 
 export default observer(LoginForm);
-
-// const Auth = ({ activeBlock, setActive, logged, setLogged }) => {
-//   const { register, reset, handleSubmit } = useForm({
-//     mode: 'onChange'
-//   })
