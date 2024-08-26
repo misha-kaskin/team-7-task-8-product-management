@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styles from "./addItemPage.module.css";
 import { useEffect, useRef, useState } from "react";
 import SizeBar from "./sizeBar";
@@ -413,7 +413,7 @@ const EditItemPage = () => {
                   </div>
                 </div>
               )}
-              <button
+              <button to={`/item/{${itemId}}`}
                 onClick={(e) => {
                   e.preventDefault();
                   handleUpload();

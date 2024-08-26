@@ -8,13 +8,20 @@ export default class UserService {
     return api.post("/auth", {data});
   }
 
-  static async edit(data) {
-    return api.patch("/admin/edit-user", {data});
+  static async edit(userId, name, balance, role) {
+    return api.patch("/admin/user-edit", {userId, name, balance, role});
   }
 
-  static async delete(data) {
-    return api.patch("/admin/delete-user", {data});
+  static async delete(userId) {
+    return api.delete(`/admin/user-remove/${userId}`);
   }
 
-
+  static async getById(userId) {
+    return api.get(`/admin/users/${userId}`);
+  }
+  
+  static async getByOrderId(userId) {
+    return api.get(`/admin/order/${userId}`);
+  }
+  
 }

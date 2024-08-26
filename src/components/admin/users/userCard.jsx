@@ -96,7 +96,7 @@ const UserCard = ({ user }) => {
     setEdit(bool);
     console.log(userData);
     const fetchData = async () => {
-      const response = await UserService.edit(userData);
+      const response = await UserService.edit(userData.userId, userData.name, userData.balance, userData.role);
       console.log(response);
     };
 
@@ -104,7 +104,7 @@ const UserCard = ({ user }) => {
   };
 
   const handleDelete = async () => {
-    const deleteUser = await UserService.delete(userData)
+    const deleteUser = await UserService.delete(userData.userId)
     deleteUser()
   }
 

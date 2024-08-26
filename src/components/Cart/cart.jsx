@@ -18,12 +18,20 @@ const Cart = () => {
     const fetchData = async () => {
       const userId = JSON.parse(localStorage.getItem("user"))["userId"]
       const responseData = await ItemService.getCart(userId);
+      setUserData((prev) => ({
+        ...prev,
+        userId: +userId
+      }))
       setData(responseData)
       console.log(data);
       
     };
     fetchData();
   },[])
+
+  const handleUpload = async (e) => {
+    const sendCart = await ItemService.order(userData.userId, userData.name, userData.surname, userData.middleName, userData.adress, 1);
+  } 
 
   return (
     <div className={styles.content}>

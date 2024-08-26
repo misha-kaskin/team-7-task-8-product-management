@@ -45,6 +45,20 @@ function Header() {
           >
             Пользователи
           </Link> : ''}
+          {userData == "ADMIN" ? <Link
+            to="/admin/users"
+            className={styles.users}
+            onClick={(e) => handleUploadUsers(e)}
+          >
+            Заказы
+          </Link> : ''}
+          {userData == "ADMIN" ? <Link
+            to="/admin/users"
+            className={styles.users}
+            onClick={(e) => handleUploadUsers(e)}
+          >
+            Склад
+          </Link> : ''}
           <div className={styles.info}>
             {store.isAuth ? (
               <HeaderProfile setAuthActive={setAuthActive} />

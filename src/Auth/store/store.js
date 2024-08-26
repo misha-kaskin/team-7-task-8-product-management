@@ -4,7 +4,7 @@ import axios from "axios";
 import { API_URL } from "../http";
 
 export default class Store {
-  user = {};
+  userData = {};
   isAuth = false;
 
   constructor() {

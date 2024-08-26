@@ -5,18 +5,10 @@ import UserCard from "./userCard";
 import AuthService from "../../../Auth/services/AuthService";
 import RegistrationForm from "./registrationForm";
 
-const newUserData = {
-  login: "",
-  name: "",
-  password: "",
-  role: "",
-  balance: 0,
-};
 
 const AdminUsers = () => {
   const [usersData, setUsersData] = useState([]);
   const [authActive, setAuthActive] = useState(false);
-  const [newUser, setNewUser] = useState(newUserData);
   const [searchTerm, setSearchTerm] = useState("");
   const [options, setOptions] = useState(0);
   const [filteredUsers, setFilteredUsers] = useState([])

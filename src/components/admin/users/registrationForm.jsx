@@ -74,6 +74,7 @@ const RegistrationForm = ({ activeBlock, setActive }) => {
                 login: e.target.value,
               }))
             }
+            required
             value={newUser.login}
             type="text"
             placeholder="Логин"
@@ -88,6 +89,7 @@ const RegistrationForm = ({ activeBlock, setActive }) => {
                 password: e.target.value,
               }))
             }
+            required
             value={newUser.password}
             type="password"
             placeholder="Пароль"
@@ -102,6 +104,7 @@ const RegistrationForm = ({ activeBlock, setActive }) => {
                 name: e.target.value,
               }))
             }
+            required
             value={newUser.name}
             type="text"
             placeholder="Имя"
@@ -132,6 +135,7 @@ const RegistrationForm = ({ activeBlock, setActive }) => {
                 balance: +e.target.value,
               }))
             }
+            required
             value={newUser.balance}
             type="number"
             placeholder="Баланс"
@@ -140,6 +144,7 @@ const RegistrationForm = ({ activeBlock, setActive }) => {
         <button
           className={styles.btn}
           onClick={(e) => {
+            e.preventDefault()
             handleRegistration(e)
           }}
         >

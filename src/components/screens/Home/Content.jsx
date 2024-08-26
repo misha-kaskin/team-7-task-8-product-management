@@ -6,7 +6,6 @@ import { useContext, useEffect, useState } from "react";
 import AddItem from "../../Item/addItem.jsx";
 import { Context } from "../../../main.jsx";
 import ItemService from "../../../services/item.Service.js";
-import Filter from "../../Filter/filter.jsx";
 
 function Content() {
   const [userData, setUserData] = useState("");
@@ -14,15 +13,14 @@ function Content() {
   const [items, setItems] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [options, setOptions] = useState(0);
-  const [filteredItems, setFilteredItems] = useState([])
+  const [filteredItems, setFilteredItems] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await ItemService.getAll();
       setItems(data);
-      setFilteredItems(data)
+      setFilteredItems(data);
       console.log(data);
-      
     };
     fetchData();
     if (localStorage.getItem("user")) {
@@ -32,53 +30,62 @@ function Content() {
 
   useEffect(() => {
     if (options == 0) {
-    setFilteredItems(items)
-    
+      setFilteredItems(items);
     }
     if (options == 1) {
-      const filter = []
-      items.map(item => 
-        item.type == 'Мерч' ? filter.push(item) : '')
-    setFilteredItems(filter)
+      const filter = [];
+      items.map((item) => (item.type == "Мерч" ? filter.push(item) : []));
+      setFilteredItems(filter);
     }
     if (options == 2) {
-      const filter = []
-      items.map(item => 
-        item.type == 'Ит-артефакт' ? filter.push(item) : '')
-    setFilteredItems(filter)
+      const filter = [];
+      items.map((item) =>
+        item.type == "Ит-артефакт" ? filter.push(item) : ""
+      );
+      setFilteredItems(filter);
     }
-    
-  }, [options])
+  }, [options]);
 
   return (
     <>
       <div className={styles.homePage}>
         <div className={styles.filters}>
-        <input
-          type="text"
-          className={styles.search}
-          value={searchTerm}
-          placeholder="Поиск"
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button
-          className={(options == 0 ? styles.filterBtnActive : styles.filterBtn)} onClick={(e) => {setOptions(0)}}
-        >
-          Все
-        </button>
-        <button
-          className={(options == 1 ? styles.filterBtnActive : styles.filterBtn)} onClick={(e) => {setOptions(1)}}
-        >
-          Мерч
-        </button>
-        <button
-          className={(options == 2 ? styles.filterBtnActive : styles.filterBtn)} onClick={(e) => {setOptions(2)}}
-        >
-          Ит-артефакты
-        </button>
+          <input
+            type="text"
+            className={styles.search}
+            value={searchTerm}
+            placeholder="Поиск"
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button
+            className={options == 0 ? styles.filterBtnActive : styles.filterBtn}
+            onClick={(e) => {
+              setOptions(0);
+            }}
+          >
+            Все
+          </button>
+          <button
+            className={options == 1 ? styles.filterBtnActive : styles.filterBtn}
+            onClick={(e) => {
+              setOptions(1);
+            }}
+            disabled={items ? false : true}
+          >
+            Мерч
+          </button>
+          <button
+            className={options == 2 ? styles.filterBtnActive : styles.filterBtn}
+            onClick={(e) => {
+              setOptions(2);
+            }}
+            disabled={items ? false : true}
+          >
+            Ит-артефакты
+          </button>
         </div>
         <div className={styles.products}>
-          {items ? (
+          {filteredItems ? (
             filteredItems.map((item) => <Item key={item.itemId} item={item} />)
           ) : (
             <p>Загрузка</p>

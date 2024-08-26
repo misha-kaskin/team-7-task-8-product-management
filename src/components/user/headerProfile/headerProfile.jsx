@@ -1,23 +1,34 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import AuthService from "../../../Auth/services/AuthService";
 import styles from "./headerProfile.module.css";
 import { Context } from "../../../main";
+import UserService from "../../../Auth/services/UserService";
+import { Link } from "react-router-dom";
 
 const HeaderProfile = ({ setAuthActive }) => {
+  const [userData, setUserData] = useState({});
   const { store } = useContext(Context);
-  if (localStorage.getItem("user")) {
-    const userData = JSON.parse(localStorage.getItem("user"));
 
+  useEffect(() => {
+    const userId = JSON.parse(localStorage.getItem("user"))["userId"];
+    const getUserData = async () => {
+      const data = await UserService.getById(userId);
+      setUserData(data.data);
+    };
+    getUserData();
+  }, []);
+
+  if (localStorage.getItem("user")) {
     const handleLogout = () => {
       store.logout();
       setAuthActive(false);
     };
-    
+
     return (
       <div className={styles.profileCard}>
         <div className={styles.profilePic}></div>
         <div className={styles.info}>
-          <div>{userData.name}</div>
+          <Link className={styles.name} to='/orders'>{userData.name}</Link>
           <div className={styles.userBalanceLogout}>
             <p className={styles.balance}>{`Баланс: ${
               userData.balance ? userData.balance : 0
@@ -29,7 +40,6 @@ const HeaderProfile = ({ setAuthActive }) => {
         </div>
       </div>
     );
-  } 
+  }
 };
-
 export default HeaderProfile;

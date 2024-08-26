@@ -7,14 +7,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: .4s;
+  transition: 0.4s;
 }
 
 .profilePic {
   height: 40px;
   width: 40px;
   border-radius: 100px;
-  background-image: url('/User.png');
+  background-image: url("/User.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -44,13 +44,13 @@
   font-size: 12px;
   margin: 0;
   margin-right: 5px;
-  transition: .4s;
+  transition: 0.4s;
 }
 
 .logout:hover {
   color: #2fb3ff;
   cursor: pointer;
-  transition: .4s;
+  transition: 0.4s;
   transform: scale(1.1);
 }
 
@@ -63,15 +63,26 @@
   width: 130px;
   margin-right: 50px;
   font-size: 28px;
-  background-color: #2FB3FF;
+  background-color: #2fb3ff;
   color: #fff;
   border: 0;
   border-radius: 50px;
-  transition: .4s;
+  transition: 0.4s;
 }
 
 .btn:hover {
   background-color: #1f668f;
   cursor: pointer;
-  transition: .4s;
+  transition: 0.4s;
+}
+
+.name {
+  color: #000;
+  text-decoration: none;
+  transition: 0.4s;
+}
+
+.name:hover {
+  color: #2fb3ff;
+  transition: 0.4s;
 }

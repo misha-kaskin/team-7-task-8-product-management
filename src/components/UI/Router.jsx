@@ -10,6 +10,7 @@ import EditItemPage from "../screens/itemPage/editItemPage";
 import ErrorPage from "../screens/Error/errorPage";
 import Cart from "../Cart/cart";
 import AdminUsers from "../admin/users/adminUsers";
+import UserOrder from "../orders/userOrder";
 
 const Router = () => {
   return (
@@ -24,6 +25,7 @@ const Router = () => {
         <Route element={<EditItemPage />} path="/edit/:itemId" />
         <Route element={<Cart />} path="/cart" />
         <Route element={<AdminUsers />} path="/admin/users"/>
+        <Route element={<UserOrder />} path="/orders"/>
       </Routes>
       <Footer />
     </BrowserRouter>
