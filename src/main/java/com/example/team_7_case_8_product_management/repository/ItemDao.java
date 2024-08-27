@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface ItemDao extends CrudRepository<Item, Long> {
 
@@ -17,4 +18,15 @@ public interface ItemDao extends CrudRepository<Item, Long> {
 
     @Query("select i from Item i where i.itemId in (?1)")
     Collection<Item> findAllByIds(Collection<Long> ids);
+
+    @Modifying
+    @Query(
+            nativeQuery = true,
+            value = "update items set state_id = 2 where item_id = ?1"
+    )
+    void archiveItemById(Long id);
+
+//    @Query("select i from Item i where i.state.sateId = ?1")
+//    List<Item> findAllByStateId(Long id);
+
 }

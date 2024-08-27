@@ -1,5 +1,6 @@
 package com.example.team_7_case_8_product_management.model.order;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,10 +15,14 @@ import java.util.Set;
 @AllArgsConstructor
 public class ShortOrderDto {
 
-    private Long orderId;
     private Long userId;
+    private Long orderId;
     private OrderStatus status;
     private LocalDate orderDate;
+    private String firstName;
+    private String secondName;
+    private String lastName;
+    private String address;
     private Set<OrderItemDto> items;
 
 }

@@ -22,17 +22,7 @@ import static kong.unirest.Unirest.put;
 public class Team7Case8ProductManagementApplication {
 
     public static void main(String[] args) throws IOException {
-//		upload();
-//		download();
-//
         ConfigurableApplicationContext run = SpringApplication.run(Team7Case8ProductManagementApplication.class, args);
-//        ItemDao itemDao = (ItemDao) run.getBean("itemDao");
-//        WarehouseDao warehouseDao = (WarehouseDao) run.getBean("warehouseDao");
-//        warehouseDao.deleteAll();
-//        itemDao.deleteAll();
-//		Object myService = run.getBean("myService");
-//		System.out.println(myService.getClass());
-//		test();
     }
 
     static void download() {

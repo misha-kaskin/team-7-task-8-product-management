@@ -46,6 +46,9 @@ public class ItemService {
             throw new ItemNotFoundException();
         }
         Item item = optionalItem.get();
+        if (item.getState().getStateId() == 3l) {
+            throw new ItemNotFoundException();
+        }
         item.setState(ItemState.builder().stateId(3l).build());
         itemDao.save(item);
     }
@@ -150,4 +153,24 @@ public class ItemService {
         fileStorage.saveFile(itemDto);
     }
 
+    public void archiveItem(Long id) {
+        Optional<Item> optionalItem = itemDao.findById(id);
+        if (optionalItem.isEmpty()) {
+            throw new ItemNotFoundException();
+        }
+        Item item = optionalItem.get();
+        if (item.getState().getStateId() == 3l) {
+            throw new ItemNotFoundException();
+        }
+        itemDao.archiveItemById(id);
+    }
+
+    public ManagerItems getManagerItems() {
+        List<Item> actual = warehouseDao.findAllByStatus(1l, 1l);
+        List<Item> noSale = warehouseDao.findAllByStatus(2l, 1l);
+//        itemDao.findAllByStateId(2l);
+
+        //TODO
+        return null;
+    }
 }

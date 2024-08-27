@@ -3,6 +3,7 @@ package com.example.team_7_case_8_product_management.controller;
 import com.example.team_7_case_8_product_management.controller_advice.Marker;
 import com.example.team_7_case_8_product_management.model.item.Item;
 import com.example.team_7_case_8_product_management.model.item.FullItemDto;
+import com.example.team_7_case_8_product_management.model.item.ManagerItems;
 import com.example.team_7_case_8_product_management.model.item.ShortItemDto;
 import com.example.team_7_case_8_product_management.service.ItemService;
 import jakarta.validation.Valid;
@@ -25,7 +26,7 @@ public class ItemController {
         itemService.addItem(item);
     }
 
-    @GetMapping("/v1/api/admin/item")
+    @GetMapping("/v1/api/item")
     public Collection<ShortItemDto> getItems() {
         return itemService.getSaleItems();
     }
@@ -35,12 +36,17 @@ public class ItemController {
         itemService.deleteItem(item);
     }
 
-    @PutMapping("/v1/api/admin/item")
-    public Iterable<Item> getAllItems() {
-        return itemService.getAllItems();
+    @PatchMapping("/v1/api/admin/item-archive/{id}")
+    public void archiveItem(@PathVariable Long id) {
+        itemService.archiveItem(id);
     }
 
-    @GetMapping("/v1/api/admin/item/{id}")
+    @GetMapping("/v1/api/admin/item")
+    public ManagerItems getAdminItems() {
+        return itemService.getManagerItems();
+    }
+
+    @GetMapping("/v1/api/item/{id}")
     public FullItemDto getItemById(@PathVariable Long id) {
         return itemService.getFullItemDtoById(id, 1l);
     }

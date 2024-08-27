@@ -60,6 +60,8 @@ public class AuthService {
                 if (!userRole.equals(role)) {
                     throw new MismatchRoleException();
                 }
+            } else {
+                return;
             }
 
             Optional<User> optionalUser = userDao.findByUserIdAndRole(userId, role);

@@ -151,6 +151,10 @@ public class OrderService {
                     .orderId(orderId)
                     .status(order.getStatus())
                     .orderDate(order.getOrderDate())
+                    .firstName(order.getFirstName())
+                    .secondName(order.getSecondName())
+                    .lastName(order.getLastName())
+                    .address(order.getAddress())
                     .items(new HashSet<>())
                     .build();
             orderMap.put(orderId, orderDto);
