@@ -6,12 +6,12 @@ export default class ItemService {
   }
 
   static async getAll() {
-    const response = await api.get("/admin/item");
+    const response = await api.get("/item");
     return response.data;
   }
 
   static async getById(itemId) {
-    const response = await api.get(`/admin/item/${itemId}`);
+    const response = await api.get(`/item/${itemId}`);
     // Переписать потом это на /item?itemId=${itemId}
     return response.data;
   }

@@ -25,11 +25,8 @@ const Cart = () => {
         userId: +userId,
         items: [],
       }));
-      // if (responseData != data) {
-      //   setEditBool(false);
-      // }
       setData(responseData);
-
+      // setEditBool(true)
       let amount = 0;
       let paymentVar = 0;
       responseData.items.map((item) => {
@@ -40,6 +37,8 @@ const Cart = () => {
         amount = 0;
       });
       setPayment(paymentVar);
+      console.log(editBool);
+      
     };
     fetchData();
   }, [editBool]);

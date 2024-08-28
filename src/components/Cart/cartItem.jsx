@@ -10,7 +10,7 @@ const itemDataDefault = {
   },
 };
 
-const CartItem = ({ item, size, setEditBool }) => {
+const CartItem = ({ item, size, editBool, setEditBool }) => {
   const [itemData, setItemData] = useState(itemDataDefault);
   const [editItemData, setEditItemData] = useState({});
   const [count, setCount] = useState(0);
@@ -25,7 +25,7 @@ const CartItem = ({ item, size, setEditBool }) => {
       ...prev,
       items: { itemId: item.itemId, sizes: size },
     }));
-    setCount(size.count)
+    setCount(size.count);
     console.log(count);
   }, [item, size]);
 
@@ -35,7 +35,6 @@ const CartItem = ({ item, size, setEditBool }) => {
       ...prev,
       items: { itemId: itemData.itemId, sizes: sizesArray },
     }));
-    setEditBool(true)
   }, [count]);
 
   useEffect(() => {
@@ -50,6 +49,8 @@ const CartItem = ({ item, size, setEditBool }) => {
         const itemsArray = [editItemData.items];
         const userId = JSON.parse(localStorage.getItem("user"))["userId"];
         const sendData = await ItemService.addToCart(userId, itemsArray);
+
+        setEditBool(!editBool);
       }
     };
     editCartItem();
@@ -74,9 +75,14 @@ const CartItem = ({ item, size, setEditBool }) => {
   };
 
   const handleDeleteItem = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const userId = JSON.parse(localStorage.getItem("user"))["userId"];
-    const response = await ItemService.deleteItemCart(userId, item.itemId, size.sizeId)
+    const response = await ItemService.deleteItemCart(
+      userId,
+      item.itemId,
+      size.sizeId
+    );
+    setEditBool(!editBool)
   };
   return (
     <>

@@ -88,7 +88,7 @@ function Content() {
               .filter((item) => {
                 return searchTerm.toLowerCase === "" || !item.productName
                   ? item
-                  : item.productName.toLowerCase().includes(searchTerm);
+                  : item.productName.toLowerCase().includes(searchTerm.toLowerCase());
               })
               .map((item) => <Item key={item.itemId} item={item} />)
           ) : (

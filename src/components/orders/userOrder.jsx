@@ -40,6 +40,9 @@ const UserOrder = () => {
     const fetchData = async () => {
       const userId = JSON.parse(localStorage.getItem("user"))["userId"];
       const response = await UserService.getByOrderId(userId);
+      // response.data.sort((a ,b) => {
+      //   return  b.orderId - a.orderId  
+      // })
       response.data.sort((a ,b) => {
         return  b.orderId - a.orderId  
       })
