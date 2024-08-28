@@ -33,8 +33,8 @@ export default class ItemService {
     const response = await api.get(`/admin/cart/${userId}`, { userId });
     return response.data;
   }
-  static async editCart(userId, itemId, size) {
-    const response = await api.post(`/admin/cart/${userId}`, { itemId, size });
+  static async deleteItemCart(userId, itemId, sizeId) {
+    const response = await api.delete(`/admin/cart/${userId}/${itemId}/${sizeId}`);
     return response.data;
   }
 

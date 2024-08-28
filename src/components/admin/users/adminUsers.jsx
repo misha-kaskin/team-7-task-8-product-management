@@ -105,7 +105,7 @@ const AdminUsers = () => {
               .filter((user) => {
                 return (searchTerm.toLowerCase === "" || !user.login || !user.name)
                   ? user
-                  : user.login.toLowerCase().includes(searchTerm) || user.name.toLowerCase().includes(searchTerm)
+                  : user.login.toLowerCase().includes(searchTerm.toLowerCase()) || user.name.toLowerCase().includes(searchTerm.toLowerCase())
               })
               .map((user) => <UserCard key={user.userId} user={user} status={status} setStatus={setStatus}/>)
           : "Пользователи не найдены"}

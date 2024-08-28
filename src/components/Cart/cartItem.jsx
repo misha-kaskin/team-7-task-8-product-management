@@ -73,8 +73,11 @@ const CartItem = ({ item, size, setEditBool }) => {
     }));
   };
 
-  const handleDeleteItem = (e) => {};
-
+  const handleDeleteItem = async (e) => {
+    e.preventDefault()
+    const userId = JSON.parse(localStorage.getItem("user"))["userId"];
+    const response = await ItemService.deleteItemCart(userId, item.itemId, size.sizeId)
+  };
   return (
     <>
       <div className={styles.itemCard}>
