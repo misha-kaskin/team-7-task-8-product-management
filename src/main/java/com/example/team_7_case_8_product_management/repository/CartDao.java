@@ -57,7 +57,14 @@ public interface CartDao extends CrudRepository<Cart, Long> {
     void deleteAllByUserId(Long userId);
 
     @Modifying
-    @Query("delete from Cart c where c.cartId.user.userId = ?1 and c.cartId.item.itemId = ?2 and c.cartId.size.sizeId = ?3")
+    @Query(
+            nativeQuery = true,
+
+            value = "delete from carts " +
+            "where user_id = ?1 " +
+                    "and item_id = ?2 " +
+                    "and size_id = ?3"
+    )
     void deleteAllById(Long userId, Long itemId, Long sizeId);
 
     @Query("select c from Cart c where c.cartId.user.userId = ?1 and c.cartId.item.itemId = ?2 and c.cartId.size.sizeId = ?3")
