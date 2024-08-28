@@ -26,20 +26,19 @@ function Content() {
       setUserData(JSON.parse(localStorage.getItem("user"))["role"]);
     }
   }, [userData]);
-
   useEffect(() => {
     if (options == 0) {
       setFilteredItems(items);
     }
     if (options == 1) {
       const filter = [];
-      items.map((item) => (item.type == "Мерч" ? filter.push(item) : []));
+      items.map((item) => (item.typeId == 1 ? filter.push(item) : []));
       setFilteredItems(filter);
     }
     if (options == 2) {
       const filter = [];
       items.map((item) =>
-        item.type == "Ит-артефакт" ? filter.push(item) : ""
+        item.typeId == 2 ? filter.push(item) : ""
       );
       setFilteredItems(filter);
     }

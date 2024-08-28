@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./cart.module.css";
 import ItemService from "../../services/item.Service";
-import CartItem from './cartItem.jsx'
+import CartItem from "./cartItem.jsx";
 
 const noUserData = {
   name: "",
@@ -11,27 +11,50 @@ const noUserData = {
 };
 
 const Cart = () => {
-  const [data, setData] = useState('');
+  const [data, setData] = useState("");
+  const [payment, setPayment] = useState(0);
   const [userData, setUserData] = useState(noUserData);
+  const [editBool, setEditBool] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const userId = JSON.parse(localStorage.getItem("user"))["userId"]
+      const userId = JSON.parse(localStorage.getItem("user"))["userId"];
       const responseData = await ItemService.getCart(userId);
       setUserData((prev) => ({
         ...prev,
-        userId: +userId
-      }))
-      setData(responseData)
-      console.log(data);
-      
+        userId: +userId,
+        items: [],
+      }));
+      // if (responseData != data) {
+      //   setEditBool(false);
+      // }
+      setData(responseData);
+
+      let amount = 0;
+      let paymentVar = 0;
+      responseData.items.map((item) => {
+        item.sizes.map((size) => {
+          amount += size.count;
+        });
+        paymentVar += amount * item.price;
+        amount = 0;
+      });
+      setPayment(paymentVar);
     };
     fetchData();
-  },[])
+  }, [editBool]);
 
   const handleUpload = async (e) => {
-    const sendCart = await ItemService.order(userData.userId, userData.name, userData.surname, userData.middleName, userData.adress, 1);
-  } 
+    const sendCart = await ItemService.order(
+      userData.userId,
+      userData.name,
+      userData.surname,
+      userData.middleName,
+      userData.adress,
+      userData.items,
+      1
+    );
+  };
 
   return (
     <div className={styles.content}>
@@ -107,9 +130,17 @@ const Cart = () => {
         <p className={styles.header}>Корзина</p>
         <div className={styles.items}>
           {data ? (
-            data.items.map((item) => (
-              <CartItem key={item.itemId} item={item} />
-            ))
+            data.items.map((item) =>
+              item.sizes.map((size) => (
+                <CartItem
+                  key={`${item.itemId}${size.sizeId}`}
+                  item={item}
+                  size={size}
+                  editBool={editBool}
+                  setEditBool={setEditBool}
+                />
+              ))
+            )
           ) : (
             <p>Загрузка</p>
           )}
@@ -120,10 +151,10 @@ const Cart = () => {
           </div>
           <div className={styles.bottom}>
             <p className={styles.header}>К оплате</p>
-            <p className={styles.price}>2000</p>
+            <p className={styles.price}>{payment}</p>
           </div>
         </div>
-        </div>
+      </div>
     </div>
   );
 };

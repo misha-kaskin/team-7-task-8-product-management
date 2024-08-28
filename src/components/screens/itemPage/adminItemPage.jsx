@@ -8,12 +8,14 @@ const sizeList = ["XS", "S", "M", "L", "XL", "XXL", "One"];
 const AdminItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
   const [amount, setAmount] = useState("");
 
+  console.log(amount);
+
   useEffect(() => {
     if (!cartItem.size) {
       return;
     }
     setAmount(item.sizes.find((size) => size.sizeId == cartItem.size).count);
-  }, []);
+  }, [cartItem]);
 
   const handleDeleteItem = (e) => {
     const body = {

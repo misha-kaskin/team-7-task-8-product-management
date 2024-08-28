@@ -62,11 +62,11 @@ const sizeMap = {
 
 const optionsType = [
   {
-    value: "Мерч",
+    value: 1,
     label: "Мерч",
   },
   {
-    value: "Ит-артефакт",
+    value: 2,
     label: "Ит-артефакт",
   },
 ];
@@ -95,35 +95,34 @@ const EditItemPage = () => {
 
     const fetchData = async () => {
       const response = await ItemService.getById(itemId);
-      response.sizes.sort((a ,b) => {
-        return a.sizeId - b.sizeId
-      })
+      response.sizes.sort((a, b) => {
+        return a.sizeId - b.sizeId;
+      });
       setItemData(response);
       setValues((prev) => ({
         ...prev,
-        currentValueType: data.type,
+        currentValueType: response.type.typeId,
       }));
-      data.sizes[6] == 0
+      data.sizes[6].count == 0
         ? (setValues((prev) => ({
             ...prev,
             currentValueSize: 2,
           })),
           setSize((prev) => ({
             ...prev,
-            XS: data.sizes[0],
-            S: data.sizes[1],
-            M: data.sizes[2],
-            L: data.sizes[3],
-            XL: data.sizes[4],
-            XXL: data.sizes[5],
+            XS: response.sizes[0].count,
+            S: response.sizes[1].count,
+            M: response.sizes[2].count,
+            L: response.sizes[3].count,
+            XL: response.sizes[4].count,
+            XXL: response.sizes[5].count,
           })))
         : setValues((prev) => ({
             ...prev,
             currentValueSize: 1,
-            currentAmount: data.sizes[6],
+            currentAmount: data.sizes[6].count,
           }));
     };
-
     fetchData();
   }, [itemId]);
 
@@ -132,10 +131,18 @@ const EditItemPage = () => {
   };
 
   const handleChangeSize = () => {
+    const sizeData = [];
     const sizesList = Object.values(size);
+    console.log(sizesList);
+    sizesList.map((count, index) => {
+      sizeData.push({
+        sizeId: index + 1,
+        count: count,
+      });
+    });
     setItemData((prev) => ({
       ...prev,
-      sizes: sizesList,
+      sizes: sizeData,
     }));
   };
 
@@ -161,7 +168,7 @@ const EditItemPage = () => {
       return;
     }
     const fetchData = async () => {
-      const response = await ItemService.addItem(data);
+      const response = await ItemService.editItem(data);
     };
     fetchData();
   };
@@ -214,11 +221,26 @@ const EditItemPage = () => {
   };
 
   const handleAddUniversalSize = (e) => {
-    const pickedSizes = [0, 0, 0, 0, 0, 0, +e.target.value];
-
+    const pickedSizes = {
+      XS: 0,
+      S: 0,
+      M: 0,
+      L: 0,
+      XL: 0,
+      XXL: 0,
+      zero: +e.target.value,
+    };
+    const sizeData = [];
+    const sizesList = Object.values(pickedSizes);
+    sizesList.map((count, index) => {
+      sizeData.push({
+        sizeId: index + 1,
+        count: count,
+      });
+    });
     setItemData((prev) => ({
       ...prev,
-      sizes: pickedSizes,
+      sizes: sizeData,
     }));
   };
   if (data) {
@@ -442,7 +464,8 @@ const EditItemPage = () => {
                   </div>
                 </div>
               )}
-              <button to={`/item/{${itemId}}`}
+              <button
+                to={`/item/{${itemId}}`}
                 onClick={(e) => {
                   e.preventDefault();
                   handleUpload();

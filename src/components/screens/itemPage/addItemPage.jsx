@@ -95,7 +95,6 @@ const AddItemPage = () => {
     const sizeData = [];
     const sizesList = Object.values(size);
     sizesList.map((count, index) => {
-      console.log(count, index);
       sizeData.push({
         sizeId: index + 1,
         count: count,
@@ -131,7 +130,7 @@ const AddItemPage = () => {
     const fetchData = async () => {
       const response = await ItemService.addItem(data);
     };
-    
+
     fetchData();
   };
 
@@ -185,7 +184,7 @@ const AddItemPage = () => {
   const handleAddUniversalSize = (e) => {
     const pickedSizes = [0, 0, 0, 0, 0, 0, +e.target.value];
     setSize(pickedSizes);
-    handleChangeSize()
+    handleChangeSize();
   };
 
   // -----------------------------------------------------------------------------------------------------

@@ -30,7 +30,7 @@ const dataOrder = [
   },
 ];
 
-const UserOrder = () => {
+const AdminOrder = () => {
   const [ordersData, setOrdersData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [options, setOptions] = useState(0);
@@ -38,8 +38,7 @@ const UserOrder = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const userId = JSON.parse(localStorage.getItem("user"))["userId"];
-      const response = await UserService.getByOrderId(userId);
+      const response = await UserService.getAllOrders();
       response.data.sort((a ,b) => {
         return  b.orderId - a.orderId  
       })
@@ -151,4 +150,4 @@ const UserOrder = () => {
   );
 };
 
-export default UserOrder;
+export default AdminOrder;

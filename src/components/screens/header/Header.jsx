@@ -50,7 +50,7 @@ function Header() {
             Пользователи
           </Link> : ''}
           {userData == "ADMIN" ? <Link
-            to="/admin/users"
+            to="/admin/orders"
             className={styles.users}
             onClick={(e) => handleUploadUsers(e)}
           >

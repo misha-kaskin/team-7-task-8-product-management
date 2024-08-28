@@ -11,6 +11,7 @@ import ErrorPage from "../screens/Error/errorPage";
 import Cart from "../Cart/cart";
 import AdminUsers from "../admin/users/adminUsers";
 import UserOrder from "../orders/userOrder";
+import AdminOrder from "../orders/adminOrder";
 
 const Router = () => {
   return (
@@ -26,6 +27,7 @@ const Router = () => {
         <Route element={<Cart />} path="/cart" />
         <Route element={<AdminUsers />} path="/admin/users"/>
         <Route element={<UserOrder />} path="/orders"/>
+        <Route element={<AdminOrder />} path="/admin/orders"/>
       </Routes>
       <Footer />
     </BrowserRouter>

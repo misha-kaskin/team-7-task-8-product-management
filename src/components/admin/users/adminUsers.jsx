@@ -4,6 +4,7 @@ import styles from "./adminUsers.module.css";
 import UserCard from "./userCard";
 import AuthService from "../../../Auth/services/AuthService";
 import RegistrationForm from "./registrationForm";
+import { set } from "react-hook-form";
 
 const AdminUsers = () => {
   const [usersData, setUsersData] = useState([]);
@@ -11,6 +12,7 @@ const AdminUsers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [options, setOptions] = useState(0);
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const [status, setStatus] = useState(0);
   
 
   useEffect(() => {
@@ -23,7 +25,7 @@ const AdminUsers = () => {
       setFilteredUsers(response.data);
     };
     fetchData();
-  }, []);
+  }, [status]);
 
   useEffect(() => {
     if (options == 0) {
@@ -105,7 +107,7 @@ const AdminUsers = () => {
                   ? user
                   : user.login.toLowerCase().includes(searchTerm) || user.name.toLowerCase().includes(searchTerm)
               })
-              .map((user) => <UserCard key={user.userId} user={user} />)
+              .map((user) => <UserCard key={user.userId} user={user} status={status} setStatus={setStatus}/>)
           : "Пользователи не найдены"}
       </div>
       <RegistrationForm activeBlock={authActive} setActive={setAuthActive} />

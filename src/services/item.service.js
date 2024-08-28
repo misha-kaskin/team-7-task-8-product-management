@@ -21,7 +21,7 @@ export default class ItemService {
   }
 
   static async editItem(data) {
-    const response = await api.patch("/admin/item", (data = { data }));
+    const response = await api.patch("/admin/item", ( data ));
     return response.data;
   }
 
@@ -33,13 +33,18 @@ export default class ItemService {
     const response = await api.get(`/admin/cart/${userId}`, { userId });
     return response.data;
   }
+  static async editCart(userId, itemId, size) {
+    const response = await api.post(`/admin/cart/${userId}`, { itemId, size });
+    return response.data;
+  }
 
   static async order(
     userId,
     firstName,
     secondName,
     lastName,
-    adress,
+    address,
+    items,
     statusId
   ) {
     const response = await api.post(`/admin/order/${userId}`, {
@@ -47,7 +52,8 @@ export default class ItemService {
       firstName,
       secondName,
       lastName,
-      adress,
+      address,
+      items,
       statusId,
     });
     return response.data;

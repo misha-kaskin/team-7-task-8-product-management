@@ -24,4 +24,7 @@ export default class UserService {
     return api.get(`/admin/order/${userId}`);
   }
   
+  static async getAllOrders() {
+    return api.get(`/admin/order`);
+  }
 }

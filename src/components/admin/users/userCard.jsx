@@ -70,11 +70,11 @@ const noUserData = {
   balance: "",
 };
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, status, setStatus }) => {
   const [edit, setEdit] = useState(false);
   const [userData, setUserData] = useState(noUserData);
   const [rolePicked, setRolePicked] = useState(user.role);
-
+  
   useEffect(() => {
     setUserData(() => ({
       userId: user.userId,
@@ -82,7 +82,7 @@ const UserCard = ({ user }) => {
       role: user.role,
       balance: +user.balance,
     }));
-  }, []);
+  }, [status]);
 
   const handleEdit = (e) => {
     e.preventDefault();
@@ -102,6 +102,7 @@ const UserCard = ({ user }) => {
         userData.balance,
         userData.role
       );
+      setStatus(response.status)
       console.log(response);
     };
 
