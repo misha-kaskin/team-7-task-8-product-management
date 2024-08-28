@@ -123,10 +123,12 @@ public class CartService {
                 .build();
     }
 
+    @Transactional
     public void deleteAllById(Long userId) {
         cartDao.deleteAllByUserId(userId);
     }
 
+    @Transactional
     public void deleteById(Long userId, Long itemId, Long sizeId) {
         if (cartDao.findAllById(userId, itemId, sizeId).isEmpty()) {
             throw new ItemNotFoundException();
