@@ -1,24 +1,21 @@
 package com.example.team_7_case_8_product_management.model.cart;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
+import com.example.team_7_case_8_product_management.model.item.ItemType;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class CartItemDto {
+public class ExtendItemDto {
 
     private Long itemId;
+    private ItemType type;
     private String productName;
+    private String description;
     private Float price;
     private String image;
-    Set<SizeDto> sizes;
+    private Set<ExtendSizeDto> sizes;
 
 }

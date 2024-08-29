@@ -1,20 +1,28 @@
 package com.example.team_7_case_8_product_management.service;
 
+import com.example.team_7_case_8_product_management.controller_advice.Marker;
 import com.example.team_7_case_8_product_management.exception.CartUserIdMismatchException;
 import com.example.team_7_case_8_product_management.exception.ItemNotFoundException;
 import com.example.team_7_case_8_product_management.exception.TooManyItemsException;
 import com.example.team_7_case_8_product_management.model.SizeEntity;
 import com.example.team_7_case_8_product_management.model.cart.*;
-import com.example.team_7_case_8_product_management.model.item.Item;
+import com.example.team_7_case_8_product_management.model.item.*;
 import com.example.team_7_case_8_product_management.model.user.User;
 import com.example.team_7_case_8_product_management.repository.CartDao;
 import com.example.team_7_case_8_product_management.repository.FileStorage;
+import com.example.team_7_case_8_product_management.repository.ItemDao;
+import com.example.team_7_case_8_product_management.repository.SizeDao;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +32,8 @@ public class CartService {
     private String path;
 
     private final CartDao cartDao;
+    private final ItemDao itemDao;
+    private final SizeDao sizeDao;
     private final FileStorage fileStorage;
 
     @Transactional
@@ -55,9 +65,11 @@ public class CartService {
 
         cartDao.saveAll(cartList);
 
-        List<Object> items = cartDao.getItems(userId);
-        if (items.size() > 0) {
-            throw new TooManyItemsException();
+        ExtendCartDto extendCartDto = getItemsByUserId(userId);
+        if (extendCartDto.getExceed().size() > 0
+                || extendCartDto.getArchive().size() > 0
+                || extendCartDto.getDeleted().size() > 0) {
+            throw new TooManyItemsException(extendCartDto);
         }
     }
 
@@ -65,16 +77,123 @@ public class CartService {
         return cartDao.findAll();
     }
 
-    public CartDto getItemsByUserId(Long id) {
-        List<Object> itemsList = cartDao.getItems(id);
-        if (itemsList.size() > 0) {
-            throw new TooManyItemsException();
+    public ExtendCartDto getItemsByUserId(Long id) {
+        List<Object[]> itemsList = cartDao.getExceedItems(id);
+        Set<Long> itemIds = new HashSet<>();
+        Set<Long> sizeIds = new HashSet<>();
+        for (Object[] objects : itemsList) {
+            Long itemId = Long.parseLong(objects[0].toString());
+            Long sizeId = Long.parseLong(objects[1].toString());
+            itemIds.add(itemId);
+            sizeIds.add(sizeId);
         }
 
-        Iterable<Item> items = cartDao.findAllItemsByUserId(id);
-        Iterable<SizeEntity> sizes = cartDao.findAllSizesByUserId(id);
-        Iterable<Object[]> itemIdSizeId = cartDao.getItemIdSizeId(id);
-        return mapToCartDto(id, items, sizes, itemIdSizeId);
+        Collection<Item> items = itemDao.findAllByIds(itemIds);
+        Iterable<SizeEntity> sizes = sizeDao.findAll();
+        Map<Long, ExtendItemDto> itemMap = new HashMap<>();
+        Map<Long, SizeEntity> sizeMap = new HashMap<>();
+
+        for (Item item : items) {
+            Long itemId = item.getItemId();
+            ExtendItemDto itemDto = ExtendItemDto.builder()
+                    .itemId(itemId)
+                    .type(item.getType())
+                    .productName(item.getProductName())
+                    .description(item.getDescription())
+                    .price(item.getPrice())
+                    .image(fileStorage.loadFile(item))
+                    .sizes(new HashSet<>())
+                    .build();
+            itemMap.put(itemId, itemDto);
+        }
+
+        for (SizeEntity size : sizes) {
+            Long sizeId = Long.valueOf(size.getSizeId());
+            sizeMap.put(sizeId, size);
+        }
+
+        for (Object[] objects : itemsList) {
+            Long itemId = Long.parseLong(objects[0].toString());
+            Long sizeId = Long.parseLong(objects[1].toString());
+            Long whCount = Long.parseLong(objects[2].toString());
+            Long cartCount = Long.parseLong(objects[3].toString());
+
+            SizeEntity size = sizeMap.get(sizeId);
+            ExtendSizeDto sizeDto = ExtendSizeDto.builder()
+                    .sizeId(sizeId)
+                    .title(size.getTitle())
+                    .whCount(whCount)
+                    .cartCount(cartCount)
+                    .build();
+
+            ExtendItemDto itemDto = itemMap.get(itemId);
+            itemDto.getSizes().add(sizeDto);
+        }
+
+        Collection<ExtendItemDto> exceed = itemMap.values();
+
+        Iterable<Cart> carts = cartDao.getAvailableItems(id);
+        Map<Long, CartItemDto> cartMap = new HashMap<>();
+        for (Cart cart : carts) {
+            Item item = cart.getCartId().getItem();
+            SizeEntity size = cart.getCartId().getSize();
+            Long count = cart.getCount();
+            Long itemId = item.getItemId();
+            CartItemDto itemDto;
+            if (cartMap.containsKey(itemId)) {
+                itemDto = cartMap.get(itemId);
+            } else {
+                itemDto = CartItemDto.builder()
+                        .itemId(itemId)
+                        .productName(item.getProductName())
+                        .price(item.getPrice())
+                        .image(fileStorage.loadFile(item))
+                        .sizes(new HashSet<>())
+                        .build();
+                cartMap.put(itemId, itemDto);
+            }
+            SizeDto sizeDto = SizeDto.builder()
+                    .sizeId(Long.valueOf(size.getSizeId()))
+                    .title(size.getTitle())
+                    .count(count)
+                    .build();
+            itemDto.getSizes().add(sizeDto);
+        }
+
+
+        Set<FullItemDto> archive = cartDao.getArchiveItems(id, 2l).stream()
+                .map(el -> FullItemDto.builder()
+                        .itemId(el.getItemId())
+                        .type(el.getType())
+                        .productName(el.getProductName())
+                        .description(el.getDescription())
+                        .price(el.getPrice())
+                        .image(fileStorage.loadFile(el))
+                        .sizes(new HashSet<>())
+                        .build()
+                )
+                .collect(Collectors.toSet());
+
+        Set<FullItemDto> deleted = cartDao.getArchiveItems(id, 3l).stream()
+                .map(el -> FullItemDto.builder()
+                        .itemId(el.getItemId())
+                        .type(el.getType())
+                        .productName(el.getProductName())
+                        .description(el.getDescription())
+                        .price(el.getPrice())
+                        .image(fileStorage.loadFile(el))
+                        .sizes(new HashSet<>())
+                        .build()
+                )
+                .collect(Collectors.toSet());
+
+        return ExtendCartDto.builder()
+                .userId(id)
+                .exceed(exceed)
+                .archive(archive)
+                .deleted(deleted)
+                .items(cartMap.values())
+                .build();
     }
 
     private CartDto mapToCartDto(Long id, Iterable<Item> items, Iterable<SizeEntity> sizes, Iterable<Object[]> itemIdSizeId) {

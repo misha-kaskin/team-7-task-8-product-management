@@ -1,5 +1,6 @@
 package com.example.team_7_case_8_product_management.controller;
 
+import com.example.team_7_case_8_product_management.model.cart.ExtendCartDto;
 import com.example.team_7_case_8_product_management.model.user.User;
 import com.example.team_7_case_8_product_management.model.cart.Cart;
 import com.example.team_7_case_8_product_management.model.cart.CartDto;
@@ -28,7 +29,7 @@ public class CartController {
     }
 
     @GetMapping("/v1/api/admin/cart/{id}")
-    public CartDto getAllItemsByUserId(@PathVariable Long id) {
+    public ExtendCartDto getAllItemsByUserId(@PathVariable Long id) {
         return cartService.getItemsByUserId(id);
     }
 

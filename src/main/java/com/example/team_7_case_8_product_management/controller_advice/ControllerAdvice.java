@@ -1,6 +1,7 @@
 package com.example.team_7_case_8_product_management.controller_advice;
 
 import com.example.team_7_case_8_product_management.exception.*;
+import com.example.team_7_case_8_product_management.model.cart.ExtendCartDto;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -112,10 +113,10 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler(TooManyItemsException.class)
-    public ResponseEntity<ErrorMessage> tooManyItemsException() {
+    public ResponseEntity<ExtendCartDto> tooManyItemsException(TooManyItemsException e) {
         return ResponseEntity
                 .status(UNPROCESSABLE_ENTITY)
-                .body(new ErrorMessage("Товар отсуствует на складе в таком количестве"));
+                .body(e.getExtendCartDto());
     }
 
     @ExceptionHandler(UserNotFoundByIdException.class)

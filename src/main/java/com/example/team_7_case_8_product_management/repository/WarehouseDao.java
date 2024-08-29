@@ -37,5 +37,4 @@ public interface WarehouseDao extends CrudRepository<WarehouseEntity, Long> {
     )
     List<WarehouseEntity> findAllByItemIdStatusIdSizeId(Long itemId, Long statusId, Set<Long> sizeIds);
 
-
 }

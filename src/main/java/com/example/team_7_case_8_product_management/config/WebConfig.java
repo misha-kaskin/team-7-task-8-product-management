@@ -16,7 +16,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         String login = "/v1/api/login";
         String refresh = "/v1/api/refresh";
-        registry.addInterceptor(authInterceptor).excludePathPatterns(login, refresh);
+        String items = "/v1/api/item";
+        registry.addInterceptor(authInterceptor).excludePathPatterns(login, refresh, items);
     }
 
 }

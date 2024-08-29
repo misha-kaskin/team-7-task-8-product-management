@@ -2,6 +2,7 @@ package com.example.team_7_case_8_product_management.service;
 
 import com.example.team_7_case_8_product_management.exception.*;
 import com.example.team_7_case_8_product_management.model.SizeEntity;
+import com.example.team_7_case_8_product_management.model.cart.ExtendCartDto;
 import com.example.team_7_case_8_product_management.model.user.User;
 import com.example.team_7_case_8_product_management.model.cart.CartDto;
 import com.example.team_7_case_8_product_management.model.cart.CartItemDto;
@@ -36,10 +37,7 @@ public class OrderService {
             throw new UserNotFoundByIdException();
         }
         User user = optionalUser.get();
-        CartDto userItems = cartService.getItemsByUserId(userId);
-        if (userItems.getItems().isEmpty()) {
-            throw new EmptyCartException();
-        }
+        ExtendCartDto userItems = cartService.getItemsByUserId(userId);
         Float amount = getTotalOrderAmount(userItems);
         if (user.getBalance() < amount) {
             throw new NotEnoughMoneyException();
@@ -88,9 +86,12 @@ public class OrderService {
         }
 
         orderDao.saveAll(orders);
+
         Collection<Order> orders1 = orderDao.checkWarehouseAvailable(orderId);
-        if (!orders1.isEmpty()) {
-            throw new TooManyItemsException();
+        if (userItems.getDeleted().size() > 0
+                || userItems.getArchive().size() > 0
+                || userItems.getExceed().size() > 0) {
+            throw new TooManyItemsException(userItems);
         }
         orderDao.updateWarehouse(orderId);
         cartService.deleteAllById(userId);
@@ -120,7 +121,7 @@ public class OrderService {
         }
     }
 
-    private Float getTotalOrderAmount(CartDto orderDto) {
+    private Float getTotalOrderAmount(ExtendCartDto orderDto) {
         Set<Long> itemIds = new HashSet<>();
         for (CartItemDto item : orderDto.getItems()) {
             itemIds.add(item.getItemId());
