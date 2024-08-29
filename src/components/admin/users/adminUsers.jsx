@@ -5,6 +5,8 @@ import UserCard from "./userCard";
 import AuthService from "../../../Auth/services/AuthService";
 import RegistrationForm from "./registrationForm";
 import { set } from "react-hook-form";
+import UserTableData from "./userTableData";
+import { Table } from "antd";
 
 const AdminUsers = () => {
   const [usersData, setUsersData] = useState([]);
@@ -13,14 +15,13 @@ const AdminUsers = () => {
   const [options, setOptions] = useState(0);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [status, setStatus] = useState(0);
-  
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await UserService.getUsers();
-      response.data.sort((a ,b) => {
-        return a.userId - b.userId
-      })
+      response.data.sort((a, b) => {
+        return a.userId - b.userId;
+      });
       setUsersData(response.data);
       setFilteredUsers(response.data);
     };
@@ -100,15 +101,61 @@ const AdminUsers = () => {
         </p>
       </div>
       <div className={styles.users}>
-        {usersData
-          ? filteredUsers
-              .filter((user) => {
-                return (searchTerm.toLowerCase === "" || !user.login || !user.name)
-                  ? user
-                  : user.login.toLowerCase().includes(searchTerm.toLowerCase()) || user.name.toLowerCase().includes(searchTerm.toLowerCase())
-              })
-              .map((user) => <UserCard key={user.userId} user={user} status={status} setStatus={setStatus}/>)
-          : "Пользователи не найдены"}
+        {/* <Table
+          columns={columns}
+          expandable={{
+            expandedRowRender: (record) => (
+              <p
+                style={{
+                  margin: 0,
+                }}
+              >
+                {record.description}
+              </p>
+            ),
+            rowExpandable: (record) => record.name !== "Not Expandable",
+          }}
+          dataSource={data}
+        /> */}
+        <table className={styles.tableHeader}>
+          <thead>
+            <tr>
+              <th className={styles.headerBorder}>Id</th>
+              <th className={styles.headerBorder}>Фамилия</th>
+              <th className={styles.headerBorder}>Имя</th>
+              <th className={styles.headerBorder}>Отчество</th>
+              <th className={styles.headerBorder}>Логин</th>
+              <th className={styles.headerBorder}>Роль</th>
+              <th className={styles.headerBorder}>Баланс</th>
+            </tr>
+          </thead>
+          <tbody>
+            {usersData
+              ? filteredUsers
+                  .filter((user) => {
+                    return searchTerm.toLowerCase === "" ||
+                      !user.login ||
+                      !user.name
+                      ? user
+                      : user.login
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase()) ||
+                          user.name
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase());
+                  })
+                  .map((user) => (
+                    <UserTableData
+                      key={user.userId}
+                      user={user}
+                      status={status}
+                      setStatus={setStatus}
+                      styleData={styles}
+                    />
+                  ))
+              : "Пользователи не найдены"}
+          </tbody>
+        </table>
       </div>
       <RegistrationForm activeBlock={authActive} setActive={setAuthActive} />
     </div>

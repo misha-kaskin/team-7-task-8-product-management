@@ -8,8 +8,6 @@ const sizeList = ["XS", "S", "M", "L", "XL", "XXL", "One"];
 const AdminItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
   const [amount, setAmount] = useState("");
 
-  console.log(amount);
-
   useEffect(() => {
     if (!cartItem.size) {
       return;
@@ -54,8 +52,9 @@ const AdminItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
                         setCartItem((prev) => ({
                           ...prev,
                           size: currentSize.sizeId,
+                          count: 1,
                         }));
-                        console.log(cartItem);
+                        
                       }}
                     >
                       {currentSize.title}
@@ -72,8 +71,9 @@ const AdminItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
                         setCartItem((prev) => ({
                           ...prev,
                           size: currentSize.sizeId,
+                          count: 1,
                         }));
-                        console.log(cartItem);
+                        
                       }}
                     >
                       one

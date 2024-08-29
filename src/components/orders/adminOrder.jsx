@@ -2,6 +2,50 @@ import { useEffect, useState } from "react";
 import UserService from "../../Auth/services/UserService";
 import styles from "./userOrder.module.css";
 import OrderCard from "./orderCard";
+import AdminTableOrder from "./adminTableOrders";
+
+const columns = [
+  {
+    title: "№ заказа",
+    dataIndex: "orderId",
+    key: "orderId",
+  },
+  {
+    title: "Статус",
+    dataIndex: "status.title",
+    key: "status.title",
+  },
+  {
+    title: "Дата",
+    dataIndex: "orderDate",
+    key: "orderDate",
+  },
+  {
+    title: "Фамилия",
+    dataIndex: "secondName",
+    key: "secondName",
+  },
+  {
+    title: "Имя",
+    dataIndex: "firstName",
+    key: "firstName",
+  },
+  {
+    title: "Отчество",
+    dataIndex: "middleName",
+    key: "middleName",
+  },
+  {
+    title: "Адрес",
+    dataIndex: "address",
+    key: "address",
+  },
+  {
+    title: "Сумма заказа",
+    dataIndex: "",
+    key: "",
+  },
+];
 
 const dataOrder = [
   {
@@ -88,7 +132,7 @@ const AdminOrder = () => {
   return (
     <div className={styles.content}>
       <div className={styles.info}>
-        <h1>Мои заказы</h1>
+        <h1>Все заказы</h1>
         <input
           type="text"
           className={styles.search}
@@ -140,11 +184,50 @@ const AdminOrder = () => {
         </button>
       </div>
       <div className={styles.orders}>
+      <table className={styles.tableHeader}>
+          <thead >
+            <tr>
+              <th className={styles.headerBorder}>№ Заказа</th>
+              <th className={styles.headerBorder}>Статус</th>
+              <th className={styles.headerBorder}>Дата</th>
+              <th className={styles.headerBorder}>Фамилия</th>
+              <th className={styles.headerBorder}>Имя</th>
+              <th className={styles.headerBorder}>Отчество</th>
+              <th className={styles.headerBorder}>Адрес</th>
+              <th className={styles.headerBorder}>Сумма заказа</th>
+            </tr>
+          </thead>
+          <tbody>
         {ordersData
+          ? filteredOrders
+              // .filter((user) => {
+              //   return searchTerm.toLowerCase === "" ||
+              //     !user.login ||
+              //     !user.name
+              //     ? user
+              //     : user.login
+              //         .toLowerCase()
+              //         .includes(searchTerm.toLowerCase()) ||
+              //         user.name
+              //           .toLowerCase()
+              //           .includes(searchTerm.toLowerCase());
+              // })
+              .map((order) => (
+                <AdminTableOrder
+                  key={order.orderId}
+                  order={order}
+                  
+                />
+              ))
+          : "Пользователи не найдены"}
+
+          </tbody>
+        </table>
+        {/* {ordersData
           ? filteredOrders.map((order) => (
               <OrderCard key={order.orderId} order={order} />
             ))
-          : "Нет заказов"}
+          : "Нет заказов"} */}
       </div>
     </div>
   );

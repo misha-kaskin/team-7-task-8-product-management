@@ -11,19 +11,24 @@ function Header() {
   const [authActive, setAuthActive] = useState(false);
   const [userData, setUserData] = useState("");
   const { store } = useContext(Context);
+  const [reloadBool, setReloadBool] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
       store.CheckAuth();
-    } else {store.logout()}
+    } else {
+      store.logout();
+    }
     const getUserData = async () => {
-      const userId = JSON.parse(localStorage.getItem("user"))["userId"];
-      const data = await UserService.getById(userId); 
-      setUserData(data.data.role);
-      
+      if (localStorage.getItem("user")) {
+        const userId = JSON.parse(localStorage.getItem("user"))["userId"];
+        const data = await UserService.getById(userId);
+        setUserData(data.data.role);
+      }
     };
     getUserData();
-  }, []);
+    console.log(reloadBool);
+  }, [reloadBool]);
 
   const handleUploadUsers = (e) => {
     const fetchData = async () => {
@@ -42,30 +47,45 @@ function Header() {
               Товары
             </Link>
           </div>
-          {userData == "ADMIN" ? <Link
-            to="/admin/users"
-            className={styles.users}
-            onClick={(e) => handleUploadUsers(e)}
-          >
-            Пользователи
-          </Link> : ''}
-          {userData == "ADMIN" ? <Link
-            to="/admin/orders"
-            className={styles.users}
-            onClick={(e) => handleUploadUsers(e)}
-          >
-            Заказы
-          </Link> : ''}
-          {userData == "ADMIN" ? <Link
-            to="/admin/users"
-            className={styles.users}
-            onClick={(e) => handleUploadUsers(e)}
-          >
-            Склад
-          </Link> : ''}
+          {userData == "ADMIN" ? (
+            <Link
+              to="/admin/users"
+              className={styles.users}
+              onClick={(e) => handleUploadUsers(e)}
+            >
+              Пользователи
+            </Link>
+          ) : (
+            ""
+          )}
+          {userData == "ADMIN" ? (
+            <Link
+              to="/admin/orders"
+              className={styles.users}
+              onClick={(e) => handleUploadUsers(e)}
+            >
+              Заказы
+            </Link>
+          ) : (
+            ""
+          )}
+          {userData == "ADMIN" ? (
+            <Link
+              to="/admin/users"
+              className={styles.users}
+              onClick={(e) => handleUploadUsers(e)}
+            >
+              Склад
+            </Link>
+          ) : (
+            ""
+          )}
           <div className={styles.info}>
             {store.isAuth ? (
-              <HeaderProfile setAuthActive={setAuthActive} setRole={setUserData}/>
+              <HeaderProfile
+                setAuthActive={setAuthActive}
+                setRole={setUserData}
+              />
             ) : (
               <button
                 className={styles.btn}
@@ -78,7 +98,13 @@ function Header() {
           </div>
         </div>
       </div>
-      <LoginForm activeBlock={authActive} setActive={setAuthActive} setRole={setUserData}/>
+      <LoginForm
+        activeBlock={authActive}
+        setActive={setAuthActive}
+        setRole={setUserData}
+        setReloadBool={setReloadBool}
+        reloadBool={reloadBool}
+      />
     </>
   );
 }

@@ -19,50 +19,11 @@ const optionsRole = [
 ];
 
 const customStyles = {
-  control: (provided, state) => ({
-    ...provided,
-    background: "#fff",
-    borderColor: "#9e9e9e",
-    minHeight: "20px",
-    fontSize: "10px",
-    textAlign: "center",
-  }),
-
-  valueContainer: (provided, state) => ({
-    ...provided,
-    height: "20px",
-    padding: "0px 0px 0px 2px",
-    fontSize: "10px",
-  }),
-
   input: (provided, state) => ({
     ...provided,
-    margin: "0px",
-    minHeight: "20px",
-    padding: "0px",
-    textAlign: "center",
-    fontSize: "10px",
+    color: 'black'
   }),
-  indicatorSeparator: (state) => ({
-    display: "none",
-    fontSize: "10px",
-  }),
-  indicatorsContainer: (provided, state) => ({
-    ...provided,
-    height: "20px",
-    fontSize: "10px",
-  }),
-  container: (provided, state) => ({
-    ...provided,
-    height: "10px",
-    fontSize: "10px",
-  }),
-  indicatorsContainer: (provided, state) => ({
-    ...provided,
-    height: "20px",
-  }),
-};
-
+}
 const noUserData = {
   userId: "",
   name: "",
