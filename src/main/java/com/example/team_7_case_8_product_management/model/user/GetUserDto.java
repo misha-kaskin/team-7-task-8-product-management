@@ -15,5 +15,6 @@ public class GetUserDto {
     private String role;
     private LocalDate registerDate;
     private Float balance;
+    private Long cartCount;
 
 }

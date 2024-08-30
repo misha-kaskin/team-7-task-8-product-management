@@ -38,6 +38,10 @@ public class OrderService {
         }
         User user = optionalUser.get();
         ExtendCartDto userItems = cartService.getItemsByUserId(userId);
+        System.out.println(userItems.getExceed());
+        if (userItems.getItems().size() == 0 && userItems.getExceed().size() == 0) {
+            throw new EmptyCartException();
+        }
         Float amount = getTotalOrderAmount(userItems);
         if (user.getBalance() < amount) {
             throw new NotEnoughMoneyException();
@@ -88,9 +92,7 @@ public class OrderService {
         orderDao.saveAll(orders);
 
         Collection<Order> orders1 = orderDao.checkWarehouseAvailable(orderId);
-        if (userItems.getDeleted().size() > 0
-                || userItems.getArchive().size() > 0
-                || userItems.getExceed().size() > 0) {
+        if (userItems.getExceed().size() > 0) {
             throw new TooManyItemsException(userItems);
         }
         orderDao.updateWarehouse(orderId);

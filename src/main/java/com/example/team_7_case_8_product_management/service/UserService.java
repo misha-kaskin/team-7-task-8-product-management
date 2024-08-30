@@ -8,6 +8,8 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.team_7_case_8_product_management.exception.*;
 import com.example.team_7_case_8_product_management.model.TokenModel;
+import com.example.team_7_case_8_product_management.model.cart.CartItemDto;
+import com.example.team_7_case_8_product_management.model.cart.SizeDto;
 import com.example.team_7_case_8_product_management.model.user.*;
 import com.example.team_7_case_8_product_management.repository.UserDao;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
@@ -27,6 +30,7 @@ public class UserService {
 
     private final UserDao userDao;
     private final Algorithm algorithm;
+    private final CartService cartService;
 
     public void registerUser(UserDto userDto) {
         Optional<User> optionalUser = userDao.findByLogin(userDto.getLogin());
@@ -132,12 +136,22 @@ public class UserService {
             throw new UserNotFoundByIdException();
         }
         User user = optionalUser.get();
+        Collection<CartItemDto> items = cartService.getItemsByUserId(id).getItems();
+        Long count = 0l;
+        for (CartItemDto item : items) {
+            for (SizeDto size : item.getSizes()) {
+                Long cnt = size.getCount();
+                count += cnt;
+            }
+        }
+
         return GetUserDto.builder()
                 .userId(user.getUserId())
                 .login(user.getLogin())
                 .balance(user.getBalance())
                 .registerDate(user.getRegisterDate())
                 .name(user.getName())
+                .cartCount(count)
                 .role(user.getRole())
                 .build();
     }

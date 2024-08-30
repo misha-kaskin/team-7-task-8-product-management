@@ -102,7 +102,7 @@ public class CartService {
                     .productName(item.getProductName())
                     .description(item.getDescription())
                     .price(item.getPrice())
-//                    .image(fileStorage.loadFile(item))
+                    .image(fileStorage.loadFile(item))
                     .sizes(new HashSet<>())
                     .build();
             itemMap.put(itemId, itemDto);
@@ -194,7 +194,7 @@ public class CartService {
                 )
                 .collect(toSet());
 
-        System.out.println(deleted);
+
 
         return ExtendCartDto.builder()
                 .userId(id)
@@ -202,7 +202,20 @@ public class CartService {
                 .archive(archive)
                 .deleted(deleted)
                 .items(cartMap.values())
+                .amount(getTotalAmount(cartMap.values()))
                 .build();
+    }
+
+
+    private Float getTotalAmount(Collection<CartItemDto> items) {
+        Float amount = 0f;
+        for (CartItemDto item : items) {
+            Float price = item.getPrice();
+            for (SizeDto size : item.getSizes()) {
+                amount += size.getCount() * price;
+            }
+        }
+        return amount;
     }
 
     private CartDto mapToCartDto(Long id, Iterable<Item> items, Iterable<SizeEntity> sizes, Iterable<Object[]> itemIdSizeId) {

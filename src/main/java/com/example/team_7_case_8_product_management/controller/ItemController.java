@@ -46,6 +46,11 @@ public class ItemController {
         return itemService.getManagerItems();
     }
 
+    @GetMapping("/v1/api/manager/item")
+    public ManagerItems getManagerItems() {
+        return itemService.getManagerItems();
+    }
+
     @GetMapping("/v1/api/item/{id}")
     public FullItemDto getItemById(@PathVariable Long id) {
         return itemService.getFullItemDtoById(id, 1l);

@@ -35,7 +35,4 @@ public class OrderDto {
     @NotBlank
     private String address;
 
-    @NotNull
-    private Set<ShortOrderItemDto> items;
-
 }

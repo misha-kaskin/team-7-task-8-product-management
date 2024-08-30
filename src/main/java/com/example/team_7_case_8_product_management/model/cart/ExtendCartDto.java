@@ -16,5 +16,6 @@ public class ExtendCartDto {
     private Collection<ExtendItemDto> exceed;
     private Set<FullItemDto> deleted;
     private Set<FullItemDto> archive;
+    private Float amount;
 
 }
