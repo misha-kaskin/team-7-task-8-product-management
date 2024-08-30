@@ -1,5 +1,6 @@
 package com.example.team_7_case_8_product_management.controller;
 
+import com.example.team_7_case_8_product_management.model.order.OrderChangeStatus;
 import com.example.team_7_case_8_product_management.model.order.OrderDto;
 import com.example.team_7_case_8_product_management.model.order.ShortOrderDto;
 import com.example.team_7_case_8_product_management.service.OrderService;
@@ -27,7 +28,9 @@ public class OrderController {
     }
 
     @PatchMapping("/v1/api/admin/order/{orderId}")
-    public void changeStatus(@RequestParam Long orderId) {}
+    public void changeStatus(@RequestBody OrderChangeStatus orderId) {
+        orderService.changeStatus(orderId);
+    }
 
     @GetMapping("/v1/api/admin/order/{id}")
     public Collection<ShortOrderDto> getUserOrder(@PathVariable Long id) {

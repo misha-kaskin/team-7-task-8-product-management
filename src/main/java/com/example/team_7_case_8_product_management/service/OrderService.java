@@ -226,4 +226,15 @@ public class OrderService {
         return orderMap.values();
     }
 
+    public void changeStatus(OrderChangeStatus orderId) {
+        Optional<OrderInfo> optional = orderInfoDao.findById(orderId.getOrderId());
+        if (optional.isEmpty()) {
+            throw new OrderNotFoundException();
+        }
+        OrderInfo orderInfo = optional.get();
+        if (orderInfo.getStatus().getStatusId() == orderId.getOrderStatus()) {
+            throw new StatusAlreadyExists();
+        }
+        orderInfoDao.updateStatus(orderId.getOrderId(), orderId.getOrderStatus());
+    }
 }

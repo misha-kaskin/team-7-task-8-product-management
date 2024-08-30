@@ -44,7 +44,7 @@ public class CartService {
             throw new CartUserIdMismatchException();
         }
 
-        System.out.println(cartDto);
+//        System.out.println(cartDto);
         List<Cart> cartList = new LinkedList<>();
         for (CartItemDto item : cartDto.getItems()) {
             for (SizeDto size : item.getSizes()) {
@@ -69,9 +69,7 @@ public class CartService {
         cartDao.saveAll(cartList);
 
         ExtendCartDto extendCartDto = getItemsByUserId(userId);
-        if (extendCartDto.getExceed().size() > 0
-                || extendCartDto.getArchive().size() > 0
-                || extendCartDto.getDeleted().size() > 0) {
+        if (extendCartDto.getExceed().size() > 0) {
             throw new TooManyItemsException(extendCartDto);
         }
     }

@@ -183,4 +183,12 @@ public class ControllerAdvice {
                 .status(BAD_REQUEST)
                 .body(new ErrorMessage("Несуществующий объект"));
     }
+
+    @ExceptionHandler(StatusAlreadyExists.class)
+    public ResponseEntity<ErrorMessage> statusAlreadyExists() {
+        return ResponseEntity
+                .status(BAD_REQUEST)
+                .body(new ErrorMessage("Статус уже существует"));
+    }
+
 }

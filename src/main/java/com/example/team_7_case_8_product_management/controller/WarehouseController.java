@@ -5,11 +5,9 @@ import com.example.team_7_case_8_product_management.model.warehouse.WarehouseEnt
 import com.example.team_7_case_8_product_management.service.WarehouseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 public class WarehouseController {

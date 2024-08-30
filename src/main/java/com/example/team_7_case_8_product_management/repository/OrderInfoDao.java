@@ -18,4 +18,7 @@ public interface OrderInfoDao extends CrudRepository<OrderInfo, Long> {
     @Query("select o from OrderInfo o where o.orderDate = ?1")
     Collection<OrderInfo> findAllByDate(LocalDate date);
 
+    @Query("update OrderInfo o set o.status.statusId = ?2 on o.orderId = ?1")
+    void updateStatus(Long id, Long statusId);
+
 }
