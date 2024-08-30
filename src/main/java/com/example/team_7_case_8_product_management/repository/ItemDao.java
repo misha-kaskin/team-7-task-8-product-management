@@ -14,6 +14,9 @@ public interface ItemDao extends CrudRepository<Item, Long> {
     @Query("delete from Item i where i.itemId = ?1")
     void deleteByItemId(Long id);
 
+    @Query("select i from Item i where i.state.stateId = 3")
+    List<Item> findAllNotDeleted();
+
     boolean existsByItemId(Long id);
 
     @Query("select i from Item i where i.itemId in (?1)")
@@ -22,7 +25,9 @@ public interface ItemDao extends CrudRepository<Item, Long> {
     @Modifying
     @Query(
             nativeQuery = true,
-            value = "update items set state_id = 2 where item_id = ?1"
+            value = "update items set state_id = 2 " +
+                    "where item_id = ?1 and not exists (" +
+                    "select * from warehouses where item_id = ?1 and count > 0)"
     )
     void archiveItemById(Long id);
 

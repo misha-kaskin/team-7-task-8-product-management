@@ -19,6 +19,9 @@ public interface WarehouseDao extends CrudRepository<WarehouseEntity, Long> {
     )
     List<Item> findAllByStatus(Long statusId, Long stateId);
 
+    @Query("select w from WarehouseEntity w where w.warehouseId.itemId.itemId in (?1)")
+    List<WarehouseEntity> findAllByIds(List<Long> ids);
+
     @Query(
             "select wh " +
                     "from WarehouseEntity wh " +

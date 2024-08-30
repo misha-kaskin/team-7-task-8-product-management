@@ -7,7 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Optional;
 
 public interface OrderInfoDao extends CrudRepository<OrderInfo, Long> {
 

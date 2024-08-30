@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @Validated
 @CrossOrigin
@@ -42,18 +43,18 @@ public class ItemController {
     }
 
     @GetMapping("/v1/api/admin/item")
-    public ManagerItems getAdminItems() {
+    public List<FullItemDto> getAdminItems() {
         return itemService.getManagerItems();
     }
 
     @GetMapping("/v1/api/manager/item")
-    public ManagerItems getManagerItems() {
+    public List<FullItemDto> getManagerItems() {
         return itemService.getManagerItems();
     }
 
     @GetMapping("/v1/api/item/{id}")
     public FullItemDto getItemById(@PathVariable Long id) {
-        return itemService.getFullItemDtoById(id, 1l);
+        return itemService.getFullItemDtoById(id, 1l, 1l);
     }
 
     @Validated(Marker.OnUpdate.class)

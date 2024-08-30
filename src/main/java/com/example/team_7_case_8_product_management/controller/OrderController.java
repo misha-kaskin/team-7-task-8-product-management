@@ -27,7 +27,7 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
-    @PatchMapping("/v1/api/admin/order/{orderId}")
+    @PatchMapping("/v1/api/admin/order")
     public void changeStatus(@RequestBody OrderChangeStatus orderId) {
         orderService.changeStatus(orderId);
     }

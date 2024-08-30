@@ -12,6 +12,7 @@ import com.example.team_7_case_8_product_management.repository.WarehouseDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -23,10 +24,10 @@ public class ItemService {
 
     @Value("${file.storage.path}")
     private String path;
+
     private final WarehouseDao warehouseDao;
     private final ItemDao itemDao;
     private final FileStorage fileStorage;
-
 
     @Transactional
     public void addItem(FullItemDto itemDto) {
@@ -69,13 +70,13 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
-    public FullItemDto getFullItemDtoById(Long id, Long statusId) {
+    public FullItemDto getFullItemDtoById(Long id, Long statusId, Long stateId) {
         Optional<Item> optionalItem = itemDao.findById(id);
         if (optionalItem.isEmpty()) {
             throw new ItemNotFoundException();
         }
 
-        List<WarehouseEntity> itemList = warehouseDao.findAllSaleByItemId(id, statusId, 1l);
+        List<WarehouseEntity> itemList = warehouseDao.findAllSaleByItemId(id, statusId, stateId);
         Item item = optionalItem.get();
         Set<ItemSizeDto> sizes = new HashSet<>();
         for (WarehouseEntity warehouseEntity : itemList) {
@@ -85,6 +86,7 @@ public class ItemService {
                     .sizeId(Long.valueOf(size1.getSizeId()))
                     .count(count)
                     .title(size1.getTitle())
+                    .statusId(warehouseEntity.getWarehouseId().getStatus().getStatusId())
                     .build();
             sizes.add(size);
         }
@@ -153,24 +155,34 @@ public class ItemService {
         fileStorage.saveFile(itemDto);
     }
 
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void archiveItem(Long id) {
         Optional<Item> optionalItem = itemDao.findById(id);
         if (optionalItem.isEmpty()) {
             throw new ItemNotFoundException();
         }
         Item item = optionalItem.get();
-        if (item.getState().getStateId() == 3l) {
+        if (item.getState().getStateId() == 3l || item.getState().getStateId() == 2l) {
             throw new ItemNotFoundException();
         }
         itemDao.archiveItemById(id);
     }
 
-    public ManagerItems getManagerItems() {
-        List<Item> actual = warehouseDao.findAllByStatus(1l, 1l);
-        List<Item> noSale = warehouseDao.findAllByStatus(2l, 1l);
-//        itemDao.findAllByStateId(2l);
+    public List<FullItemDto> getManagerItems() {
+        List<Long> ids = itemDao.findAllNotDeleted().stream().map(Item::getItemId).toList();
+        List<WarehouseEntity> whs = warehouseDao.findAllByIds(ids);
+        List<FullItemDto> items = new LinkedList<>();
 
-        //TODO
-        return null;
+        for (WarehouseEntity wh : whs) {
+            Long itemId = wh.getWarehouseId().getItemId().getItemId();
+            Long stateId = wh.getWarehouseId().getItemId().getState().getStateId();
+            Long statusId = wh.getWarehouseId().getStatus().getStatusId();
+            FullItemDto itemDto = getFullItemDtoById(itemId, statusId, stateId);
+            items.add(itemDto);
+        }
+
+        return items;
     }
+
 }

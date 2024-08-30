@@ -10,5 +10,6 @@ public class ItemSizeDto {
     private Long sizeId;
     private String title;
     private Long count;
+    private Long statusId;
 
 }

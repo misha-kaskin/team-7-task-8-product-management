@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -12,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ManagerItems {
-    private Set<FullItemDto> actual;
-    private Set<ShortItemDto> archive;
-    private Set<FullItemDto> noSale;
+    private List<FullItemDto> actual;
+    private List<ShortItemDto> archive;
+    private List<FullItemDto> noSale;
 }
