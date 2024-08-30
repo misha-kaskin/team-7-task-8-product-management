@@ -10,6 +10,7 @@ import com.example.team_7_case_8_product_management.repository.FileStorage;
 import com.example.team_7_case_8_product_management.repository.ItemDao;
 import com.example.team_7_case_8_product_management.repository.WarehouseDao;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -27,7 +28,13 @@ public class ItemService {
 
     private final WarehouseDao warehouseDao;
     private final ItemDao itemDao;
-    private final FileStorage fileStorage;
+
+    @Autowired
+    private FileStorage fileStorage;
+
+    interface ImageMapper {
+        String map(Item item);
+    }
 
     @Transactional
     public void addItem(FullItemDto itemDto) {
@@ -70,7 +77,15 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
-    public FullItemDto getFullItemDtoById(Long id, Long statusId, Long stateId) {
+    public FullItemDto getUserFullItemDtoById(Long id, Long statusId, Long stateId) {
+        return getFullItemDtoById(id, statusId, stateId, (item1) -> fileStorage.loadFile(item1));
+    }
+
+    public FullItemDto getManagerFullItemDtoById(Long id, Long statusId, Long stateId) {
+        return getFullItemDtoById(id, statusId, stateId, (item1) -> null);
+    }
+
+    public FullItemDto getFullItemDtoById(Long id, Long statusId, Long stateId, ImageMapper imageMapper) {
         Optional<Item> optionalItem = itemDao.findById(id);
         if (optionalItem.isEmpty()) {
             throw new ItemNotFoundException();
@@ -92,7 +107,8 @@ public class ItemService {
         }
         FullItemDto itemDto = mapItemToItemDto(item);
         itemDto.setSizes(sizes);
-        String image = fileStorage.loadFile(item);
+        String image = imageMapper.map(item);
+//        String image = fileStorage.loadFile(item);
         itemDto.setImage(image);
         return itemDto;
     }
@@ -169,6 +185,22 @@ public class ItemService {
         itemDao.archiveItemById(id);
     }
 
+    public List<FullItemDto> getWarehouseItems() {
+        List<Long> ids = itemDao.findAllNotDeleted().stream().map(Item::getItemId).toList();
+        List<WarehouseEntity> whs = warehouseDao.findAllByIds(ids);
+        List<FullItemDto> items = new LinkedList<>();
+
+        for (WarehouseEntity wh : whs) {
+            Long itemId = wh.getWarehouseId().getItemId().getItemId();
+            Long stateId = wh.getWarehouseId().getItemId().getState().getStateId();
+            Long statusId = wh.getWarehouseId().getStatus().getStatusId();
+            FullItemDto itemDto = getManagerFullItemDtoById(itemId, statusId, stateId);
+            items.add(itemDto);
+        }
+
+        return items;
+    }
+
     public List<FullItemDto> getManagerItems() {
         List<Long> ids = itemDao.findAllNotDeleted().stream().map(Item::getItemId).toList();
         List<WarehouseEntity> whs = warehouseDao.findAllByIds(ids);
@@ -178,7 +210,7 @@ public class ItemService {
             Long itemId = wh.getWarehouseId().getItemId().getItemId();
             Long stateId = wh.getWarehouseId().getItemId().getState().getStateId();
             Long statusId = wh.getWarehouseId().getStatus().getStatusId();
-            FullItemDto itemDto = getFullItemDtoById(itemId, statusId, stateId);
+            FullItemDto itemDto = getUserFullItemDtoById(itemId, statusId, stateId);
             items.add(itemDto);
         }
 

@@ -21,7 +21,7 @@ public class WarehouseController {
 
     @GetMapping("/v1/api/admin/wh")
     public List<FullItemDto> getAll() {
-        return itemService.getManagerItems();
+        return itemService.getWarehouseItems();
     }
 
     @PatchMapping("/v1/api/manager/no-sale")

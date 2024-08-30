@@ -54,7 +54,7 @@ public class ItemController {
 
     @GetMapping("/v1/api/item/{id}")
     public FullItemDto getItemById(@PathVariable Long id) {
-        return itemService.getFullItemDtoById(id, 1l, 1l);
+        return itemService.getUserFullItemDtoById(id, 1l, 1l);
     }
 
     @Validated(Marker.OnUpdate.class)
