@@ -1,6 +1,7 @@
 package com.example.team_7_case_8_product_management.repository;
 
 import com.example.team_7_case_8_product_management.model.order.OrderInfo;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -18,7 +19,8 @@ public interface OrderInfoDao extends CrudRepository<OrderInfo, Long> {
     @Query("select o from OrderInfo o where o.orderDate = ?1")
     Collection<OrderInfo> findAllByDate(LocalDate date);
 
-    @Query("update OrderInfo o set o.status.statusId = ?2 on o.orderId = ?1")
+    @Modifying
+    @Query("update OrderInfo o set o.status.statusId = ?2 where o.orderId = ?1")
     void updateStatus(Long id, Long statusId);
 
 }
