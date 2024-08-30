@@ -17,7 +17,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/v1/api/admin/order/{id}")
-    public void addOrder(@Valid @RequestBody OrderDto orderDto) {
+    public void addOrder(@Valid @RequestBody OrderDto orderDto, @PathVariable Long id) {
         orderService.addOrder(orderDto);
     }
 
@@ -25,6 +25,9 @@ public class OrderController {
     public Iterable<ShortOrderDto> getAllOrders() {
         return orderService.getAllOrders();
     }
+
+    @PatchMapping("/v1/api/admin/order/{orderId}")
+    public void changeStatus(@RequestParam Long orderId) {}
 
     @GetMapping("/v1/api/admin/order/{id}")
     public Collection<ShortOrderDto> getUserOrder(@PathVariable Long id) {

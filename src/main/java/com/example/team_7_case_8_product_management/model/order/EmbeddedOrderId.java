@@ -3,12 +3,14 @@ package com.example.team_7_case_8_product_management.model.order;
 import com.example.team_7_case_8_product_management.model.SizeEntity;
 import com.example.team_7_case_8_product_management.model.item.Item;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
 
 import java.io.Serializable;
 

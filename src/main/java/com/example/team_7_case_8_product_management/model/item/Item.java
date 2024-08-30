@@ -23,7 +23,7 @@ public class Item {
 
     private String productName;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "type_id")
     private ItemType type;
 

@@ -33,7 +33,8 @@ public class FileStorage {
             String image = new String(bytes);
             return image;
         } catch (IOException e) {
-            throw new CantFindFileException();
+//            throw new CantFindFileException();
         }
+        return null;
     }
 }
