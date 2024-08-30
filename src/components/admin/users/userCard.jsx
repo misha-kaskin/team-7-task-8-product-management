@@ -23,7 +23,26 @@ const customStyles = {
     ...provided,
     color: 'black'
   }),
-}
+  indicatorSeparator: (state) => ({
+    display: "none",
+    fontSize: "10px",
+  }),
+  indicatorsContainer: (provided, state) => ({
+    ...provided,
+    height: "20px",
+    fontSize: "10px",
+  }),
+  container: (provided, state) => ({
+    ...provided,
+    height: "10px",
+    fontSize: "10px",
+  }),
+  indicatorsContainer: (provided, state) => ({
+    ...provided,
+    height: "20px",
+  }),
+};
+
 const noUserData = {
   userId: "",
   name: "",

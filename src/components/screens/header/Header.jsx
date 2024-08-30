@@ -27,7 +27,6 @@ function Header() {
       }
     };
     getUserData();
-    console.log(reloadBool);
   }, [reloadBool]);
 
   const handleUploadUsers = (e) => {
@@ -71,7 +70,7 @@ function Header() {
           )}
           {userData == "ADMIN" ? (
             <Link
-              to="/admin/users"
+              to="/admin/storage"
               className={styles.users}
               onClick={(e) => handleUploadUsers(e)}
             >
@@ -94,7 +93,11 @@ function Header() {
                 Вход
               </button>
             )}
-            <Link to="/cart" className={styles.cartIcon}></Link>
+            <Link to="/cart" className={styles.cartIcon}>
+            <div className={styles.cartCount}>
+              {userData.cartCount}
+            </div>
+            </Link>
           </div>
         </div>
       </div>

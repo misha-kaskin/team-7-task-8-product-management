@@ -135,12 +135,17 @@ const AdminUsers = () => {
                   .filter((user) => {
                     return searchTerm.toLowerCase === "" ||
                       !user.login ||
-                      !user.name
+                      !user.name ||
+                      !user.surname ||
+                      !user.middleName
                       ? user
                       : user.login
                           .toLowerCase()
                           .includes(searchTerm.toLowerCase()) ||
                           user.name
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase()) ||
+                          user.surname
                             .toLowerCase()
                             .includes(searchTerm.toLowerCase());
                   })

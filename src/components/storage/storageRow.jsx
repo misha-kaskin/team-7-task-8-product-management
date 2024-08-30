@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import styles from "./adminUsers.module.css";
-import UserService from "../../../Auth/services/UserService";
+import styles from "../admin/users/adminUsers.module.css";
 import Select from "react-select";
+import ItemService from "../../services/item.Service";
 
 const optionsRole = [
   {
@@ -36,7 +36,7 @@ const noUserData = {
   balance: "",
 };
 
-const UserTableData = ({ user, status, setStatus }) => {
+const StorageRow = ({ user, status, setStatus }) => {
   const [hover, setHover] = useState(false);
   const [edit, setEdit] = useState(false);
   const [userData, setUserData] = useState(noUserData);
@@ -56,7 +56,7 @@ const UserTableData = ({ user, status, setStatus }) => {
     setEdit(!edit);
     console.log(userData);
     const fetchData = async () => {
-      const response = await UserService.edit(
+      const response = await ItemService.edit(
         userData.userId,
         userData.name,
         userData.balance,
@@ -132,4 +132,4 @@ const UserTableData = ({ user, status, setStatus }) => {
     </tr>
   );
 };
-export default UserTableData;
+export default StorageRow;

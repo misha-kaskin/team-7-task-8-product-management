@@ -3,7 +3,7 @@
   width: 100vw;
   background-color: #fff;
   box-shadow: 0px 4px 4px 0px rgba(0, 0 ,0, .2);
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .content {
@@ -34,6 +34,7 @@ h1 {
 }
 
 .cartIcon {
+  position: relative;
   height: 50px;
   width: 50px;
   background-repeat: no-repeat;
@@ -101,4 +102,11 @@ p {
   transition: .4s;
   cursor: pointer;
   transform: scale(1.1);
+}
+
+.cartCount {
+position: absolute;
+height: 10px;
+width: 10px;
+color: #2FB3FF;
 }

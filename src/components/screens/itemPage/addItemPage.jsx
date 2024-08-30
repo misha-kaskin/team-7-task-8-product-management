@@ -86,6 +86,7 @@ const AddItemPage = () => {
   const [values, setValues] = useState(defValues);
   const [size, setSize] = useState(sizeMap);
   const filePicker = useRef(null);
+  const [done, setDone] = useState(false);
 
   const addFile = () => {
     filePicker.current.click();
@@ -128,9 +129,17 @@ const AddItemPage = () => {
       return;
     }
     const fetchData = async () => {
-      const response = await ItemService.addItem(data);
+      const response = await ItemService.addItem(
+        data.type,
+        data.productName,
+        data.description,
+        data.price,
+        data.sizes,
+        data.image
+      );
     };
 
+    setDone(true);
     fetchData();
   };
 
@@ -182,9 +191,27 @@ const AddItemPage = () => {
   };
 
   const handleAddUniversalSize = (e) => {
-    const pickedSizes = [0, 0, 0, 0, 0, 0, +e.target.value];
-    setSize(pickedSizes);
-    handleChangeSize();
+    const pickedSizes = {
+      XS: 0,
+      S: 0,
+      M: 0,
+      L: 0,
+      XL: 0,
+      XXL: 0,
+      zero: +e.target.value,
+    };
+    const sizeData = [];
+    const sizesList = Object.values(pickedSizes);
+    sizesList.map((count, index) => {
+      sizeData.push({
+        sizeId: index + 1,
+        count: count,
+      });
+    });
+    setItemData((prev) => ({
+      ...prev,
+      sizes: sizeData,
+    }));
   };
 
   // -----------------------------------------------------------------------------------------------------
@@ -413,15 +440,19 @@ const AddItemPage = () => {
                 </div>
               </div>
             )}
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                handleUpload();
-              }}
-              className={styles.addItem}
-            >
-              Добавить товар
-            </button>
+            {done ? (
+              <p className={styles.doneText}>Товар успешно добавлен</p>
+            ) : (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleUpload();
+                }}
+                className={styles.addItem}
+              >
+                Добавить товар
+              </button>
+            )}
           </form>
         </div>
       </div>

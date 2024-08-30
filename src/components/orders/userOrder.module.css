@@ -252,3 +252,54 @@ tr:hover {
   color: #fff;
   transition: .4s;
 }
+
+
+.edit {
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+  border: none;
+  background:none;
+  margin-left: auto;
+  height: 30px;
+  width: 30px;
+  background-image: url("/edit-white.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.edit:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+  transition: 0.4s;
+}
+
+.accept {
+  position: absolute;
+  border: none;
+  background:none;
+  right: 0;
+  margin-right: 10px;
+  margin-left: auto;
+  height: 30px;
+  width: 30px;
+  background-image: url("/accept-white.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  transition: 0.4s;
+}
+
+.accept:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+  transition: 0.4s;
+}
+
+
+.invisible {
+  width: 30px;
+  height: 30px;
+  color: #fff;
+}

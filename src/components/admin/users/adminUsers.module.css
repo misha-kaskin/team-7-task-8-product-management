@@ -233,6 +233,8 @@ tr:hover {
   position: absolute;
   right: 0;
   margin-right: 10px;
+  border: none;
+  background:none;
   /* margin-left: auto; */
   height: 30px;
   width: 30px;
@@ -250,6 +252,8 @@ tr:hover {
 
 .accept {
   position: absolute;
+  border: none;
+  background:none;
   right: 0;
   margin-right: 10px;
   /* margin-left: auto; */

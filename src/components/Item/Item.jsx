@@ -13,7 +13,7 @@ function Item({item}) {
             <div style={{backgroundImage: `url(${item.image})`}}
             className={styles.item}/>
           </Link>
-          <Link to={`/item/${item.id}`} className={styles.itemName}>{item.productName}</Link>
+          <Link to={`/item/${item.itemId}`} className={styles.itemName}>{item.productName}</Link>
           <p className={styles.itemPrice}>{item.price}</p>
       </div>
     </>

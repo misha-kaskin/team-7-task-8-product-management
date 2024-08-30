@@ -1,6 +1,6 @@
 .homePage {
   /* border: 1px solid black; */
-  height: calc(100vh - 240px);
+  height: calc(100vh - 200px);
   margin: 0px 13vw;
   overflow: auto;
   display: flex;

@@ -12,6 +12,7 @@ import Cart from "../Cart/cart";
 import AdminUsers from "../admin/users/adminUsers";
 import UserOrder from "../orders/userOrder";
 import AdminOrder from "../orders/adminOrder";
+import Storage from "../storage/storage";
 
 const Router = () => {
   return (
@@ -28,6 +29,10 @@ const Router = () => {
         <Route element={<AdminUsers />} path="/admin/users"/>
         <Route element={<UserOrder />} path="/orders"/>
         <Route element={<AdminOrder />} path="/admin/orders"/>
+        <Route element={<Storage />} path="/admin/storage"/>
+        <Route path="/telegram" Component={() => {
+          window.location.href="https://t.me/T1Holding"
+        }}/>
       </Routes>
       <Footer />
     </BrowserRouter>

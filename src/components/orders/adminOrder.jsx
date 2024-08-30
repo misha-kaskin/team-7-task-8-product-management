@@ -216,7 +216,7 @@ const AdminOrder = () => {
                 <AdminTableOrder
                   key={order.orderId}
                   order={order}
-                  
+                  status={status}
                 />
               ))
           : "Пользователи не найдены"}
