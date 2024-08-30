@@ -8,7 +8,7 @@ import UserService from "../../../Auth/services/UserService";
 import HeaderProfile from "../../user/headerProfile/headerProfile";
 
 function Header() {
-  const [authActive, setAuthActive] = useState(false);
+  const [authActive, setAuthActive] = useState(true);
   const [userData, setUserData] = useState("");
   const { store } = useContext(Context);
   const [reloadBool, setReloadBool] = useState(false);
@@ -16,6 +16,7 @@ function Header() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       store.CheckAuth();
+      setAuthActive(false);
     } else {
       store.logout();
     }
@@ -23,6 +24,12 @@ function Header() {
       if (localStorage.getItem("user")) {
         const userId = JSON.parse(localStorage.getItem("user"))["userId"];
         const data = await UserService.getById(userId);
+        if (data.status == 401) {
+          const data_reserved = await UserService.getById(userId);
+          console.log(1);
+          
+          setUserData(data_reserved.data.role);
+        }
         setUserData(data.data.role);
       }
     };
@@ -94,9 +101,7 @@ function Header() {
               </button>
             )}
             <Link to="/cart" className={styles.cartIcon}>
-            <div className={styles.cartCount}>
-              {userData.cartCount}
-            </div>
+              <div className={styles.cartCount}>{userData.cartCount}</div>
             </Link>
           </div>
         </div>

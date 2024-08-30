@@ -9,13 +9,13 @@ function Footer() {
         <div className={styles.content}>
           <div className={styles.icon} />
           <p>Холдинг Т1 © 2011–2024</p>
-          <di className={styles.info}>
+          <div className={styles.info}>
             <Link to="/telegram" target='_blank'>
               <div className={styles.telegramIcon}>
               </div>
             </Link>
 
-          </di>
+          </div>
         </div>
       </div>
     </>

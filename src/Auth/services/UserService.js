@@ -5,11 +5,11 @@ export default class UserService {
     return api.get("/admin/users");
   }
   static async registration(data) {
-    return api.post("/auth", {data});
+    return api.post("/auth", { data });
   }
 
   static async edit(userId, name, balance, role) {
-    return api.patch("/admin/user-edit", {userId, name, balance, role});
+    return api.patch("/admin/user-edit", { userId, name, balance, role });
   }
 
   static async delete(userId) {
@@ -17,13 +17,17 @@ export default class UserService {
   }
 
   static async getById(userId) {
-    return api.get(`/admin/users/${userId}`);
+    return api.get(`/admin/users/${userId}`).catch((error) => {
+      if (error) {
+        api.get(`/admin/users/${userId}`);
+      }
+    });
   }
-  
+
   static async getByOrderId(userId) {
     return api.get(`/admin/order/${userId}`);
   }
-  
+
   static async getAllOrders() {
     return api.get(`/admin/order`);
   }
