@@ -1,7 +1,7 @@
 import api from "../Auth/http";
 
 export default class ItemService {
-  static async addItem({type, productName, description, price, sizes, image}) {
+  static async addItem(type, productName, description, price, sizes, image) {
     return api.post("/admin/item", {type, productName, description, price, sizes, image});
   }
 
@@ -61,7 +61,7 @@ export default class ItemService {
       statusId,
     });
 
-    
+
     return response.data;
   }
 }
