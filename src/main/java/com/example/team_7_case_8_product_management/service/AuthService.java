@@ -35,6 +35,7 @@ public class AuthService {
     private final Algorithm algorithm;
 
     public void validateToken(String token, String path) {
+
         if (token == null) {
             throw new UserNotAuthException();
         }

@@ -17,6 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
         String login = "/v1/api/login";
         String refresh = "/v1/api/refresh";
         String items = "/v1/api/item";
+        String swagger = "/swagger-ui/index.html";
         registry.addInterceptor(authInterceptor).excludePathPatterns(login, refresh, items);
     }
 

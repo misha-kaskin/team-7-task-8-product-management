@@ -20,6 +20,13 @@ public class AuthInterceptor implements HandlerInterceptor {
     @SneakyThrows
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader("token");
+        String path = request.getRequestURI().toUpperCase();
+        System.out.println(path);
+        if (path != null
+                && (path.contains("/SWAGGER-UI/INDEX.HTML")
+                || path.contains("/SWAGGER-UI/SWAGGER-INITIALIZER.JS"))
+                || path.contains("/V3/API-DOCS/SWAGGER-CONFIG")
+                || path.contains("/V3/API-DOCS")) return true;
         if (token == null) {
             String header = request.getHeader("access-control-request-headers");
             if (header == null) {
@@ -28,7 +35,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                 return header.contains("token");
             }
         }
-        String path = request.getRequestURI().toUpperCase();
+
         authService.validateToken(token, path);
         return true;
     }

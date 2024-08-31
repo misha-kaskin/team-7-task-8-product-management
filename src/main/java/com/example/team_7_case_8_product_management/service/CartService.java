@@ -44,7 +44,6 @@ public class CartService {
             throw new CartUserIdMismatchException();
         }
 
-//        System.out.println(cartDto);
         List<Cart> cartList = new LinkedList<>();
         for (CartItemDto item : cartDto.getItems()) {
             for (SizeDto size : item.getSizes()) {
@@ -134,6 +133,7 @@ public class CartService {
         Collection<ExtendItemDto> exceed = itemMap.values();
 
         Collection<Cart> carts = cartDao.getAvailableItems(id);
+        System.out.println(carts);
         Set<Long> newItemIds = carts.stream()
                 .map(el -> el.getCartId().getItem().getItemId())
                 .collect(toSet());
