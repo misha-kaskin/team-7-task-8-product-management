@@ -1,9 +1,7 @@
 .itemPlace {
   width: 220px;
   z-index: 4;
-  /* height: 380px; */
   background-color: #fff;
-  /* border: 1px solid black; */
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -20,20 +18,20 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .itemPlus {
   height: 100px;
   width: 100px;
-  background-image: url('/plus.svg');
+  background-image: url("/plus.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .item:hover {
-  transition: .5s;
+  transition: 0.5s;
   transform: scale(1.2);
 }
 
@@ -43,17 +41,17 @@
   font-weight: bold;
   text-decoration: none;
   color: #000;
-  font-family: 'Nunito', Roboto
+  font-family: "Nunito", Roboto;
 }
 
 .itemName:hover {
-  color: #2FB3FF;
+  color: #2fb3ff;
   cursor: pointer;
 }
 
 .itemPrice {
   margin: 0;
-  color: #2FB3FF;
+  color: #2fb3ff;
   font-size: 16px;
   font-weight: bold;
 }

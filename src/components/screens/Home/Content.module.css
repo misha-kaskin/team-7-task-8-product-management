@@ -1,5 +1,4 @@
 .homePage {
-  /* border: 1px solid black; */
   height: calc(100vh - 200px);
   margin: 0px 13vw;
   overflow: auto;
@@ -9,7 +8,6 @@
 
 .products {
   display: flex;
-  /* border: 1px solid black; */
   justify-content: space-evenly;
   width: 80%;
   flex-wrap: wrap;

@@ -1,11 +1,9 @@
 import { useParams } from "react-router-dom";
-import styles from "./itemPage.module.css";
 import { useContext, useEffect, useState } from "react";
-import { GetItemService } from "../../../services/getItem.service";
 import { Context } from "../../../main";
 import UserItemPage from "./userPage";
 import AdminItemPage from "./adminItemPage";
-import ItemService from "../../../services/item.Service";
+import ItemService from "../../../services/item.service";
 
 const noData = {
   userId: 0,
@@ -35,46 +33,42 @@ const ItemPage = () => {
 
     const fetchData = async () => {
       const response = await ItemService.getById(itemId);
-      response.sizes.sort((a ,b) => {
-        return a.sizeId - b.sizeId
-      })
+      response.sizes.sort((a, b) => {
+        return a.sizeId - b.sizeId;
+      });
       setItem(response);
-      
     };
     fetchData();
   }, []);
-  
+
   const handleAdd = (e) => {
     e.preventDefault();
-    const sizesArray = [data.items.sizes]
+    const sizesArray = [data.items.sizes];
     setData((prev) => ({
       ...prev,
-      items: {...prev.items, sizes: sizesArray}
-    }))
-    const itemsArray = [data.items]
+      items: { ...prev.items, sizes: sizesArray },
+    }));
+    const itemsArray = [data.items];
     const fetchData = async () => {
       const res = await ItemService.addToCart(data.userId, itemsArray);
     };
     fetchData();
-    
   };
 
   useEffect(() => {
     setData((prev) => ({
       items: { ...prev.items, itemId: +itemId },
     }));
-    // console.log(data);
   }, [item]);
 
   useEffect(() => {
     setData((prev) => ({
       ...prev,
       userId: JSON.parse(localStorage.getItem("user"))["userId"],
-      items: 
-        {
-          ...prev.items,
-          sizes: [{ sizeId: +cartItem.size, count: +cartItem.count }],
-        },
+      items: {
+        ...prev.items,
+        sizes: [{ sizeId: +cartItem.size, count: +cartItem.count }],
+      },
     }));
   }, [cartItem]);
 

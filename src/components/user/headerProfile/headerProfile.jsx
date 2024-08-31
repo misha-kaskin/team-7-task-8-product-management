@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import AuthService from "../../../Auth/services/AuthService";
 import styles from "./headerProfile.module.css";
 import { Context } from "../../../main";
 import UserService from "../../../Auth/services/UserService";
@@ -22,14 +21,16 @@ const HeaderProfile = ({ setAuthActive, setRole }) => {
     const handleLogout = () => {
       store.logout();
       setAuthActive(false);
-      setRole('')
+      setRole("");
     };
 
     return (
       <div className={styles.profileCard}>
         <div className={styles.profilePic}></div>
         <div className={styles.info}>
-          <Link className={styles.name} to='/orders'>{userData.name}</Link>
+          <Link className={styles.name} to="/orders">
+            {userData.name}
+          </Link>
           <div className={styles.userBalanceLogout}>
             <p className={styles.balance}>{`Баланс: ${
               userData.balance ? userData.balance : 0

@@ -15,9 +15,11 @@ const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Context.Provider value={{
-      store
-    }}>
+    <Context.Provider
+      value={{
+        store,
+      }}
+    >
       <QueryClientProvider client={queryClient}>
         <Router />
       </QueryClientProvider>

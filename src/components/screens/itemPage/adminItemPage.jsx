@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./itemPage.module.css";
-import ItemService from "../../../services/item.Service";
+import ItemService from "../../../services/item.service";
 import { useEffect, useState } from "react";
 
 const sizeList = ["XS", "S", "M", "L", "XL", "XXL", "One"];
@@ -54,7 +54,6 @@ const AdminItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
                           size: currentSize.sizeId,
                           count: 1,
                         }));
-                        
                       }}
                     >
                       {currentSize.title}
@@ -73,7 +72,6 @@ const AdminItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
                           size: currentSize.sizeId,
                           count: 1,
                         }));
-                        
                       }}
                     >
                       one

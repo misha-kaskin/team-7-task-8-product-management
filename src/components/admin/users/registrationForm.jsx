@@ -43,7 +43,6 @@ const RegistrationForm = ({ activeBlock, setActive }) => {
   };
 
   const handleRegistration = async (e) => {
-    // e.preventDefault();
     const regUser = async () => {
       const reg = await AuthService.registration(
         newUser.login,
@@ -144,8 +143,8 @@ const RegistrationForm = ({ activeBlock, setActive }) => {
         <button
           className={styles.btn}
           onClick={(e) => {
-            e.preventDefault()
-            handleRegistration(e)
+            e.preventDefault();
+            handleRegistration(e);
           }}
         >
           Зарегистрировать

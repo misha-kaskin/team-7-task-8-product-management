@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
 import UserService from "../../../Auth/services/UserService";
 import styles from "./adminUsers.module.css";
-import UserCard from "./userCard";
-import AuthService from "../../../Auth/services/AuthService";
 import RegistrationForm from "./registrationForm";
-import { set } from "react-hook-form";
 import UserTableData from "./userTableData";
-import { Table } from "antd";
 
 const AdminUsers = () => {
   const [usersData, setUsersData] = useState([]);
@@ -101,22 +97,6 @@ const AdminUsers = () => {
         </p>
       </div>
       <div className={styles.users}>
-        {/* <Table
-          columns={columns}
-          expandable={{
-            expandedRowRender: (record) => (
-              <p
-                style={{
-                  margin: 0,
-                }}
-              >
-                {record.description}
-              </p>
-            ),
-            rowExpandable: (record) => record.name !== "Not Expandable",
-          }}
-          dataSource={data}
-        /> */}
         <table className={styles.tableHeader}>
           <thead>
             <tr>

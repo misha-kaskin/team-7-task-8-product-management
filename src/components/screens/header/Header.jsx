@@ -27,7 +27,7 @@ function Header() {
         if (data.status == 401) {
           const data_reserved = await UserService.getById(userId);
           console.log(1);
-          
+
           setUserData(data_reserved.data.role);
         }
         setUserData(data.data.role);

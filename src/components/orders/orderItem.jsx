@@ -13,7 +13,6 @@ const OrderItem = ({ item, size }) => {
   const [itemData, setItemData] = useState(itemDataDefault);
   const [count, setCount] = useState(size.count);
 
-  
   useEffect(() => {
     setItemData((prev) => ({
       ...prev,
@@ -24,48 +23,44 @@ const OrderItem = ({ item, size }) => {
 
   const handleAddItem = (e) => {
     e.preventDefault();
-    setCount(count+1)
-    setItemData((prev) => ({
-      ...prev,
-      sizes: { ...prev.sizes, count: count },
-    }));    
-  };
-
-  const handleRemoveItem = (e) => {
-    e.preventDefault();
-    setCount(count-1)
+    setCount(count + 1);
     setItemData((prev) => ({
       ...prev,
       sizes: { ...prev.sizes, count: count },
     }));
   };
 
-  const handleDeleteItem = (e) => {
-  }
-  
+  const handleRemoveItem = (e) => {
+    e.preventDefault();
+    setCount(count - 1);
+    setItemData((prev) => ({
+      ...prev,
+      sizes: { ...prev.sizes, count: count },
+    }));
+  };
 
-  return (<>
-    <div className={styles.itemCard}>
-      <div
-        className={styles.image}
-        style={{
-          backgroundImage: `url(${item.image})`,
-        }}
-      />
-      <div className={styles.info}>
-        <p className={styles.text}>{item.productName}</p>
-        <div className={styles.amount}>
-          <p className={styles.textAmount}>{`Количество: ${count}`}</p>
-          {/* <div className={styles.counter}>
-            <p style={{ fontSize: "14px" }}>{count}</p>
-          </div> */}
-        </div>
-        <div className={styles.textSize}>Размер: {size.title}</div>
-        <div className={styles.bottom}>
-          <p className={styles.price}>{item.price}</p>
+  const handleDeleteItem = (e) => {};
+
+  return (
+    <>
+      <div className={styles.itemCard}>
+        <div
+          className={styles.image}
+          style={{
+            backgroundImage: `url(${item.image})`,
+          }}
+        />
+        <div className={styles.info}>
+          <p className={styles.text}>{item.productName}</p>
+          <div className={styles.amount}>
+            <p className={styles.textAmount}>{`Количество: ${count}`}</p>
+          </div>
+          <div className={styles.textSize}>Размер: {size.title}</div>
+          <div className={styles.bottom}>
+            <p className={styles.price}>{item.price}</p>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

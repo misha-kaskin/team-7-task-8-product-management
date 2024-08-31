@@ -24,7 +24,7 @@ const UserItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
         <div>
           <p>Выберите размер</p>
           <div className={styles.sizes}>
-          {item.sizes ? (
+            {item.sizes ? (
               item.sizes.map((currentSize) =>
                 currentSize.count > 0 ? (
                   <button
@@ -87,11 +87,7 @@ const UserItemPage = ({ item, cartItem, setCartItem, handleAdd }) => {
                 }))
               }
               disabled={
-                item.sizes
-                  ? cartItem.count < amount
-                    ? false
-                    : true
-                  : true
+                item.sizes ? (cartItem.count < amount ? false : true) : true
               }
             >
               <div className={styles.plus}></div>

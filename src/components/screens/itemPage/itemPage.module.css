@@ -40,9 +40,8 @@
 }
 
 .sizes {
-  /* border: 1px solid black; */
   min-height: 100px;
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-wrap: wrap;
   justify-content: start;

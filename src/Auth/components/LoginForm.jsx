@@ -1,14 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./LoginForm.module.css";
-import { useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../main";
 
-const LoginForm = ({ activeBlock, setActive, setRole, reloadBool, setReloadBool }) => {
+const LoginForm = ({
+  activeBlock,
+  setActive,
+  setRole,
+  reloadBool,
+  setReloadBool,
+}) => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const { store } = useContext(Context);
-
 
   return (
     <div
@@ -46,8 +50,10 @@ const LoginForm = ({ activeBlock, setActive, setRole, reloadBool, setReloadBool 
           onClick={(e) => {
             e.preventDefault();
             store.login(login, password);
-            setReloadBool(!reloadBool)
-            setTimeout(() => {location.reload()}, 700)
+            setReloadBool(!reloadBool);
+            setTimeout(() => {
+              location.reload();
+            }, 700);
           }}
         >
           Войти

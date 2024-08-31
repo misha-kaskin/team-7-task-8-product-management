@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import styles from "./addItemPage.module.css";
 import { useEffect, useRef, useState } from "react";
 import Select from "react-select";
-import ItemService from "../../../services/item.Service";
+import ItemService from "../../../services/item.service";
 
 const noData = {
   itemId: "",

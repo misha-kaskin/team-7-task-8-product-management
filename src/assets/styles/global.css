@@ -1,8 +1,9 @@
 * {
-  font-family: 'Nunito', Roboto;
+  font-family: "Nunito", Roboto;
 }
 
-html, body {
+html,
+body {
   margin: 0px;
   padding: 0px;
   font-size: 16px;
@@ -11,7 +12,6 @@ html, body {
   justify-content: space-between;
   height: 100vh;
 }
-
 
 #root {
   height: 100vh;
@@ -26,20 +26,16 @@ html, body {
   height: 5px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 10px;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #2fb3ff;
   border-radius: 10px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #1F668F;
-
+  background: #1f668f;
 }

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import UserService from "../../Auth/services/UserService";
 import styles from "./userOrder.module.css";
-import OrderCard from "./orderCard";
 import AdminTableOrder from "./adminTableOrders";
 
 const columns = [
@@ -83,17 +82,15 @@ const AdminOrder = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await UserService.getAllOrders();
-      response.data.sort((a ,b) => {
-        return  b.orderId - a.orderId  
-      })
+      response.data.sort((a, b) => {
+        return b.orderId - a.orderId;
+      });
       setOrdersData(response.data);
       setFilteredOrders(response.data);
     };
     fetchData();
     setOrdersData(dataOrder);
   }, []);
-
-
 
   useEffect(() => {
     if (options == 0) {
@@ -184,8 +181,8 @@ const AdminOrder = () => {
         </button>
       </div>
       <div className={styles.orders}>
-      <table className={styles.tableHeader}>
-          <thead >
+        <table className={styles.tableHeader}>
+          <thead>
             <tr>
               <th className={styles.headerBorder}>№ Заказа</th>
               <th className={styles.headerBorder}>Статус</th>
@@ -198,36 +195,17 @@ const AdminOrder = () => {
             </tr>
           </thead>
           <tbody>
-        {ordersData
-          ? filteredOrders
-              // .filter((user) => {
-              //   return searchTerm.toLowerCase === "" ||
-              //     !user.login ||
-              //     !user.name
-              //     ? user
-              //     : user.login
-              //         .toLowerCase()
-              //         .includes(searchTerm.toLowerCase()) ||
-              //         user.name
-              //           .toLowerCase()
-              //           .includes(searchTerm.toLowerCase());
-              // })
-              .map((order) => (
-                <AdminTableOrder
-                  key={order.orderId}
-                  order={order}
-                  status={status}
-                />
-              ))
-          : "Пользователи не найдены"}
-
+            {ordersData
+              ? filteredOrders.map((order) => (
+                  <AdminTableOrder
+                    key={order.orderId}
+                    order={order}
+                    status={status}
+                  />
+                ))
+              : "Пользователи не найдены"}
           </tbody>
         </table>
-        {/* {ordersData
-          ? filteredOrders.map((order) => (
-              <OrderCard key={order.orderId} order={order} />
-            ))
-          : "Нет заказов"} */}
       </div>
     </div>
   );

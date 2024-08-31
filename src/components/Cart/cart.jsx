@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./cart.module.css";
-import ItemService from "../../services/item.Service";
+import ItemService from "../../services/item.service.js";
 import CartItem from "./cartItem.jsx";
 
 const noUserData = {
@@ -26,7 +26,6 @@ const Cart = () => {
         items: [],
       }));
       setData(responseData);
-      // setEditBool(true)
       let amount = 0;
       let paymentVar = 0;
       responseData.items.map((item) => {
@@ -38,7 +37,6 @@ const Cart = () => {
       });
       setPayment(paymentVar);
       console.log(editBool);
-      
     };
     fetchData();
   }, [editBool]);

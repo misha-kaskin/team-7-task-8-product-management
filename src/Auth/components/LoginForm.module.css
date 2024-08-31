@@ -1,7 +1,7 @@
 .authBlock {
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, .4);
+  background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   left: 0;
   top: 0;
@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: center;
   opacity: 0;
-  transition: .5s;
+  transition: 0.5s;
   pointer-events: none;
   z-index: 100;
 }
@@ -17,14 +17,14 @@
 .authBlockActive {
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, .4);
+  background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   left: 0;
   top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: .5s;
+  transition: 0.5s;
   opacity: 1;
   pointer-events: all;
   z-index: 100;
@@ -37,7 +37,7 @@
   height: 200px;
   border-radius: 20px;
   transform: scale(0);
-  transition: .5s;
+  transition: 0.5s;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -50,7 +50,7 @@
   height: 200px;
   border-radius: 20px;
   transform: scale(1);
-  transition: .5s;
+  transition: 0.5s;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -61,7 +61,7 @@
   border: none;
   border-radius: 10px;
   color: #fff;
-  background-color: #2FB3FF;
+  background-color: #2fb3ff;
   height: 30px;
   font-weight: bold;
 }

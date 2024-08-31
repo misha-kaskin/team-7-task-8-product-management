@@ -6,7 +6,7 @@ import { Context } from "../../main";
 function AddItem() {
   const { store } = useContext(Context);
   const [isLogged, setIsLogged] = useState(store.isAuth);
-  
+
   useEffect(() => {
     setIsLogged(store.isAuth);
   });

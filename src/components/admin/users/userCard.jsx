@@ -21,7 +21,7 @@ const optionsRole = [
 const customStyles = {
   input: (provided, state) => ({
     ...provided,
-    color: 'black'
+    color: "black",
   }),
   indicatorSeparator: (state) => ({
     display: "none",
@@ -54,7 +54,7 @@ const UserCard = ({ user, status, setStatus }) => {
   const [edit, setEdit] = useState(false);
   const [userData, setUserData] = useState(noUserData);
   const [rolePicked, setRolePicked] = useState(user.role);
-  
+
   useEffect(() => {
     setUserData(() => ({
       userId: user.userId,
@@ -82,7 +82,7 @@ const UserCard = ({ user, status, setStatus }) => {
         userData.balance,
         userData.role
       );
-      setStatus(response.status)
+      setStatus(response.status);
       console.log(response);
     };
 
@@ -106,7 +106,7 @@ const UserCard = ({ user, status, setStatus }) => {
     <div
       className={styles.userCard}
       style={
-      JSON.parse(localStorage.getItem("user"))["userId"] == userData.userId
+        JSON.parse(localStorage.getItem("user"))["userId"] == userData.userId
           ? {
               border: "2px solid #1f668f",
             }

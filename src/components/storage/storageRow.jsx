@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "../admin/users/adminUsers.module.css";
 import Select from "react-select";
-import ItemService from "../../services/item.Service";
+import ItemService from "../../services/item.service";
 
 const optionsRole = [
   {
@@ -62,7 +62,7 @@ const StorageRow = ({ user, status, setStatus }) => {
         userData.balance,
         userData.role
       );
-      setStatus(!status)
+      setStatus(!status);
     };
 
     fetchData();
@@ -108,7 +108,7 @@ const StorageRow = ({ user, status, setStatus }) => {
               <button
                 className={styles.accept}
                 onClick={(e) => {
-                  handleAccept(e)
+                  handleAccept(e);
                 }}
               ></button>
             </>

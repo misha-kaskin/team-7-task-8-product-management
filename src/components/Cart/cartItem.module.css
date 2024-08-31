@@ -27,10 +27,9 @@
   flex-wrap: wrap;
   overflow: auto;
   flex-direction: column;
-  /* justify-content: space-between; */
 }
 
-.text{
+.text {
   font-weight: bold;
   font-size: 24px;
   margin: 0;
@@ -48,7 +47,6 @@
   font-weight: bold;
   font-size: 16px;
   margin-top: 10px;
-  /* margin-top: 5px; */
 }
 
 .amount {
@@ -137,7 +135,7 @@
   height: 25px;
   width: 25px;
   margin: 2px;
-  background-image: url('/Delete-item.svg');
+  background-image: url("/Delete-item.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

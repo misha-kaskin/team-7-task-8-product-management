@@ -1,11 +1,9 @@
 import Item from "../../Item/Item";
 import styles from "./Content.module.css";
-import { useQuery } from "@tanstack/react-query";
-import { GetItemService } from "../../../services/getItem.service.js";
 import { useContext, useEffect, useState } from "react";
 import AddItem from "../../Item/addItem.jsx";
 import { Context } from "../../../main.jsx";
-import ItemService from "../../../services/item.Service.js";
+import ItemService from "../../../services/item.service.js";
 
 function Content() {
   const [userData, setUserData] = useState("");
@@ -37,9 +35,7 @@ function Content() {
     }
     if (options == 2) {
       const filter = [];
-      items.map((item) =>
-        item.typeId == 2 ? filter.push(item) : ""
-      );
+      items.map((item) => (item.typeId == 2 ? filter.push(item) : ""));
       setFilteredItems(filter);
     }
   }, [options]);
@@ -88,7 +84,9 @@ function Content() {
               .filter((item) => {
                 return searchTerm.toLowerCase === "" || !item.productName
                   ? item
-                  : item.productName.toLowerCase().includes(searchTerm.toLowerCase());
+                  : item.productName
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase());
               })
               .map((item) => <Item key={item.itemId} item={item} />)
           ) : (

@@ -26,13 +26,16 @@ const Router = () => {
         <Route element={<AddItemPage />} path="/add" />
         <Route element={<EditItemPage />} path="/edit/:itemId" />
         <Route element={<Cart />} path="/cart" />
-        <Route element={<AdminUsers />} path="/admin/users"/>
-        <Route element={<UserOrder />} path="/orders"/>
-        <Route element={<AdminOrder />} path="/admin/orders"/>
-        <Route element={<Storage />} path="/admin/storage"/>
-        <Route path="/telegram" Component={() => {
-          window.location.href="https://t.me/T1Holding"
-        }}/>
+        <Route element={<AdminUsers />} path="/admin/users" />
+        <Route element={<UserOrder />} path="/orders" />
+        <Route element={<AdminOrder />} path="/admin/orders" />
+        <Route element={<Storage />} path="/admin/storage" />
+        <Route
+          path="/telegram"
+          Component={() => {
+            window.location.href = "https://t.me/T1Holding";
+          }}
+        />
       </Routes>
       <Footer />
     </BrowserRouter>

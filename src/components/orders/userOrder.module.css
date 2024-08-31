@@ -1,7 +1,6 @@
 .content {
   height: calc(100vh - 240px);
   margin: 0px 13vw;
-  /* overflow: auto; */
   display: flex;
   scroll-behavior: smooth;
   flex-direction: column;
@@ -25,7 +24,6 @@
   flex-wrap: wrap;
   overflow: auto;
   justify-content: start;
-  /* padding: 50px; */
 }
 
 .userInfoWrapper {
